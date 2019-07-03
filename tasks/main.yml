@@ -1,0 +1,12 @@
+---
+#- name: Include tasks for specific OS
+#  include: '{{ ansible_os_family }}.yml'
+
+#- name: Straight to getenforce selinux status
+#  include: 'selinux.yml'
+
+#- name: Include firewall tasks
+#  include: 'firewall.yml'
+
+- name: Configuration the OSSEC manager
+  include: 'configureation.yml'

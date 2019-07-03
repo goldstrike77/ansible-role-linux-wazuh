@@ -1,0 +1,253 @@
+---
+# General parameters #
+ossec_is_install: false # A boolean value, whether install the Wazuh.
+ossec_version: '3.9.2' # Specify the Wazuh version.
+ossec_selinux: false # SELinux security policy.
+
+# Listen port #
+ossec_port_arg: # Network ports for OSSEC components.
+  agent: '1514' # Send collected events from agents.
+  api: '55000' # Incoming HTTP requests.
+  cluster: '1516' # Wazuh cluster communications.
+  register: '1515' # Agents registration service.
+  syslog: '514' # Send collected events from syslog.
+
+# Cluster parameters #
+ossec_cluster_arg:
+  interval: '60s' # The interval between cluster synchronizations.
+  name: 'ossec' # Specifies the name of the cluster.
+  key: 'FADVZkYB8RF3nGkcWdgZLhSmEcKnhN8Q' # Defines the key used to encrypt the communication between the nodes.
+  hidden: 'no' # Whether or not to show information about the cluster that generated an alert.
+
+# Mail parameters # 
+ossec_mail_arg:
+  email_alert_level: '12' # The minimum severity level for an alert to generate an email notification.
+  email_from: 'wazuh@example.com' # Specifies the source address contained in the email alerts.
+  email_maxperhour: '12' # The maximum number of email alerts that can be sent per hour.
+  email_notification: 'yes' # Toggles the use of email alerting.
+  email_to: # Specifies the email recipient list for alerts.
+    - 'somebody@example.com'
+  smtp_server: 'localhost' # Defines what SMTP server to use to deliver alerts.
+
+# System Variables #
+ossec_agentless_creds:
+  type: ssh_integrity_check_linux
+  frequency: 3600
+  host: root@example.net
+  state: periodic
+  arguments: '/bin /etc/ /sbin'
+  passwd: qwerty
+ossec_api_user:
+  - "foo:$apr1$/axqZYWQ$Xo/nz/IG3PdwV82EnfYKh/"
+ossec_authd_pass: foobar
+ossec_manager_config:
+  queue_size: '131072' # Sets the size of the message input buffer in Analysisd (number of events).
+  alerts_log: 'yes' # Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
+  jsonout_output: 'yes' # Toggles the writing of JSON-formatted alerts to /var/ossec/logs/alerts/alerts.json.
+  logall: 'no' # Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.log.
+  logall_json: 'no' # Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.json.
+  log_format: 'plain' # Specifies the log format between JSON output or plain text.
+  log_alert_level: 1 # The minimum severity level for alerts that will be stored to alerts.log and/or alerts.json.
+  labels: # Allows additional user-defined information about agents to be included in alerts.
+    enable: true
+    list:
+      - key: 'Environments'
+        value: 'Production'
+  syslog_outputs: # Options for sending alerts to a syslog server.
+    - server: null
+      port: null
+      format: null
+  white_list: # IP addresses that should never be blocked with an active response.
+    - '127.0.0.1'
+  commands:
+    - name: 'disable-account'
+      executable: 'disable-account.sh'
+      expect: 'user'
+      timeout_allowed: 'yes'
+  connection:
+    - type: 'secure'
+      port: '{{ ossec_port_arg.agent }}'
+      protocol: 'udp'
+      queue_size: 131072
+  rootcheck:
+    frequency: 43200
+  openscap:
+    disable: 'no'
+    timeout: 1800
+    interval: '1d'
+    scan_on_start: 'yes'
+  cis_cat:
+    disable: 'yes'
+    install_java: 'yes'
+    timeout: 1800
+    interval: '1d'
+    scan_on_start: 'yes'
+    java_path: '/etc/alternatives/jre/bin/'
+    ciscat_path: 'wodles/ciscat'
+    content:
+      - type: 'xccdf'
+        path: 'benchmarks/CIS_Ubuntu_Linux_16.04_LTS_Benchmark_v1.0.0-xccdf.xml'
+        profile: 'xccdf_org.cisecurity.benchmarks_profile_Level_1_-_Server'
+  osquery:
+    disable: 'yes'
+    run_daemon: 'yes'
+    log_path: '/var/log/osquery/osqueryd.results.log'
+    config_path: '/etc/osquery/osquery.conf'
+    ad_labels: 'yes'
+  syscollector:
+    disable: 'no'
+    interval: '1h'
+    scan_on_start: 'yes'
+    hardware: 'yes'
+    os: 'yes'
+    network: 'yes'
+    packages: 'yes'
+    ports_no: 'yes'
+    processes: 'yes'
+  vuls:
+    disable: 'yes'
+    interval: '1d'
+    run_on_start: 'yes'
+    args:
+      - 'mincvss 5'
+      - 'antiquity-limit 20'
+      - 'updatenvd'
+      - 'nvd-year 2016'
+      - 'autoupdate'
+  localfiles:
+    common:
+      - format: 'command'
+        command: df -P -x squashfs -x tmpfs -x devtmpfs
+        frequency: '360'
+      - format: 'full_command'
+        command: ss -nutal | awk '{print $1,$5,$6;}' | sort -b | column -t
+        alias: 'netstat listening ports'
+        frequency: '360'
+      - format: 'full_command'
+        command: 'last -n 20'
+      - format: 'syslog'
+        location: '/var/ossec/logs/active-responses.log'
+    debian:
+      - format: 'syslog'
+        location: '/var/log/auth.log'
+      - format: 'syslog'
+        location: '/var/log/syslog'
+      - format: 'syslog'
+        location: '/var/log/dpkg.log'
+      - format: 'syslog'
+        location: '/var/log/kern.log'
+    centos:
+      - format: 'syslog'
+        location: '/var/log/messages'
+      - format: 'syslog'
+        location: '/var/log/secure'
+      - format: 'syslog'
+        location: '/var/log/maillog'
+      - format: 'audit'
+        location: '/var/log/audit/audit.log'
+  vul_detector:
+    disable: 'yes'
+    interval: '5m'
+    ignore_time: '6h'
+    run_on_start: 'yes'
+    ubuntu:
+      disable: 'yes'
+      update_interval: '1h'
+    redhat:
+      disable: 'yes'
+      update_interval: '1h'
+    debian:
+      disable: 'yes'
+      update_interval: '1h'
+  syscheck:
+    disable: 'no'
+    frequency: 43200
+    scan_on_start: 'yes'
+    auto_ignore: 'no'
+    alert_new_files: 'yes'
+    ignore:
+      - /etc/mtab
+      - /etc/hosts.deny
+      - /etc/mail/statistics
+      - /etc/random-seed
+      - /etc/random.seed
+      - /etc/adjtime
+      - /etc/httpd/logs
+      - /etc/utmpx
+      - /etc/wtmpx
+      - /etc/cups/certs
+      - /etc/dumpdates
+      - /etc/svc/volatile
+      - /sys/kernel/security
+      - /sys/kernel/debug
+    no_diff:
+      - /etc/ssl/private.key
+  api:
+    bind_addr: '0.0.0.0'
+    port: '{{ ossec_port_arg.api }}'
+    https: 'yes'
+    basic_auth: 'yes'
+    behind_proxy_server: 'no'
+    https_cert: '/var/ossec/etc/sslmanager.cert'
+    https_key: '/var/ossec/etc/sslmanager.key'
+    https_use_ca: 'no'
+    https_ca: ''
+    use_only_authd: 'false'
+    drop_privileges: 'true'
+    experimental_features: 'false'
+    secure_protocol: 'TLSv1_2_method'
+    honor_cipher_order: 'true'
+    ciphers: ''
+  authd:
+    enable: true
+    port: '{{ ossec_port_arg.register }}'
+    use_source_ip: 'yes'
+    force_insert: 'yes'
+    force_time: 0
+    purge: 'no'
+    use_password: 'no'
+    ssl_agent_ca: null
+    ssl_verify_host: 'no'
+    ssl_manager_cert: '/var/ossec/etc/sslmanager.cert'
+    ssl_manager_key: '/var/ossec/etc/sslmanager.key'
+    ssl_auto_negotiate: 'no'
+ossec_agent_configs:
+  - type: os
+    type_value: Linux
+    syscheck:
+      frequency: 43200
+      scan_on_start: 'yes'
+      auto_ignore: 'no'
+      alert_new_files: 'yes'
+      ignore:
+        - /etc/mtab
+        - /etc/mnttab
+        - /etc/hosts.deny
+        - /etc/mail/statistics
+        - /etc/svc/volatile
+      no_diff:
+        - /etc/ssl/private.key
+    rootcheck:
+      frequency: 43200
+      cis_distribution_filename: null
+    localfiles:
+      - format: 'syslog'
+        location: '/var/log/messages'
+      - format: 'syslog'
+        location: '/var/log/secure'
+  - type: os
+    type_value: Windows
+    syscheck:
+      frequency: 43200
+      scan_on_start: 'yes'
+      auto_ignore: 'no'
+      alert_new_files: 'yes'
+      windows_registry:
+        - key: 'HKEY_LOCAL_MACHINE\Software\Classes\batfile'
+          arch: 'both'
+        - key: 'HKEY_LOCAL_MACHINE\Software\Classes\Folder'
+    localfiles:
+      - location: 'Security'
+        format: 'eventchannel'
+      - location: 'System'
+        format: 'eventlog'

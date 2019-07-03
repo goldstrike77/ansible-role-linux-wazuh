@@ -1,0 +1,16 @@
+---
+epel_repo_name: 'epel'
+epel_repo_url: 'http://mirrors.aliyun.com/epel/{{ ansible_distribution_major_version }}/$basearch/'
+
+ossec_repo_name: 'wazuh'
+ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'
+
+ossec_dependent_packages:
+  - 'expect'
+  - 'nodejs'
+  - 'openscap-scanner'
+  - 'openssl'
+
+ossec_packages:
+  - 'wazuh-manager-{{ ossec_version }}*'
+  - 'wazuh-api-{{ ossec_version }}*'

@@ -1,0 +1,17 @@
+---
+ossec_server: "\
+  {% set _ossec_server = [] %}\
+  {% for host in groups[group_names[-1]] %}\
+    {% if ( ossec_is_install ) %}\
+      {% if _ossec_server.append(hostvars[host]['ansible_host']) %}{% endif %}\
+    {% endif %}\
+  {% endfor %}\
+  {{ _ossec_server }}"
+
+ossec_rules:
+  - { src: 'local_rules.xml.j2', dest: '/var/ossec/etc/rules/local_rules.xml' }
+  - { src: 'custom_rules.xml.j2', dest: '/var/ossec/etc/rules/custom_rules.xml' }
+
+ossec_decoders:
+  - { src: 'local_decoder.xml.j2', dest: '/var/ossec/etc/decoders/local_decoder.xml' }
+  - { src: 'custom_decoder.xml.j2', dest: '/var/ossec/etc/decoders/custom_decoder.xml' }

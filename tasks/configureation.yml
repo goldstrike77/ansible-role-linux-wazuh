@@ -1,0 +1,67 @@
+---
+- name: OSSEC rules file transfer
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    owner: 'ossec'
+    group: 'ossec'
+    mode: '0640'
+  loop: '{{ ossec_rules }}'
+  register: local_rules_update
+
+- name: OSSEC decoders file transfer
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    owner: 'ossec'
+    group: 'ossec'
+    mode: '0640'
+  loop: '{{ ossec_decoders }}'
+  register: local_decoders_update
+
+- name: OSSEC agent configuration file transfer
+  template:
+    src: 'agent.conf.j2'
+    dest: '/var/ossec/etc/shared/default/agent.conf'
+    owner: 'ossec'
+    group: 'ossec'
+    mode: '0660'
+    validate: '/var/ossec/bin/verify-agent-conf -f %s'
+  register: agent_conf_udpate
+
+- name: OSSEC api configuration file transfer
+  template:
+    src: 'config.js.j2'
+    dest: '/var/ossec/api/configuration/config.js'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0740'
+  register: api_conf_update
+
+- name: OSSEC internal options configuration file transfer
+  template:
+    src: 'local_internal_options.conf.j2'
+    dest: '/var/ossec/etc/local_internal_options.conf'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0640'
+  register: internal_conf_update
+
+- name: Enable OSSEC client syslog
+  command: '/var/ossec/bin/ossec-control enable client-syslog'
+  when: ossec_manager_config.syslog_outputs is defined
+  register: syslog_conf_update
+
+- name: Enable OSSEC agentlessd
+  command: '/var/ossec/bin/ossec-control enable agentless'
+  when: ossec_agentless_creds is defined
+  register: agentless_conf_update
+
+- name: OSSEC server configuration file transfer
+  template:
+    src: 'server.conf.j2'
+    dest: '/var/ossec/etc/ossec.conf'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0640'
+  register: server_conf_udpate

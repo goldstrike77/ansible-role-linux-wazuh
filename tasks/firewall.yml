@@ -1,0 +1,11 @@
+---
+- name: Allow OSSEC service port
+  firewalld:
+    port: '{{ item[1] }}/{{ item[2] }}'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  with_nested: 
+    - '{{ ossec_port_arg | dictsort }}'
+    - [ 'tcp', 'udp' ]
