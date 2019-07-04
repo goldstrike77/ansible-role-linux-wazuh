@@ -59,6 +59,7 @@ dependencies:
     vars:
       kibana_ngx_dept: true
       kibana_elastic_dept: true
+      kibana_servers: '{{ ossec_server }}'
       kibana_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
       kibana_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
       kibana_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
