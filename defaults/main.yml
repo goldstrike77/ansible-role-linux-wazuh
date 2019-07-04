@@ -283,9 +283,9 @@ ossec_agent_configs: # Shared agent configuration.
       - location: 'System'
         format: 'eventlog'
 ossec_agentless_creds: # Integrity checks on systems without an agent installed.
-  type: 'ssh_integrity_check_linux'
-  frequency: 3600
-  host: 'root@example.net'
-  state: 'periodic'
-  arguments: '/bin /etc/ /sbin'
-  passwd: 'qwerty'
+  - type: 'ssh_integrity_check_linux'
+    frequency: 3600
+    host: 'root@example.net'
+    state: 'periodic'
+    arguments: '/bin /etc/ /sbin'
+    passwd: 'qwerty'

@@ -73,7 +73,6 @@
 {% endfor %}
 {% endif %}
 
-
   <!-- Policy monitoring -->
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
@@ -288,7 +287,6 @@
   </auth>
 {% endif %}
 
-
   <cluster>
     <disabled>{% if ossec_server | length > 1 %}no{% else %}yes{% endif %}</disabled>
     <name>{{ ossec_cluster | upper | default('OSSEC') }}</name>
@@ -315,7 +313,6 @@
       <arguments>{{ agentless.arguments }}</arguments>
     {% endif %}
   </agentless>
-
 {% endfor %}
 {% endif %}
 
