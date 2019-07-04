@@ -11,6 +11,15 @@
     gpgcheck: 'no'
     timeout: '60'
 
+- name: 'Add OSQuery YUM repositories'
+  yum_repository:
+    name: '{{ osquery_repo_name }}'
+    description: '{{ osquery_repo_name }} YUM repo'
+    file: '{{ osquery_repo_name }}'
+    baseurl: '{{ osquery_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
 - name: 'Add OSSEC YUM repositories'
   yum_repository:
     name: '{{ ossec_repo_name }}'

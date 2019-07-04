@@ -6,9 +6,9 @@ var config = {};
 // Path
 config.ossec_path = "/var/ossec";
 // The host to bind the API to.
-config.host = "{{ ossec_manager_config.api.bind_addr }}";
+config.host = "{{ ansible_default_ipv4.address }}";
 // TCP Port used by the API.
-config.port = "{{ ossec_manager_config.api.port }}";
+config.port = "{{ ossec_port_arg.api | default('55000') }}";
 // Use HTTP protocol over TLS/SSL. Values: yes, no.
 config.https = "{{ ossec_manager_config.api.https }}";
 // Use HTTP authentication. Values: yes, no.

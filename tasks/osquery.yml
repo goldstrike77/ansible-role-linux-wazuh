@@ -1,0 +1,9 @@
+---
+- name: OSQuery configuration file transfer
+  copy:
+    src: 'osquery.conf'
+    dest: '/etc/osquery/osquery.conf'
+    owner: root
+    group: root
+    mode: 0644
+  notify: 'Ensure OSQuery service is enabled'

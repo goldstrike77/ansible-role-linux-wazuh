@@ -5,11 +5,15 @@ epel_repo_url: 'http://mirrors.aliyun.com/epel/{{ ansible_distribution_major_ver
 ossec_repo_name: 'wazuh'
 ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'
 
+osquery_repo_name: 'osquery'
+osquery_repo_url: 'http://cache.omygods.com/osquery'
+
 ossec_dependent_packages:
   - 'expect'
   - 'nodejs'
   - 'openscap-scanner'
   - 'openssl'
+  - 'osquery'
 
 ossec_packages:
   - 'wazuh-manager-{{ ossec_version }}*'
