@@ -3,43 +3,53 @@
 ossec_is_install: false # A boolean value, whether install the Wazuh.
 ossec_version: '3.9.2' # Specify the Wazuh version.
 ossec_selinux: false # SELinux security policy.
+ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
+ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61" # API verification password.[node htpasswd -c user admin]
+ossec_cluster: 'ossec' # Specifies the name of the cluster.
 
-# Listen port #
-ossec_port_arg: # Network ports for OSSEC components.
-  agent: '1514' # Send collected events from agents.
-  api: '55000' # Incoming HTTP requests.
-  cluster: '1516' # Wazuh cluster communications.
-  register: '1515' # Agents registration service.
-  syslog: '514' # Send collected events from syslog.
-
-# Cluster parameters #
-ossec_cluster_arg:
-  interval: '60s' # The interval between cluster synchronizations.
-  name: 'ossec' # Specifies the name of the cluster.
-  key: 'FADVZkYB8RF3nGkcWdgZLhSmEcKnhN8Q' # Defines the key used to encrypt the communication between the nodes.
-  hidden: 'no' # Whether or not to show information about the cluster that generated an alert.
+# Role dependencies #
+ossec_elastic_stack_dept: true # A boolean value, whether Elastic Stack components use the same environment.
 
 # Mail parameters # 
 ossec_mail_arg:
   email_alert_level: '12' # The minimum severity level for an alert to generate an email notification.
-  email_from: 'wazuh@example.com' # Specifies the source address contained in the email alerts.
+  email_from: 'ossec@example.com' # Specifies the source address contained in the email alerts.
   email_maxperhour: '12' # The maximum number of email alerts that can be sent per hour.
   email_notification: 'yes' # Toggles the use of email alerting.
   email_to: # Specifies the email recipient list for alerts.
     - 'somebody@example.com'
   smtp_server: 'localhost' # Defines what SMTP server to use to deliver alerts.
 
+# Elastic Stack parameters #
+ossec_elastic_stack_auth: true # A boolean value, Enable or Disable authentication.
+ossec_elastic_stack_user: 'elastic' # Authorization user name, do not modify it.
+ossec_elastic_stack_pass: 'changeme' # Authorization user password.
+ossec_elastic_stack_version: '7.1.1' # Specify the Elastic Stack version.
+ossec_elastic_port: '9200' # Elasticsearch REST port.
+ossec_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for a Java virtual machine.
+ossec_elastic_path: '/data' # Specify the ElasticSearch data directory.
+ossec_elastic_node_type: 'default' # Type of nodes: default, master, data, ingest and coordinat.
+ossec_kibana_port: '5601' # Kibana server port.
+ossec_kibana_ngx_domain: 'navigate.example.com' # Defines domain name.
+ossec_kibana_ngx_port_http: '80' # NGinx HTTP listen port.
+ossec_kibana_ngx_port_https: '443' # NGinx HTTPs listen port.
+ossec_kibana_ngx_site_path: '/data/nginx_site' # Specify the NGinx site directory.
+ossec_kibana_ngx_logs_path: '/data/nginx_logs' # Specify the NGinx logs directory.
+
+# Listen port #
+ossec_port_arg: # Network ports for OSSEC components.
+  agent: '1514' # Send collected events from agents.
+  api: '55000' # Incoming HTTP requests.
+  cluster: '1516' # Cluster communications.
+  register: '1515' # Agents registration service.
+  syslog: '514' # Send collected events from syslog.
+
+# Cluster parameters #
+ossec_cluster_arg:
+  interval: '60s' # The interval between cluster synchronizations.
+  hidden: 'no' # Whether or not to show information about the cluster that generated an alert.
+
 # System Variables #
-ossec_agentless_creds:
-  type: ssh_integrity_check_linux
-  frequency: 3600
-  host: root@example.net
-  state: periodic
-  arguments: '/bin /etc/ /sbin'
-  passwd: qwerty
-ossec_api_user:
-  - "foo:$apr1$/axqZYWQ$Xo/nz/IG3PdwV82EnfYKh/"
-ossec_authd_pass: foobar
 ossec_manager_config:
   queue_size: '131072' # Sets the size of the message input buffer in Analysisd (number of events).
   alerts_log: 'yes' # Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
@@ -226,7 +236,7 @@ ossec_manager_config:
     force_insert: 'yes'
     force_time: 0
     purge: 'no'
-    use_password: 'no'
+    use_password: 'yes'
     ssl_agent_ca: null
     ssl_verify_host: 'no'
     ssl_manager_cert: '/var/ossec/etc/sslmanager.cert'
@@ -272,3 +282,10 @@ ossec_agent_configs: # Shared agent configuration.
         format: 'eventchannel'
       - location: 'System'
         format: 'eventlog'
+ossec_agentless_creds: # Integrity checks on systems without an agent installed.
+  type: 'ssh_integrity_check_linux'
+  frequency: 3600
+  host: 'root@example.net'
+  state: 'periodic'
+  arguments: '/bin /etc/ /sbin'
+  passwd: 'qwerty'

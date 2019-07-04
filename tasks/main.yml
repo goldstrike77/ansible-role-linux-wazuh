@@ -28,3 +28,4 @@
     name: 'postfix.service'
     enabled: 'yes'
     state: 'started'
+  when: ossec_mail_arg.email_notification == 'yes'

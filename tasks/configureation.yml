@@ -57,6 +57,24 @@
   when: ossec_agentless_creds is defined
   register: agentless_conf_update
 
+- name: OSSEC agent authentication file transfer
+  template:
+    src: 'authd.pass.j2'
+    dest: '/var/ossec/etc/authd.pass'
+    owner: 'ossec'
+    group: 'ossec'
+    mode: '0640'
+  no_log: true
+
+- name: OSSEC API authentication file transfer
+  template:
+    src: 'user.j2'
+    dest: "/var/ossec/api/configuration/auth/user"
+    owner: 'root'
+    group: 'root'
+    mode: '0660'
+  no_log: true
+
 - name: OSSEC server configuration file transfer
   template:
     src: 'server.conf.j2'

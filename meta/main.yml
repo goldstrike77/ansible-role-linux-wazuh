@@ -52,6 +52,41 @@ galaxy_info:
     # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
     #       Maximum 20 tags per role.
 
-dependencies: []
+dependencies:
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
   # if you add dependencies to this list.
+  - role: 'ansible-role-linux-kibana'
+    vars:
+      kibana_ngx_dept: true
+      kibana_elastic_dept: true
+      kibana_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
+      kibana_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
+      kibana_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
+      kibana_version: '{{ ossec_elastic_stack_version | default("7.1.1") }}'
+      kibana_elastic_host: '{{ ossec_server }}'
+      kibana_elastic_port: '{{ ossec_elastic_port | default("9200") }}'
+      kibana_elastic_cluster: '{{ ossec_cluster | default("ossec") }}'
+      kibana_elastic_heap_size: '{{ ossec_elastic_heap_size | default("2g") }}'
+      kibana_elastic_path: '{{ ossec_elastic_path | default("/data") }}'
+      kibana_elastic_node_type: '{{ ossec_elastic_node_type | default("default") }}'
+      kibana_port_server: '{{ ossec_kibana_port | default("5601") }}'
+      kibana_ngx_domain: '{{ ossec_kibana_ngx_domain | default("navigate.example.com") }}'
+      kibana_ngx_port_http: '{{ ossec_kibana_ngx_port_http | default("80") }}'
+      kibana_ngx_port_https: '{{ ossec_kibana_ngx_port_https | default("443") }}'
+      kibana_ngx_site_path: '{{ ossec_kibana_ngx_site_path | default("/data/nginx_site") }}'
+      kibana_ngx_logs_path: '{{ ossec_kibana_ngx_logs_path | default("/data/nginx_logs") }}'
+      kibana_plugins:
+        - 'http://packages.wazuh.com/wazuhapp/wazuhapp-{{ ossec_version }}_{{ ossec_elastic_stack_version }}.zip'
+        - 'http://github.com/pjhampton/kibana-prometheus-exporter/releases/download/{{ ossec_elastic_stack_version }}/kibana-prometheus-exporter-{{ ossec_elastic_stack_version }}.zip'
+    when: ossec_elastic_stack_dept
+  - role: 'ansible-role-OS-filebeat'
+    vars:
+      filebeat_version: '{{ ossec_elastic_stack_version }}'
+      filebeat_configset: 'wazuh'
+      filebeat_configver: '{{ ossec_version }}'
+      filebeat_elastic_port_rest: '{{ ossec_elastic_port | default("9200") }}'
+      filebeat_elastic_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
+      filebeat_elastic_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
+      filebeat_elastic_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
+      filebeat_elastic_hosts: '{{ ossec_server }}'
+    when: ossec_elastic_stack_dept

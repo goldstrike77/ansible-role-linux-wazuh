@@ -291,10 +291,10 @@
 
   <cluster>
     <disabled>{% if ossec_server | length > 1 %}no{% else %}yes{% endif %}</disabled>
-    <name>{{ ossec_cluster_arg.name | default('ossec') }}</name>
+    <name>{{ ossec_cluster | upper | default('OSSEC') }}</name>
     <node_name>{{ ansible_hostname }}</node_name>
     <node_type>{% if ossec_server[0] in ansible_default_ipv4.address %}master{% else %}worker{% endif %}</node_type>
-    <key>{{ ossec_cluster_arg.key | default('FADVZkYB8RF3nGkcWdgZLhSmEcKnhN8Q') }}</key>
+    <key>{{ lookup('password', '' + group_names[-1] + ':backup length=32 chars=ascii_letters,digits') }}</key>
     <interval>{{ ossec_cluster_arg.interval | default('60s') }}</interval>
     <port>{{ ossec_port_arg.cluster | default('1516') }}</port>
     <bind_addr>{{ ansible_default_ipv4.address }}</bind_addr>
@@ -304,8 +304,8 @@
     <hidden>{{ ossec_cluster_arg.hidden }}</hidden>
   </cluster>
 
-{% if agentless_creds is defined %}
-{% for agentless in agentless_creds %}
+{% if ossec_agentless_creds is defined %}
+{% for agentless in ossec_agentless_creds %}
   <agentless>
     <type>{{ agentless.type }}</type>
     <frequency>{{ agentless.frequency }}</frequency>
@@ -318,8 +318,6 @@
 
 {% endfor %}
 {% endif %}
-
-
 
 {% if ossec_manager_config.active_responses is defined %}
   {% for response in ossec_manager_config.active_responses %}
