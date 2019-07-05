@@ -87,6 +87,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### System Variables
 * `ossec_manager_config.queue_size`: Sets the size of the message input buffer in Analysisd (number of events).
+* `ossec_manager_config.max_output_size`: The size limit of alert files with a maximum allowed value.
 * `ossec_manager_config.alerts_log`: Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
 * `ossec_manager_config.jsonout_output`: Toggles the writing of JSON-formatted alerts to /var/ossec/logs/alerts/alerts.json.
 * `ossec_manager_config.logall`: Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.log.
@@ -105,6 +106,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_manager_config.localfiles`: Collection of log data from files.
 * `ossec_manager_config.vul_detector`: Detect applications that are known to be vulnerable (affected by a CVE).
 * `ossec_manager_config.syscheck`: File integrity monitoring.
+* `ossec_manager_config.reports`: Daily reports are summaries of the alerts that were triggered each day.
 * `ossec_manager_config.api`: RESTful API configuration.
 * `ossec_manager_config.authd`: Client authorization.
 * `ossec_agent_configs`: Shared agent configuration.
@@ -177,6 +179,7 @@ You can also use the group_vars or the host_vars files for setting the variables
       hidden: 'no'
     ossec_manager_config:
       queue_size: '131072'
+      max_output_size: '50M'
       alerts_log: 'yes'
       jsonout_output: 'yes'
       logall: 'no'
@@ -332,6 +335,11 @@ You can also use the group_vars or the host_vars files for setting the variables
           - '/sys/kernel/debug'
         no_diff:
           - '/etc/ssl/private.key'
+      reports:
+        - enable: true
+          category: 'syscheck'
+          title: 'Daily report: File changes'
+          email_to: '{{ ossec_mail_arg.email_to }}'
       api:
         https: 'yes'
         basic_auth: 'yes'

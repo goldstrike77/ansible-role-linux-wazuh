@@ -52,6 +52,7 @@ ossec_cluster_arg:
 # System Variables #
 ossec_manager_config:
   queue_size: '131072' # Sets the size of the message input buffer in Analysisd (number of events).
+  max_output_size: '50M' # The size limit of alert files with a maximum allowed value.
   alerts_log: 'yes' # Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
   jsonout_output: 'yes' # Toggles the writing of JSON-formatted alerts to /var/ossec/logs/alerts/alerts.json.
   logall: 'no' # Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.log.
@@ -216,6 +217,11 @@ ossec_manager_config:
       - '/sys/kernel/debug'
     no_diff:
       - '/etc/ssl/private.key'
+  reports: # Daily reports are summaries of the alerts that were triggered each day.
+    - enable: true
+      category: 'syscheck'
+      title: 'Daily report: File changes'
+      email_to: '{{ ossec_mail_arg.email_to }}'    
   api: # RESTful API configuration.
     https: 'yes'
     basic_auth: 'yes'

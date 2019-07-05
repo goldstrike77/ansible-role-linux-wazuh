@@ -10,6 +10,7 @@
     <alerts_log>{{ ossec_manager_config.alerts_log }}</alerts_log>
     <logall>{{ ossec_manager_config.logall }}</logall>
     <logall_json>{{ ossec_manager_config.logall_json }}</logall_json>
+    <max_output_size>{{ ossec_manager_config.max_output_size }}</max_output_size>
     <email_notification>{{ ossec_mail_arg.email_notification }}</email_notification>
 {% for to in ossec_mail_arg.email_to %}
     <email_to>{{ to }}</email_to>
@@ -33,41 +34,44 @@
     <log_format>{{ ossec_manager_config.log_format }}</log_format>
   </logging>
 
-  {% for connection in ossec_manager_config.connection %}
-   <remote>
+{% for connection in ossec_manager_config.connection %}
+  <remote>
     <connection>{{ connection.type }}</connection>
-    {% if connection.port is defined %}<port>{{ connection.port }}</port>{% endif %}
-    {% if connection.protocol is defined %}<protocol>{{ connection.protocol }}</protocol>{% endif %}
-    {% if connection.allowed_ips is defined %}
-    {% for allowed_ip in connection.allowed_ips %}
+{% if connection.port is defined %}    <port>{{ connection.port }}</port>{% endif %}
+{% if connection.protocol is defined %}    <protocol>{{ connection.protocol }}</protocol>{% endif %}
+{% if connection.allowed_ips is defined %}
+{% for allowed_ip in connection.allowed_ips %}
     <allowed-ips>{{ allowed_ip }}</allowed-ips>
-    {% endfor %}
-    {% endif %}
-    {% if connection.denied_ips is defined %}
-    {% for denied_ip in connection.denied_ips %}
+{% endfor %}
+{% endif %}
+{% if connection.denied_ips is defined %}
+{% for denied_ip in connection.denied_ips %}
     <denied-ips>{{ denied_ip }}</denied-ips>
-    {% endfor %}
-    {% endif %}
-    {% if connection.local_ip is defined %}<local_ip>{{ connection.local_ip }}</local_ip>{% endif %}
-    {% if connection.ipv6 is defined %}<ipv6>{{ connection.ipv6 }}</ipv6>{% endif %}
-    {% if connection.queue_size is defined %}<queue_size>{{connection.queue_size}}</queue_size>{% endif %}
+{% endfor %}
+{% endif %}
+{% if connection.local_ip is defined %}    <local_ip>{{ connection.local_ip }}</local_ip>{% endif %}
+{% if connection.ipv6 is defined %}    <ipv6>{{ connection.ipv6 }}</ipv6>{% endif %}
+{% if connection.queue_size is defined %}    <queue_size>{{connection.queue_size}}</queue_size>{% endif %}
   </remote>
-  {% endfor %}
+{% endfor %}
 
 {% if ossec_manager_config.reports is defined %}
 {% for report in ossec_manager_config.reports %}
-{% if report.enable == true %}
+{% if report.enable %}
   <reports>
     <category>{{ report.category }}</category>
     <title>{{ report.title }}</title>
-    <email_to>{{ report.email_to }}</email_to>
-    {% if report.location is not none %}<location>{{ report.location }}</location>{% endif %}
-    {% if report.group is not none %}<group>{{ report.group }}</group>{% endif %}
-    {% if report.rule is not none %}<rule>{{ report.rule }}</rule>{% endif %}
-    {% if report.level is not none %}<level>{{ report.level }}</level>{% endif %}
-    {% if report.srcip is not none %}<srcip>{{ report.srcip }}</srcip>{% endif %}
-    {% if report.user is not none %}<user>{{ report.user }}</user>{% endif %}
-    {% if report.showlogs is not none %}<showlogs>{{ report.showlogs }}</showlogs>{% endif %}
+{% for to in report.email_to %}
+    <email_to>{{ to }}</email_to>
+{% endfor %}
+    <showlogs>yes</showlogs>
+    {% if report.location is defined %}<location>{{ report.location }}</location>{% endif %}
+    {% if report.group is defined %}<group>{{ report.group }}</group>{% endif %}
+    {% if report.rule is defined %}<rule>{{ report.rule }}</rule>{% endif %}
+    {% if report.level is defined %}<level>{{ report.level }}</level>{% endif %}
+    {% if report.srcip is defined %}<srcip>{{ report.srcip }}</srcip>{% endif %}
+    {% if report.user is defined %}<user>{{ report.user }}</user>{% endif %}
+
   </reports>
 {% endif %}
 {% endfor %}
