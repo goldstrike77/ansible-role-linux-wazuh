@@ -33,7 +33,6 @@
   yum:
     name: '{{ item }}'
     state: 'present'
-    enablerepo: '{{ epel_repo_name }}'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   loop: '{{ ossec_dependent_packages }}'
