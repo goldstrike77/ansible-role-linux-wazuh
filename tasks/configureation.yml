@@ -47,9 +47,11 @@
     mode: '0640'
   register: internal_conf_update
 
-- name: Enable OSSec client syslog
+- name: Enable OSSec syslog
   command: '/var/ossec/bin/ossec-control enable client-syslog'
-  when: ossec_manager_config.syslog_outputs is defined
+  when:
+    - ossec_manager_config.syslog_outputs is defined
+    - ossec_manager_config.syslog_outputs[0].server is not none
   register: syslog_conf_update
 
 - name: Enable OSSec agentlessd

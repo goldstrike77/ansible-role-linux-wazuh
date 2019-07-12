@@ -112,11 +112,12 @@ ossec_manager_config:
       executable: 'netsh-win-2016.cmd'
       expect: 'srcip'
       timeout_allowed: 'yes'
-  connection: # Listen for events from the agents.
+  remote: # Listen for events from the agents.
     - type: 'secure'
       port: '{{ ossec_port_arg.agent }}'
-      protocol: 'udp'
-      queue_size: 131072
+      protocol: 'tcp'
+      queue_size: '262144'
+      ipv6: 'no'
   rootcheck: # Policy monitoring and anomaly detection.
     disable: 'no'
     check_unixaudit: 'yes'
@@ -239,7 +240,7 @@ ossec_manager_config:
     ciphers: ''
   authd: # Client authorization.
     enable: true
-    use_source_ip: 'yes'
+    use_source_ip: 'no'
     force_insert: 'yes'
     force_time: 0
     purge: 'no'
@@ -289,10 +290,10 @@ ossec_agent_configs: # Shared agent configuration.
         format: 'eventchannel'
       - location: 'System'
         format: 'eventlog'
-ossec_agentless_creds: # Integrity checks on systems without an agent installed.
-  - type: 'ssh_integrity_check_linux'
-    frequency: 3600
-    host: 'root@example.net'
-    state: 'periodic'
-    arguments: '/bin /etc/ /sbin'
-    passwd: 'qwerty'
+#ossec_agentless_creds: # Integrity checks on systems without an agent installed.
+#  - type: 'ssh_integrity_check_linux'
+#    frequency: 3600
+#    host: 'root@example.net'
+#    state: 'periodic'
+#    arguments: '/bin /etc/ /sbin'
+#    passwd: 'qwerty'

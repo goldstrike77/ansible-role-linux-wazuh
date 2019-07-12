@@ -99,7 +99,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_manager_config.syslog_outputs`: Options for sending alerts to a syslog server.
 * `ossec_manager_config.white_list`: IP addresses that should never be blocked with an active response.
 * `ossec_manager_config.commands`: Defined that will be used by one or more active responses.
-* `ossec_manager_config.connection`: Listen for events from the agents.
+* `ossec_manager_config.remote`: Listen for events from the agents.
 * `ossec_manager_config.rootcheck`: Policy monitoring and anomaly detection.
 * `ossec_manager_config.openscap`: Configuration and vulnerability scans of an agent.
 * `ossec_manager_config.osquery`: Osquery configuration and collect the information.
@@ -240,11 +240,12 @@ You can also use the group_vars or the host_vars files for setting the variables
           executable: 'netsh-win-2016.cmd'
           expect: 'srcip'
           timeout_allowed: 'yes'
-      connection:
+      remote:
         - type: 'secure'
           port: '{{ ossec_port_arg.agent }}'
           protocol: 'udp'
-          queue_size: 131072
+          queue_size: '131072'
+          ipv6: 'no'
       rootcheck:
         disable: 'no'
         check_unixaudit: 'yes'

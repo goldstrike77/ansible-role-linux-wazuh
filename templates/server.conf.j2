@@ -34,24 +34,20 @@
     <log_format>{{ ossec_manager_config.log_format }}</log_format>
   </logging>
 
-{% for connection in ossec_manager_config.connection %}
+{% for remote in ossec_manager_config.remote %}
   <remote>
-    <connection>{{ connection.type }}</connection>
-{% if connection.port is defined %}    <port>{{ connection.port }}</port>{% endif %}
-{% if connection.protocol is defined %}    <protocol>{{ connection.protocol }}</protocol>{% endif %}
-{% if connection.allowed_ips is defined %}
-{% for allowed_ip in connection.allowed_ips %}
+    <connection>{{ remote.type | default('secure') }}</connection>
+    <port>{{ remote.port | default('1514') }}</port>
+    <protocol>{{ remote.protocol | default('udp') }}</protocol>
+    <local_ip>{{ ansible_default_ipv4.address }}</local_ip>
+    <ipv6>{{ remote.ipv6 | default('no') }}</ipv6>
+    <queue_size>{{ remote.queue_size | default('131072') }}</queue_size>
+{% if remote.allowed_ips is defined %}{% for allowed_ip in remote.allowed_ips %}
     <allowed-ips>{{ allowed_ip }}</allowed-ips>
-{% endfor %}
-{% endif %}
-{% if connection.denied_ips is defined %}
-{% for denied_ip in connection.denied_ips %}
+{% endfor %}{% endif %}
+{% if remote.denied_ips is defined %}{% for denied_ip in remote.denied_ips %}
     <denied-ips>{{ denied_ip }}</denied-ips>
-{% endfor %}
-{% endif %}
-{% if connection.local_ip is defined %}    <local_ip>{{ connection.local_ip }}</local_ip>{% endif %}
-{% if connection.ipv6 is defined %}    <ipv6>{{ connection.ipv6 }}</ipv6>{% endif %}
-{% if connection.queue_size is defined %}    <queue_size>{{connection.queue_size}}</queue_size>{% endif %}
+{% endfor %}{% endif %}
   </remote>
 {% endfor %}
 
