@@ -1,5 +1,5 @@
 ---
-- name: Enable OSSEC service
+- name: Enable OSSec service
   systemd:
     name: '{{ item }}'
     enabled: 'yes'
@@ -8,7 +8,7 @@
   loop:
     - 'wazuh-api.service'
     - 'wazuh-manager.service'
-  listen: Ensure OSSEC service is enabled
+  listen: Ensure OSSec service is enabled
 
 - name: Enable OSQuery service
   systemd:

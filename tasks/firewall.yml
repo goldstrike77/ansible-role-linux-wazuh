@@ -1,5 +1,5 @@
 ---
-- name: Allow OSSEC service port
+- name: Allow OSSec service port
   firewalld:
     port: '{{ item[1] }}/{{ item[2] }}'
     zone: 'public'

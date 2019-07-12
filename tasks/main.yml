@@ -1,4 +1,21 @@
 ---
+# OSSEC chroots most of its processes to the install directory and will not be able to move, So be sure to allocate enough space to /var/ossec.
+- name: Creating OSSec data folder
+  file:
+    dest: '{{ ossec_path }}/ossec'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '750'
+
+- name: Mount and bind OSSec data volume
+  mount:
+    src: '{{ ossec_path }}/ossec'
+    path: '/var/ossec'
+    opts: 'bind'
+    state: 'mounted'
+    fstype: 'none'
+
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
 
@@ -8,16 +25,16 @@
 - name: Include firewall tasks
   include: 'firewall.yml'
 
-- name: Configuration the OSSEC manager
+- name: Configuration the OSSec manager
   include: 'configureation.yml'
 
 - name: Configuration the OSQuery
   include: 'osquery.yml'
   when: ossec_manager_config.osquery.disable == 'no'
 
-- name: Reload the OSSEC service
+- name: Reload the OSSec service
   shell: echo ''
-  notify: 'Ensure OSSEC service is enabled'
+  notify: 'Ensure OSSec service is enabled'
   when: local_rules_update is changed or local_decoders_update is changed or agent_conf_udpate is changed or api_conf_update is changed or internal_conf_update is changed or syslog_conf_update is changed or agentless_conf_update is changed or server_conf_udpate is changed
 
 - name: Force the handler to run immediately

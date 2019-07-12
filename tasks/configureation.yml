@@ -1,5 +1,5 @@
 ---
-- name: OSSEC rules file transfer
+- name: OSSec rules file transfer
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -9,7 +9,7 @@
   loop: '{{ ossec_rules }}'
   register: local_rules_update
 
-- name: OSSEC decoders file transfer
+- name: OSSec decoders file transfer
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -19,7 +19,7 @@
   loop: '{{ ossec_decoders }}'
   register: local_decoders_update
 
-- name: OSSEC agent configuration file transfer
+- name: OSSec agent configuration file transfer
   template:
     src: 'agent.conf.j2'
     dest: '/var/ossec/etc/shared/default/agent.conf'
@@ -29,7 +29,7 @@
     validate: '/var/ossec/bin/verify-agent-conf -f %s'
   register: agent_conf_udpate
 
-- name: OSSEC api configuration file transfer
+- name: OSSec api configuration file transfer
   template:
     src: 'config.js.j2'
     dest: '/var/ossec/api/configuration/config.js'
@@ -38,7 +38,7 @@
     mode: '0740'
   register: api_conf_update
 
-- name: OSSEC internal options configuration file transfer
+- name: OSSec internal options configuration file transfer
   template:
     src: 'local_internal_options.conf.j2'
     dest: '/var/ossec/etc/local_internal_options.conf'
@@ -47,17 +47,17 @@
     mode: '0640'
   register: internal_conf_update
 
-- name: Enable OSSEC client syslog
+- name: Enable OSSec client syslog
   command: '/var/ossec/bin/ossec-control enable client-syslog'
   when: ossec_manager_config.syslog_outputs is defined
   register: syslog_conf_update
 
-- name: Enable OSSEC agentlessd
+- name: Enable OSSec agentlessd
   command: '/var/ossec/bin/ossec-control enable agentless'
   when: ossec_agentless_creds is defined
   register: agentless_conf_update
 
-- name: OSSEC agent authentication file transfer
+- name: OSSec agent authentication file transfer
   template:
     src: 'authd.pass.j2'
     dest: '/var/ossec/etc/authd.pass'
@@ -66,7 +66,7 @@
     mode: '0640'
   no_log: true
 
-- name: OSSEC API authentication file transfer
+- name: OSSec API authentication file transfer
   template:
     src: 'user.j2'
     dest: "/var/ossec/api/configuration/auth/user"
@@ -75,7 +75,7 @@
     mode: '0660'
   no_log: true
 
-- name: OSSEC server configuration file transfer
+- name: OSSec server configuration file transfer
   template:
     src: 'server.conf.j2'
     dest: '/var/ossec/etc/ossec.conf'

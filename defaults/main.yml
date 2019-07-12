@@ -6,6 +6,7 @@ ossec_selinux: false # SELinux security policy.
 ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
 ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61" # API verification password.[node htpasswd -c user admin]
 ossec_cluster: 'ossec' # Specifies the name of the cluster.
+ossec_path: '/data' # Specify the OSSec data directory.
 
 # Role dependencies #
 ossec_elastic_stack_dept: false # A boolean value, whether Elastic Stack components use the same environment.
@@ -37,7 +38,7 @@ ossec_kibana_ngx_site_path: '/data/nginx_site' # Specify the NGinx site director
 ossec_kibana_ngx_logs_path: '/data/nginx_logs' # Specify the NGinx logs directory.
 
 # Listen port #
-ossec_port_arg: # Network ports for OSSEC components.
+ossec_port_arg: # Network ports for OSSec components.
   agent: '1514' # Send collected events from agents.
   api: '55000' # Incoming HTTP requests.
   cluster: '1516' # Cluster communications.

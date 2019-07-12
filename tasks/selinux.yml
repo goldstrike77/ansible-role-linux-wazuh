@@ -17,7 +17,7 @@
     ossec_selinux: '{{ true }}'
   when: 'getenforce_bin.stat.exists and ("Enforcing" in sestatus.stdout or "Permissive" in sestatus.stdout)'
 
-- name: Allow OSSEC to listen on service port
+- name: Allow OSSec to listen on service port
   seport:
     ports: '{{ item[1] }}'
     proto: '{{ item[2] }}'

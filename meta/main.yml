@@ -83,7 +83,7 @@ dependencies:
     vars:
       filebeat_version: '{{ ossec_elastic_stack_version }}'
       filebeat_configset: 'wazuh'
-      filebeat_configver: '{{ ossec_version }}'
+      filebeat_configver: '{{ ossec_version.split("-")[0] }}'
       filebeat_elastic_port_rest: '{{ ossec_elastic_port | default("9200") }}'
       filebeat_elastic_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
       filebeat_elastic_pass: '{{ ossec_elastic_stack_pass | default("password") }}'

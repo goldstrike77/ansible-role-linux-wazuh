@@ -20,7 +20,7 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: 'Add OSSEC YUM repositories'
+- name: 'Add OSSec YUM repositories'
   yum_repository:
     name: '{{ ossec_repo_name }}'
     description: '{{ ossec_repo_name }} YUM repo'
@@ -29,7 +29,7 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: Install the OSSEC dependents packages
+- name: Install the OSSec dependents packages
   yum:
     name: '{{ item }}'
     state: 'present'
@@ -37,7 +37,7 @@
     disable_gpg_check: 'yes'
   loop: '{{ ossec_dependent_packages }}'
 
-- name: Install the OSSEC packages
+- name: Install the OSSec packages
   yum:
     name: '{{ item }}'
     state: 'present'
