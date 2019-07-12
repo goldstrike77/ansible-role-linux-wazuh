@@ -129,7 +129,7 @@ ossec_manager_config:
     check_ports: 'yes'
     check_if: 'yes'
     skip_nfs: 'yes'
-    frequency: 43200
+    frequency: 86400
   openscap: # Configuration and vulnerability scans of an agent.
     disable: 'no'
     timeout: 1800
@@ -198,7 +198,7 @@ ossec_manager_config:
       update_interval: '1d'
   syscheck: # File integrity monitoring.
     disable: 'no'
-    frequency: 43200
+    frequency: 86400
     scan_on_start: 'no'
     auto_ignore: 'no'
     alert_new_files: 'yes'
@@ -254,7 +254,7 @@ ossec_agent_configs: # Shared agent configuration.
   - type: 'os'
     type_value: 'Linux'
     syscheck:
-      frequency: 43200
+      frequency: 86400
       scan_on_start: 'no'
       auto_ignore: 'no'
       alert_new_files: 'yes'
@@ -267,7 +267,7 @@ ossec_agent_configs: # Shared agent configuration.
       no_diff:
         - '/etc/ssl/private.key'
     rootcheck:
-      frequency: 43200
+      frequency: 86400
       cis_distribution_filename: null
     localfiles:
       - format: 'syslog'
@@ -277,7 +277,7 @@ ossec_agent_configs: # Shared agent configuration.
   - type: 'os'
     type_value: 'Windows'
     syscheck:
-      frequency: 43200
+      frequency: 86400
       scan_on_start: 'no'
       auto_ignore: 'no'
       alert_new_files: 'yes'
