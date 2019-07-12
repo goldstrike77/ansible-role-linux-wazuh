@@ -4,9 +4,6 @@
   file:
     dest: '{{ ossec_path }}/ossec'
     state: 'directory'
-    owner: 'root'
-    group: 'root'
-    mode: '750'
 
 - name: Mount and bind OSSec data volume
   mount:
@@ -18,6 +15,13 @@
 
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
+
+- name: Change OSSec data folder ownership
+  file:
+    path: '{{ ossec_path }}/ossec'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0750'
 
 - name: Straight to getenforce selinux status
   include: 'selinux.yml'
