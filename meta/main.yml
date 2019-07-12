@@ -76,7 +76,7 @@ dependencies:
       kibana_ngx_site_path: '{{ ossec_kibana_ngx_site_path | default("/data/nginx_site") }}'
       kibana_ngx_logs_path: '{{ ossec_kibana_ngx_logs_path | default("/data/nginx_logs") }}'
       kibana_plugins:
-        - 'http://packages.wazuh.com/wazuhapp/wazuhapp-{{ ossec_version }}_{{ ossec_elastic_stack_version }}.zip'
+        - 'http://packages.wazuh.com/wazuhapp/wazuhapp-{{ ossec_version.split("-")[0] }}_{{ ossec_elastic_stack_version }}.zip'
         - 'http://github.com/pjhampton/kibana-prometheus-exporter/releases/download/{{ ossec_elastic_stack_version }}/kibana-prometheus-exporter-{{ ossec_elastic_stack_version }}.zip'
     when: ossec_elastic_stack_dept
   - role: 'ansible-role-OS-filebeat'
