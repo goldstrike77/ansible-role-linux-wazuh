@@ -52,7 +52,6 @@ ossec_cluster_arg:
 
 # System Variables #
 ossec_manager_config:
-  queue_size: '131072' # Sets the size of the message input buffer in Analysisd (number of events).
   max_output_size: '50M' # The size limit of alert files with a maximum allowed value.
   alerts_log: 'yes' # Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
   jsonout_output: 'yes' # Toggles the writing of JSON-formatted alerts to /var/ossec/logs/alerts/alerts.json.
@@ -116,11 +115,9 @@ ossec_manager_config:
     - type: 'secure'
       port: '{{ ossec_port_arg.agent }}'
       protocol: 'tcp'
-      queue_size: '262144'
       ipv6: 'no'
   rootcheck: # Policy monitoring and anomaly detection.
     disable: 'no'
-    check_unixaudit: 'yes'
     check_files: 'yes'
     check_trojans: 'yes'
     check_dev: 'yes'

@@ -15,3 +15,7 @@ ossec_rules:
 ossec_decoders:
   - { src: 'local_decoder.xml.j2', dest: '/var/ossec/etc/decoders/local_decoder.xml' }
   - { src: 'custom_decoder.xml.j2', dest: '/var/ossec/etc/decoders/custom_decoder.xml' }
+
+ossec_internal_options:
+  - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
+  - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }

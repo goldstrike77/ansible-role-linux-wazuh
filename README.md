@@ -87,7 +87,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_cluster_arg.hidden`: Whether or not to show information about the cluster that generated an alert.
 
 ##### System Variables
-* `ossec_manager_config.queue_size`: Sets the size of the message input buffer in Analysisd (number of events).
 * `ossec_manager_config.max_output_size`: The size limit of alert files with a maximum allowed value.
 * `ossec_manager_config.alerts_log`: Toggles the writing of alerts to /var/ossec/logs/alerts/alerts.log.
 * `ossec_manager_config.jsonout_output`: Toggles the writing of JSON-formatted alerts to /var/ossec/logs/alerts/alerts.json.
@@ -180,7 +179,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       interval: '60s'
       hidden: 'no'
     ossec_manager_config:
-      queue_size: '131072'
       max_output_size: '50M'
       alerts_log: 'yes'
       jsonout_output: 'yes'
@@ -244,11 +242,9 @@ You can also use the group_vars or the host_vars files for setting the variables
         - type: 'secure'
           port: '{{ ossec_port_arg.agent }}'
           protocol: 'udp'
-          queue_size: '131072'
           ipv6: 'no'
       rootcheck:
         disable: 'no'
-        check_unixaudit: 'yes'
         check_files: 'yes'
         check_trojans: 'yes'
         check_dev: 'yes'

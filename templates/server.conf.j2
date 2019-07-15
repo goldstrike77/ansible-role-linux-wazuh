@@ -18,7 +18,6 @@
     <smtp_server>{{ ossec_mail_arg.smtp_server }}</smtp_server>
     <email_from>{{ ossec_mail_arg.email_from }}</email_from>
     <email_maxperhour>{{ ossec_mail_arg.email_maxperhour }}</email_maxperhour>
-    <queue_size>{{ ossec_manager_config.queue_size }}</queue_size>
 {% for ip_list in ossec_manager_config.white_list %}
     <white_list>{{ ip_list }}</white_list>
 {% endfor %}
@@ -41,7 +40,6 @@
     <protocol>{{ remote.protocol | default('udp') }}</protocol>
     <local_ip>{{ ansible_default_ipv4.address }}</local_ip>
     <ipv6>{{ remote.ipv6 | default('no') }}</ipv6>
-    <queue_size>{{ remote.queue_size | default('131072') }}</queue_size>
 {% if remote.allowed_ips is defined %}{% for allowed_ip in remote.allowed_ips %}
     <allowed-ips>{{ allowed_ip }}</allowed-ips>
 {% endfor %}{% endif %}
@@ -76,7 +74,6 @@
   <!-- Policy monitoring -->
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
-    <check_unixaudit>{{ ossec_manager_config.rootcheck.check_unixaudit }}</check_unixaudit>
     <check_files>{{ ossec_manager_config.rootcheck.check_files }}</check_files>
     <check_trojans>{{ ossec_manager_config.rootcheck.check_trojans }}</check_trojans>
     <check_dev>{{ ossec_manager_config.rootcheck.check_dev }}</check_dev>

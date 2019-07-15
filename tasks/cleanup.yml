@@ -1,0 +1,6 @@
+---
+- name: 'Remove OSSec YUM repositories'
+  yum_repository:
+    name: '{{ ossec_repo_name }}'
+    state: 'absent'
+  when: ansible_os_family == 'RedHat'

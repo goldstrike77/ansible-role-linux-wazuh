@@ -40,11 +40,12 @@
 
 - name: OSSec internal options configuration file transfer
   template:
-    src: 'local_internal_options.conf.j2'
-    dest: '/var/ossec/etc/local_internal_options.conf'
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
     owner: 'root'
     group: 'ossec'
     mode: '0640'
+  loop: '{{ ossec_internal_options }}'
   register: internal_conf_update
 
 - name: Enable OSSec syslog
@@ -85,3 +86,11 @@
     group: 'ossec'
     mode: '0640'
   register: server_conf_udpate
+
+- name: Starting OSSec manager service delayed
+  lineinfile:
+    state: 'present'
+    dest: '/etc/systemd/system/wazuh-manager.service'
+    insertafter: '^\[Service\]'
+    regexp: '^ExecStartPre'
+    line: 'ExecStartPre=-/bin/sleep 60'

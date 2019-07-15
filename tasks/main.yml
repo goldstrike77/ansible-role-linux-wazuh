@@ -1,4 +1,8 @@
 ---
+- name: Set machine timezone
+  timezone:
+    name: 'UTC'
+
 # OSSEC chroots most of its processes to the install directory and will not be able to move, So be sure to allocate enough space to /var/ossec.
 - name: Creating OSSec data folder
   file:
@@ -50,3 +54,6 @@
     enabled: 'yes'
     state: 'started'
   when: ossec_mail_arg.email_notification == 'yes'
+
+- name: Remove OSSec metadata
+  include: 'cleanup.yml'
