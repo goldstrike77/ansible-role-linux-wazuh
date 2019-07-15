@@ -1,7 +1,7 @@
 ---
 # General parameters #
 ossec_is_install: false # A boolean value, whether install the Wazuh.
-ossec_version: '3.9.2-1' # Specify the Wazuh version.
+ossec_version: '3.9.3-1' # Specify the Wazuh version.
 ossec_selinux: false # SELinux security policy.
 ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
 ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61" # API verification password.[node htpasswd -c user admin]
