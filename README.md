@@ -83,7 +83,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_port_arg`: Network ports for OSSec components.
 
 ##### Cluster parameters
-* `ossec_cluster_arg.interval`: The interval between cluster synchronizations.
 * `ossec_cluster_arg.hidden`: Whether or not to show information about the cluster that generated an alert.
 
 ##### System Variables
@@ -176,7 +175,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       register: '1515'
       syslog: '514'
     ossec_cluster_arg:
-      interval: '60s'
       hidden: 'no'
     ossec_manager_config:
       max_output_size: '50M'

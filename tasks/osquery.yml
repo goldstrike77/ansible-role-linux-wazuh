@@ -3,7 +3,25 @@
   copy:
     src: 'osquery.conf'
     dest: '/etc/osquery/osquery.conf'
-    owner: root
-    group: root
-    mode: 0644
-  notify: 'Ensure OSQuery service is enabled'
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: OSQuery logrotate configuration file transfer
+  copy:
+    src: 'osquery-log-rotate'
+    dest: '/etc/logrotate.d/osquery'
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Create a symbolic link for read pci.ids at wrong path
+  file:
+    src: '/usr/share/hwdata/{{ item }}'
+    dest: '/usr/share/misc/{{ item }}'
+    owner: 'root'
+    group: 'root'
+    state: 'link'
+  loop:
+    - 'pci.ids'
+  when: ansible_os_family == 'RedHat'

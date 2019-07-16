@@ -47,7 +47,6 @@ ossec_port_arg: # Network ports for OSSec components.
 
 # Cluster parameters #
 ossec_cluster_arg:
-  interval: '60s' # The interval between cluster synchronizations.
   hidden: 'no' # Whether or not to show information about the cluster that generated an alert.
 
 # System Variables #

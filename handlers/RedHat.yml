@@ -9,11 +9,3 @@
     - 'wazuh-api.service'
     - 'wazuh-manager.service'
   listen: Ensure OSSec service is enabled
-
-- name: Enable OSQuery service
-  systemd:
-    name: 'osqueryd.service'
-    enabled: 'yes'
-    state: 'restarted'
-    daemon_reload: 'yes'
-  listen: Ensure OSQuery service is enabled
