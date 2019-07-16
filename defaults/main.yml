@@ -37,6 +37,9 @@ ossec_kibana_ngx_port_https: '443' # NGinx HTTPs listen port.
 ossec_kibana_ngx_site_path: '/data/nginx_site' # Specify the NGinx site directory.
 ossec_kibana_ngx_logs_path: '/data/nginx_logs' # Specify the NGinx logs directory.
 
+# Service Mesh #
+environments: 'SIT' # Define the service environment.
+
 # Listen port #
 ossec_port_arg: # Network ports for OSSec components.
   agent: '1514' # Send collected events from agents.
@@ -61,8 +64,10 @@ ossec_manager_config:
   labels: # Allows additional user-defined information about agents to be included in alerts.
     enable: true
     list:
-      - key: 'Environments'
-        value: 'Production'
+      - key: 'group'
+        value: '{{ group_names[0] | upper }}'
+      - key: 'environment'
+        value: '{{ environments | upper }}'
   syslog_outputs: # Options for sending alerts to a syslog server.
     - server: null
       port: null
