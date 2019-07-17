@@ -130,7 +130,7 @@ ossec_manager_config:
     check_ports: 'yes'
     check_if: 'yes'
     skip_nfs: 'yes'
-    frequency: 86400
+    frequency: '86400'
   openscap: # Configuration and vulnerability scans of an agent.
     disable: 'no'
     timeout: 1800
@@ -292,7 +292,6 @@ ossec_agent_configs: # Shared agent configuration.
       check_pids: 'yes'
       check_ports: 'yes'
       check_if: 'yes'
-      check_unixaudit: 'yes'
       skip_nfs: 'yes'
       frequency: '86400'
     localfiles:
@@ -307,10 +306,10 @@ ossec_agent_configs: # Shared agent configuration.
       - format: 'syslog'
         location: '/var/ossec/logs/active-responses.log'
       - format: 'command'
-        command: df -P -x squashfs -x tmpfs -x devtmpfs
+        command: 'df -P -x squashfs -x tmpfs -x devtmpfs'
         frequency: '360'
       - format: 'full_command'
-        command: ss -nutal | awk '{print $1,$5,$6;}' | sort -b | column -t
+        command: "ss -nutal | awk '{print $1,$5,$6;}' | sort -b | column -t"
         alias: 'netstat listening ports'
         frequency: '360'
       - format: 'full_command'
@@ -330,6 +329,20 @@ ossec_agent_configs: # Shared agent configuration.
       disable: 'no'
       run_daemon: 'yes'
       add_labels: 'yes'
+    client_buffer:
+      disable: 'no'
+      queue_size: '5000'
+      events_per_sec: '500'
+    sca:
+      enabled: 'yes'
+      scan_on_start: 'yes'
+      skip_nfs: 'yes'
+      interval: '1d'
+      policies:
+        - 'cis_rhel7_linux_rcl.yml'
+        - 'system_audit_pw.yml'
+        - 'system_audit_rcl.yml'
+        - 'system_audit_ssh.yml'
   - type: 'os'
     type_value: 'Windows'
     syscheck:
@@ -439,7 +452,6 @@ ossec_agent_configs: # Shared agent configuration.
       check_pids: 'yes'
       check_ports: 'yes'
       check_if: 'yes'
-      check_unixaudit: 'yes'
       skip_nfs: 'yes'
       frequency: '86400'
     localfiles:
@@ -466,6 +478,17 @@ ossec_agent_configs: # Shared agent configuration.
       disable: 'no'
       run_daemon: 'yes'
       add_labels: 'yes'
+    client_buffer:
+      disable: 'no'
+      queue_size: '5000'
+      events_per_sec: '500'
+    sca:
+      enabled: 'yes'
+      scan_on_start: 'yes'
+      skip_nfs: 'yes'
+      interval: '1d'
+      policies:
+        - 'win_audit_rcl.yml'
 #ossec_agentless_creds: # Integrity checks on systems without an agent installed.
 #  - type: 'ssh_integrity_check_linux'
 #    frequency: 3600

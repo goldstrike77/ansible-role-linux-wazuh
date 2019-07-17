@@ -87,7 +87,6 @@
     <windows_malware>./shared/win_malware_rcl.txt</windows_malware>
 {% endif %}
     <disabled>{{ agent_config.rootcheck.disable }}</disabled>
-    <check_unixaudit>{{ agent_config.rootcheck.check_unixaudit }}</check_unixaudit>
     <check_files>{{ agent_config.rootcheck.check_files }}</check_files>
     <check_trojans>{{ agent_config.rootcheck.check_trojans }}</check_trojans>
     <check_dev>{{ agent_config.rootcheck.check_dev }}</check_dev>
@@ -98,6 +97,24 @@
     <frequency>{{ agent_config.rootcheck.frequency }}</frequency>
     <skip_nfs>{{ agent_config.rootcheck.skip_nfs }}</skip_nfs>
   </rootcheck>
+
+  <client_buffer>
+    <disabled>{{ agent_config.client_buffer.disable }}</disabled>
+    <queue_size>{{ agent_config.client_buffer.queue_size }}</queue_size>
+    <events_per_second>{{ agent_config.client_buffer.events_per_sec }}</events_per_second>
+  </client_buffer>
+
+  <sca>
+    <enabled>{{ agent_config.sca.enabled }}</enabled>
+    <scan_on_start>{{ agent_config.sca.scan_on_start }}</scan_on_start>
+    <interval>{{ agent_config.sca.interval }}</interval>
+    <skip_nfs>{{ agent_config.sca.skip_nfs }}</skip_nfs>
+    <policies>
+{% for policy in agent_config.sca.policies %}
+      <policy>{{ policy }}</policy>
+{% endfor %}
+    </policies>
+  </sca>
 
   <wodle name="syscollector">
     <disabled>{{ agent_config.syscollector.disable }}</disabled>
