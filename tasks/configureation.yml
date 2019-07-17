@@ -19,7 +19,7 @@
   loop: '{{ ossec_decoders }}'
   register: local_decoders_update
 
-- name: OSSec agent configuration file transfer
+- name: OSSec shared agent configuration file transfer
   template:
     src: 'agent.conf.j2'
     dest: '/var/ossec/etc/shared/default/agent.conf'
