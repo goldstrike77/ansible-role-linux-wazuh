@@ -93,7 +93,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_manager_config.logall_json`: Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.json.
 * `ossec_manager_config.log_format`: Specifies the log format between JSON output or plain text.
 * `ossec_manager_config.log_alert_level`: The minimum severity level for alerts that will be stored to alerts.log and/or alerts.json.
-* `ossec_manager_config.labels`: Allows additional user-defined information about agents to be included in alerts.
 * `ossec_manager_config.syslog_outputs`: Options for sending alerts to a syslog server.
 * `ossec_manager_config.white_list`: IP addresses that should never be blocked with an active response.
 * `ossec_manager_config.commands`: Defined that will be used by one or more active responses.
@@ -184,11 +183,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       logall_json: 'no'
       log_format: 'plain'
       log_alert_level: 1
-      labels:
-        enable: true
-        list:
-          - key: 'Environments'
-            value: 'Production'
       syslog_outputs:
         - server: null
           port: null
@@ -242,16 +236,7 @@ You can also use the group_vars or the host_vars files for setting the variables
           protocol: 'udp'
           ipv6: 'no'
       rootcheck:
-        disable: 'no'
-        check_files: 'yes'
-        check_trojans: 'yes'
-        check_dev: 'yes'
-        check_sys: 'yes'
-        check_pids: 'yes'
-        check_ports: 'yes'
-        check_if: 'yes'
-        skip_nfs: 'yes'
-        frequency: 43200
+        disable: 'yes'
       openscap:
         disable: 'no'
         timeout: 1800

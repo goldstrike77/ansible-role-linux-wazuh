@@ -61,13 +61,6 @@ ossec_manager_config:
   logall_json: 'no' # Whether to store events even when they do not trip a rule with results written to /var/ossec/logs/archives/archives.json.
   log_format: 'plain' # Specifies the log format between JSON output or plain text.
   log_alert_level: 1 # The minimum severity level for alerts that will be stored to alerts.log and/or alerts.json.
-  labels: # Allows additional user-defined information about agents to be included in alerts.
-    enable: true
-    list:
-      - key: 'group'
-        value: '{{ group_names[0] | upper }}'
-      - key: 'environment'
-        value: '{{ environments | upper }}'
   syslog_outputs: # Options for sending alerts to a syslog server.
     - server: null
       port: null
@@ -121,16 +114,7 @@ ossec_manager_config:
       protocol: 'tcp'
       ipv6: 'no'
   rootcheck: # Policy monitoring and anomaly detection.
-    disable: 'no'
-    check_files: 'yes'
-    check_trojans: 'yes'
-    check_dev: 'yes'
-    check_sys: 'yes'
-    check_pids: 'yes'
-    check_ports: 'yes'
-    check_if: 'yes'
-    skip_nfs: 'yes'
-    frequency: '86400'
+    disable: 'yes'
   openscap: # Configuration and vulnerability scans of an agent.
     disable: 'no'
     timeout: 1800
@@ -240,7 +224,7 @@ ossec_manager_config:
     honor_cipher_order: 'true'
     ciphers: ''
   authd: # Client authorization.
-    enable: true
+    disable: 'no'
     use_source_ip: 'no'
     force_insert: 'yes'
     force_time: 0
@@ -284,16 +268,7 @@ ossec_agent_configs: # Shared agent configuration.
         - dirs: '/bin,/sbin,/usr/bin,/usr/sbin'
         - dirs: '/usr/local/sbin,/usr/local/bin'
     rootcheck:
-      disable: 'no'
-      check_files: 'yes'
-      check_trojans: 'yes'
-      check_dev: 'yes'
-      check_sys: 'yes'
-      check_pids: 'yes'
-      check_ports: 'yes'
-      check_if: 'yes'
-      skip_nfs: 'yes'
-      frequency: '86400'
+      disable: 'yes'
     localfiles:
       - format: 'syslog'
         location: '/var/log/messages'
@@ -444,16 +419,7 @@ ossec_agent_configs: # Shared agent configuration.
         - key: '\Enum$'
           type: "sregex"
     rootcheck:
-      disable: 'no'
-      check_files: 'yes'
-      check_trojans: 'yes'
-      check_dev: 'yes'
-      check_sys: 'yes'
-      check_pids: 'yes'
-      check_ports: 'yes'
-      check_if: 'yes'
-      skip_nfs: 'yes'
-      frequency: '86400'
+      disable: 'yes'
     localfiles:
       - format: 'eventlog'
         location: 'Application'

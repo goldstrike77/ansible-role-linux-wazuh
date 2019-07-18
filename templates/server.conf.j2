@@ -22,7 +22,6 @@
     <email_alert_level>{{ ossec_mail_arg.email_alert_level }}</email_alert_level>
   </alerts>
 
-  <!-- Choose between "plain", "json", or "plain,json" for the format of internal logs -->
   <logging>
     <log_format>{{ ossec_manager_config.log_format }}</log_format>
   </logging>
@@ -34,12 +33,16 @@
     <protocol>{{ remote.protocol | default('udp') }}</protocol>
     <local_ip>{{ ansible_default_ipv4.address }}</local_ip>
     <ipv6>{{ remote.ipv6 | default('no') }}</ipv6>
-{% if remote.allowed_ips is defined %}{% for allowed_ip in remote.allowed_ips %}
+{% if remote.allowed_ips is defined %}
+{% for allowed_ip in remote.allowed_ips %}
     <allowed-ips>{{ allowed_ip }}</allowed-ips>
-{% endfor %}{% endif %}
-{% if remote.denied_ips is defined %}{% for denied_ip in remote.denied_ips %}
+{% endfor %}
+{% endif %}
+{% if remote.denied_ips is defined %}
+{% for denied_ip in remote.denied_ips %}
     <denied-ips>{{ denied_ip }}</denied-ips>
-{% endfor %}{% endif %}
+{% endfor %}
+{% endif %}
   </remote>
 {% endfor %}
 
@@ -53,97 +56,72 @@
     <email_to>{{ to }}</email_to>
 {% endfor %}
     <showlogs>yes</showlogs>
-    {% if report.location is defined %}<location>{{ report.location }}</location>{% endif %}
-    {% if report.group is defined %}<group>{{ report.group }}</group>{% endif %}
-    {% if report.rule is defined %}<rule>{{ report.rule }}</rule>{% endif %}
-    {% if report.level is defined %}<level>{{ report.level }}</level>{% endif %}
-    {% if report.srcip is defined %}<srcip>{{ report.srcip }}</srcip>{% endif %}
-    {% if report.user is defined %}<user>{{ report.user }}</user>{% endif %}
-
+{% if report.location is defined %}    <location>{{ report.location }}</location>{% endif %}
+{% if report.group is defined %}    <group>{{ report.group }}</group>{% endif %}
+{% if report.rule is defined %}    <rule>{{ report.rule }}</rule>{% endif %}
+{% if report.level is defined %}    <level>{{ report.level }}</level>{% endif %}
+{% if report.srcip is defined %}    <srcip>{{ report.srcip }}</srcip>{% endif %}
+{% if report.user is defined %}    <user>{{ report.user }}</user>{% endif %}
   </reports>
 {% endif %}
 {% endfor %}
 {% endif %}
 
-  <!-- Policy monitoring -->
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
-    <check_files>{{ ossec_manager_config.rootcheck.check_files }}</check_files>
-    <check_trojans>{{ ossec_manager_config.rootcheck.check_trojans }}</check_trojans>
-    <check_dev>{{ ossec_manager_config.rootcheck.check_dev }}</check_dev>
-    <check_sys>{{ ossec_manager_config.rootcheck.check_sys }}</check_sys>
-    <check_pids>{{ ossec_manager_config.rootcheck.check_pids }}</check_pids>
-    <check_ports>{{ ossec_manager_config.rootcheck.check_ports }}</check_ports>
-    <check_if>{{ ossec_manager_config.rootcheck.check_if }}</check_if>
-
-    <!-- Frequency that rootcheck is executed - every 12 hours -->
-    <frequency>{{ ossec_manager_config.rootcheck.frequency }}</frequency>
-
-    <rootkit_files>/var/ossec/etc/shared/default/rootkit_files.txt</rootkit_files>
-    <rootkit_trojans>/var/ossec/etc/shared/default/rootkit_trojans.txt</rootkit_trojans>
-    <system_audit>/var/ossec/etc/shared/default/system_audit_rcl.txt</system_audit>
-    <system_audit>/var/ossec/etc/shared/default/system_audit_ssh.txt</system_audit>
-    {% if cis_distribution_filename is defined %}
-    <system_audit>/var/ossec/etc/shared/default/{{ cis_distribution_filename }}</system_audit>
-    {% endif %}
-
-    <skip_nfs>{{ ossec_manager_config.rootcheck.skip_nfs }}</skip_nfs>
   </rootcheck>
 
-    {% if ansible_system == "Linux" and ossec_manager_config.openscap.disable == 'no' %}
   <wodle name="open-scap">
     <disabled>{{ ossec_manager_config.openscap.disable }}</disabled>
     <timeout>{{ ossec_manager_config.openscap.timeout }}</timeout>
     <interval>{{ ossec_manager_config.openscap.interval }}</interval>
     <scan-on-start>{{ ossec_manager_config.openscap.scan_on_start }}</scan-on-start>
-    {% if ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial' %}
+{% if ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial' %}
     <content type="xccdf" path="ssg-ubuntu-1604-ds.xml">
       <profile>xccdf_org.ssgproject.content_profile_common</profile>
     </content>
-    {% elif ansible_distribution == 'Debian' %}
-    {% if ansible_distribution_release == 'jessie' %}
-    {% if openscap_version_valid.stdout == "0" %}
+{% elif ansible_distribution == 'Debian' %}
+{% if ansible_distribution_release == 'jessie' %}
+{% if openscap_version_valid.stdout == "0" %}
     <content type="xccdf" path="ssg-debian-8-ds.xml">
       <profile>xccdf_org.ssgproject.content_profile_common</profile>
     </content>
     <content type="oval" path="cve-debian-8-oval.xml"/>
-    {% endif %}
-    {% elif ansible_distribution_release == 'stretch' %}
+{% endif %}
+{% elif ansible_distribution_release == 'stretch' %}
     <content type="oval" path="cve-debian-9-oval.xml"/>
-    {% endif %}
-    {% elif ansible_distribution == 'CentOS' %}
-      {% if ansible_distribution_major_version == '7' %}
-      <content type="xccdf" path="ssg-centos-7-ds.xml">
-      {% elif ansible_distribution_major_version == '6' %}
-      <content type="xccdf" path="ssg-centos-6-ds.xml">
-      {% endif %}
-        <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-        <profile>xccdf_org.ssgproject.content_profile_common</profile>
-      </content>
-    {% elif ansible_distribution == 'RedHat' %}
-      {% if ansible_distribution_major_version == '7' %}
-      <content type="xccdf" path="ssg-rhel-7-ds.xml">
-      {% elif ansible_distribution_major_version == '6' %}
-      <content type="xccdf" path="ssg-rhel-6-ds.xml">
-      {% endif %}
-        <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-        <profile>xccdf_org.ssgproject.content_profile_common</profile>
-      </content>
-      {% if ansible_distribution_major_version == '7' %}
-      <content type="oval" path="cve-redhat-7-ds.xml"/>
-      {% elif ansible_distribution_major_version == '6' %}
-      <content type="oval" path="cve-redhat-6-ds.xml"/>
-      {% endif %}
-    {% elif ansible_distribution == 'Fedora' %}
-      <content type="xccdf" path="ssg-fedora-ds.xml">
-        <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-        <profile>xccdf_org.ssgproject.content_profile_common</profile>
-      </content>
-    {% endif %}
+{% endif %}
+{% elif ansible_distribution == 'CentOS' %}
+{% if ansible_distribution_major_version == '7' %}
+    <content type="xccdf" path="ssg-centos-7-ds.xml">
+{% elif ansible_distribution_major_version == '6' %}
+    <content type="xccdf" path="ssg-centos-6-ds.xml">
+{% endif %}
+      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+      <profile>xccdf_org.ssgproject.content_profile_common</profile>
+    </content>
+{% elif ansible_distribution == 'RedHat' %}
+{% if ansible_distribution_major_version == '7' %}
+    <content type="xccdf" path="ssg-rhel-7-ds.xml">
+{% elif ansible_distribution_major_version == '6' %}
+    <content type="xccdf" path="ssg-rhel-6-ds.xml">
+{% endif %}
+      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+      <profile>xccdf_org.ssgproject.content_profile_common</profile>
+    </content>
+{% if ansible_distribution_major_version == '7' %}
+    <content type="oval" path="cve-redhat-7-ds.xml"/>
+{% elif ansible_distribution_major_version == '6' %}
+    <content type="oval" path="cve-redhat-6-ds.xml"/>
+{% endif %}
+{% elif ansible_distribution == 'Fedora' %}
+    <content type="xccdf" path="ssg-fedora-ds.xml">
+      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+      <profile>xccdf_org.ssgproject.content_profile_common</profile>
+    </content>
+{% endif %}
   </wodle>
-  {% endif %}
 
-  <!-- Osquery integration -->
   <wodle name="osquery">
     <disabled>{{ ossec_manager_config.osquery.disable }}</disabled>
     <run_daemon>{{ ossec_manager_config.osquery.run_daemon }}</run_daemon>
@@ -152,7 +130,6 @@
     <add_labels>{{ ossec_manager_config.osquery.ad_labels }}</add_labels>
   </wodle>
 
-  <!-- System inventory -->
   <wodle name="syscollector">
     <disabled>{{ ossec_manager_config.syscollector.disable }}</disabled>
     <interval>{{ ossec_manager_config.syscollector.interval }}</interval>
@@ -171,8 +148,8 @@
     <ignore_time>{{ ossec_manager_config.vul_detector.ignore_time }}</ignore_time>
     <run_on_start>{{ ossec_manager_config.vul_detector.run_on_start }}</run_on_start>
     <feed name="ubuntu-18">
-      <disabled>{{ ossec_manager_config.vul_detector.ubuntu.disable }}</disabled>
-      <update_interval>{{ ossec_manager_config.vul_detector.ubuntu.update_interval }}</update_interval>
+    <disabled>{{ ossec_manager_config.vul_detector.ubuntu.disable }}</disabled>
+    <update_interval>{{ ossec_manager_config.vul_detector.ubuntu.update_interval }}</update_interval>
     </feed>
     <feed name="redhat">
       <disabled>{{ ossec_manager_config.vul_detector.redhat.disable }}</disabled>
@@ -184,99 +161,99 @@
     </feed>
   </wodle>
 
-  <!-- File integrity monitoring -->
   <syscheck>
     <disabled>{{ ossec_manager_config.syscheck.disable }}</disabled>
     <auto_ignore>{{ ossec_manager_config.syscheck.auto_ignore }}</auto_ignore>
     <alert_new_files>{{ ossec_manager_config.syscheck.alert_new_files }}</alert_new_files>
-    <!-- Frequency that syscheck is executed -- default every 20 hours -->
     <frequency>{{ ossec_manager_config.syscheck.frequency }}</frequency>
     <scan_on_start>{{ ossec_manager_config.syscheck.scan_on_start }}</scan_on_start>
-
-    <!-- Don't ignore files that change more than 'frequency' times -->
-    {% if ossec_manager_config.syscheck.auto_ignore_frequency is defined %}
+{% if ossec_manager_config.syscheck.auto_ignore_frequency is defined %}
     <auto_ignore {{ ossec_manager_config.syscheck.auto_ignore_frequency.frequency }} {{ ossec_manager_config.syscheck.auto_ignore_frequency.timeframe }}>{{ ossec_manager_config.syscheck.auto_ignore_frequency.value }}</auto_ignore>
-    {% endif %}
-
-    <!-- Directories to check  (perform all possible verifications) -->
-    {% if ossec_manager_config.syscheck.directories is defined %}
-    {% for directory in ossec_manager_config.syscheck.directories %}
+{% endif %}
+{% if ossec_manager_config.syscheck.directories is defined %}
+{% for directory in ossec_manager_config.syscheck.directories %}
     <directories {{ directory.checks }}>{{ directory.dirs }}</directories>
-    {% endfor %}
-    {% endif %}
-
-    <!-- Files/directories to ignore -->
-    {% if ossec_manager_config.syscheck.ignore is defined %}
-    {% for ignore in ossec_manager_config.syscheck.ignore %}
+{% endfor %}
+{% endif %}
+{% if ossec_manager_config.syscheck.ignore is defined %}
+{% for ignore in ossec_manager_config.syscheck.ignore %}
     <ignore>{{ ignore }}</ignore>
-    {% endfor %}
-    {% endif %}
-
-    <!-- Files no diff -->
-    {% for no_diff in ossec_manager_config.syscheck.no_diff %}
+{% endfor %}
+{% endif %}
+{% for no_diff in ossec_manager_config.syscheck.no_diff %}
     <nodiff>{{ no_diff }}</nodiff>
-    {% endfor %}
-
-    {% if ossec_manager_config.syscheck.skip_nfs is defined %}
+{% endfor %}
+{% if ossec_manager_config.syscheck.skip_nfs is defined %}
     <skip_nfs>{{ ossec_manager_config.syscheck.skip_nfs }}</skip_nfs>
-    {% endif %}
-
-    <!-- Remove not monitored files -->
-    {% if ossec_manager_config.syscheck.remove_old_diff is defined %}
+{% endif %}
+{% if ossec_manager_config.syscheck.remove_old_diff is defined %}
     <remove_old_diff>{{ ossec_manager_config.syscheck.remove_old_diff }}</remove_old_diff>
-    {% endif %}
-
-    <!-- Allow the system to restart Auditd after installing the plugin -->
-    {% if ossec_manager_config.syscheck.restart_audit is defined %}
+{% endif %}
+{% if ossec_manager_config.syscheck.restart_audit is defined %}
     <restart_audit>{{ ossec_manager_config.syscheck.restart_audit }}</restart_audit>
-    {% endif %}
+{% endif %}
   </syscheck>
 
-  {% for command in ossec_manager_config.commands %}
-    <command>
-      <name>{{ command.name }}</name>
-      <executable>{{ command.executable }}</executable>
-      <expect>{{ command.expect }}</expect>
-      <timeout_allowed>{{ command.timeout_allowed }}</timeout_allowed>
-    </command>
-  {% endfor %}
+{% for command in ossec_manager_config.commands %}
+  <command>
+    <name>{{ command.name }}</name>
+    <executable>{{ command.executable }}</executable>
+    <expect>{{ command.expect }}</expect>
+    <timeout_allowed>{{ command.timeout_allowed }}</timeout_allowed>
+  </command>
+{% endfor %}
 
-   <ruleset>
-    <!-- Default ruleset -->
+  <ruleset>
     <decoder_dir>ruleset/decoders</decoder_dir>
     <rule_dir>ruleset/rules</rule_dir>
-    {% if ossec_manager_config.rule_exclude is defined %}
-    {% for rule in ossec_manager_config.rule_exclude %}
+{% if ossec_manager_config.rule_exclude is defined %}
+{% for rule in ossec_manager_config.rule_exclude %}
     <rule_exclude>{{ rule }}</rule_exclude>
-    {% endfor %}
-    {% endif %}
-    {% if cdb_lists is defined %}
-    {% for list in cdb_lists %}
+{% endfor %}
+{% endif %}
+{% if cdb_lists is defined %}
+{% for list in cdb_lists %}
     <list>etc/lists/{{ list.name }}</list>
-    {% endfor %}
-    {% endif %}
-
-    <!-- User-defined ruleset -->
+{% endfor %}
+{% endif %}
     <decoder_dir>etc/decoders</decoder_dir>
     <rule_dir>etc/rules</rule_dir>
   </ruleset>
 
-{% if ossec_manager_config.authd.enable %}
   <auth>
-    <disabled>no</disabled>
+    <disabled>{{ ossec_manager_config.authd.disable }}</disabled>
     <port>{{ ossec_port_arg.register | default('1515') }}</port>
-    {% if ossec_manager_config.authd.use_source_ip is not none %}<use_source_ip>{{ ossec_manager_config.authd.use_source_ip}}</use_source_ip>{% endif %}
-    {% if ossec_manager_config.authd.force_insert is not none %}<force_insert>{{ ossec_manager_config.authd.force_insert}}</force_insert>{% endif %}
-    {% if ossec_manager_config.authd.force_time is not none %}<force_time>{{ ossec_manager_config.authd.force_time}}</force_time>{% endif %}
-    {% if ossec_manager_config.authd.purge is not none %}<purge>{{ ossec_manager_config.authd.purge}}</purge>{% endif %}
-    {% if ossec_manager_config.authd.use_password is not none %}<use_password>{{ ossec_manager_config.authd.use_password}}</use_password>{% endif %}
-    {% if ossec_manager_config.authd.ssl_agent_ca is not none %}<ssl_agent_ca>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_agent_ca | basename}}</ssl_agent_ca>{% endif %}
-    {% if ossec_manager_config.authd.ssl_verify_host is not none %}<ssl_verify_host>{{ ossec_manager_config.authd.ssl_verify_host}}</ssl_verify_host>{% endif %}
-    {% if ossec_manager_config.authd.ssl_manager_cert is not none %}<ssl_manager_cert>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_manager_cert | basename}}</ssl_manager_cert>{% endif %}
-    {% if ossec_manager_config.authd.ssl_manager_key is not none %}<ssl_manager_key>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_manager_key | basename}}</ssl_manager_key>{% endif %}
-    {% if ossec_manager_config.authd.ssl_auto_negotiate is not none %}<ssl_auto_negotiate>{{ ossec_manager_config.authd.ssl_auto_negotiate}}</ssl_auto_negotiate>{% endif %}
-  </auth>
+{% if ossec_manager_config.authd.use_source_ip is not none %}
+    <use_source_ip>{{ ossec_manager_config.authd.use_source_ip}}</use_source_ip>
 {% endif %}
+{% if ossec_manager_config.authd.force_insert is not none %}
+    <force_insert>{{ ossec_manager_config.authd.force_insert}}</force_insert>
+{% endif %}
+{% if ossec_manager_config.authd.force_time is not none %}
+    <force_time>{{ ossec_manager_config.authd.force_time}}</force_time>
+{% endif %}
+{% if ossec_manager_config.authd.purge is not none %}
+    <purge>{{ ossec_manager_config.authd.purge}}</purge>
+{% endif %}
+{% if ossec_manager_config.authd.use_password is not none %}
+    <use_password>{{ ossec_manager_config.authd.use_password}}</use_password>
+{% endif %}
+{% if ossec_manager_config.authd.ssl_agent_ca is not none %}
+    <ssl_agent_ca>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_agent_ca | basename}}</ssl_agent_ca>
+{% endif %}
+{% if ossec_manager_config.authd.ssl_verify_host is not none %}
+    <ssl_verify_host>{{ ossec_manager_config.authd.ssl_verify_host}}</ssl_verify_host>
+{% endif %}
+{% if ossec_manager_config.authd.ssl_manager_cert is not none %}
+    <ssl_manager_cert>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_manager_cert | basename}}</ssl_manager_cert>
+{% endif %}
+{% if ossec_manager_config.authd.ssl_manager_key is not none %}
+    <ssl_manager_key>/var/ossec/etc/{{ ossec_manager_config.authd.ssl_manager_key | basename}}</ssl_manager_key>
+{% endif %}
+{% if ossec_manager_config.authd.ssl_auto_negotiate is not none %}
+    <ssl_auto_negotiate>{{ ossec_manager_config.authd.ssl_auto_negotiate}}</ssl_auto_negotiate>
+{% endif %}
+  </auth>
 
   <cluster>
     <disabled>{% if ossec_server | length > 1 %}no{% else %}yes{% endif %}</disabled>
@@ -299,9 +276,9 @@
     <frequency>{{ agentless.frequency }}</frequency>
     <host>{{ agentless.host }}</host>
     <state>{{ agentless.state }}</state>
-    {% if agentless.arguments is defined %}
+{% if agentless.arguments is defined %}
       <arguments>{{ agentless.arguments }}</arguments>
-    {% endif %}
+{% endif %}
   </agentless>
 {% endfor %}
 {% endif %}
@@ -310,52 +287,51 @@
   {% for response in ossec_manager_config.active_responses %}
     <active-response>
       <disabled>{% if response.disabled is defined %}{{ response.disabled }}{% else %}no{% endif %}</disabled>
-      {%if response.command is defined %}<command>{{ response.command }}</command>{% endif %}
-      {%if response.location is defined %}<location>{{ response.location }}</location>{% endif %}
-      {%if response.agent_id is defined %}<agent_id>{{ response.agent_id }}</agent_id>{% endif %}
-      {%if response.level is defined %}<level>{{ response.level }}</level>{% endif %}
-      {%if response.rules_group is defined %}<rules_group>{{ response.rules_group }}</rules_group>{% endif %}
-      {%if response.rules_id is defined %}<rules_id>{{ response.rules_id }}</rules_id>{% endif %}
-      {%if response.timeout is defined %}<timeout>{{ response.timeout }}</timeout>{% endif %}
-      {%if response.repeated_offenders is defined %}<repeated_offenders>{{ response.repeated_offenders }}</repeated_offenders>{% endif %}
+{%if response.command is defined %}      <command>{{ response.command }}</command>{% endif %}
+{%if response.location is defined %}      <location>{{ response.location }}</location>{% endif %}
+{%if response.agent_id is defined %}      <agent_id>{{ response.agent_id }}</agent_id>{% endif %}
+{%if response.level is defined %}      <level>{{ response.level }}</level>{% endif %}
+{%if response.rules_group is defined %}      <rules_group>{{ response.rules_group }}</rules_group>{% endif %}
+{%if response.rules_id is defined %}      <rules_id>{{ response.rules_id }}</rules_id>{% endif %}
+{%if response.timeout is defined %}      <timeout>{{ response.timeout }}</timeout>{% endif %}
+{%if response.repeated_offenders is defined %}      <repeated_offenders>{{ response.repeated_offenders }}</repeated_offenders>{% endif %}
     </active-response>
-  {% endfor %}
+{% endfor %}
 {% endif %}
 
-  <!-- Files to monitor (localfiles) -->
 {% for localfile in ossec_manager_config.localfiles.common %}
   <localfile>
      <log_format>{{ localfile.format }}</log_format>
-     {% if localfile.format == 'command' or localfile.format == 'full_command' %}
+{% if localfile.format == 'command' or localfile.format == 'full_command' %}
      <command>{{ localfile.command }}</command>
-     {% if localfile.alias is defined %}
+{% if localfile.alias is defined %}
      <alias>{{ localfile.alias }}</alias>
-     {% endif %}
-     {% if localfile.frequency is defined %}
+{% endif %}
+{% if localfile.frequency is defined %}
      <frequency>{{ localfile.frequency }}</frequency>
-     {% endif %}
-     {% else %}
+{% endif %}
+{% else %}
      <location>{{ localfile.location }}</location>
-     {% if localfile.format == 'eventchannel' %}
-     {% if localfile.only_future_events is defined %}
+{% if localfile.format == 'eventchannel' %}
+{% if localfile.only_future_events is defined %}
      <only-future-events>{{ localfile.only_future_events }}</only_future_events>
-     {% endif %}
-     {% if localfile.query is defined %}
+{% endif %}
+{% if localfile.query is defined %}
      <query>{{ localfile.query }}</query>
-     {% endif %}
-     {% endif %}
-     {% endif %}
-     {% if localfile.format == 'json' and localfile.labels is defined %}
-     {% for key, value in localfile.labels.iteritems() %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if localfile.format == 'json' and localfile.labels is defined %}
+{% for key, value in localfile.labels.iteritems() %}
      <label key="{{ key }}">{{ value }}</label>
-     {% endfor %}
-     {% endif %}
-     {% if localfile.target is defined %}
+{% endfor %}
+{% endif %}
+{% if localfile.target is defined %}
      <target>{{ localfile.target }}</target>
-     {% endif %}
-     {% if localfile.out_format is defined %}
+{% endif %}
+{% if localfile.out_format is defined %}
      <out_format>{{ localfile.out_format }}</out_format>
-     {% endif %}
+{% endif %}
   </localfile>
 {% endfor %}
 
@@ -363,74 +339,73 @@
 {% for localfile in ossec_manager_config.localfiles.debian %}
   <localfile>
      <log_format>{{ localfile.format }}</log_format>
-     {% if localfile.format == 'command' or localfile.format == 'full_command' %}
+{% if localfile.format == 'command' or localfile.format == 'full_command' %}
      <command>{{ localfile.command }}</command>
-     {% if localfile.alias is defined %}
+{% if localfile.alias is defined %}
      <alias>{{ localfile.alias }}</alias>
-     {% endif %}
-     {% if localfile.frequency is defined %}
+{% endif %}
+{% if localfile.frequency is defined %}
      <frequency>{{ localfile.frequency }}</frequency>
-     {% endif %}
-     {% else %}
+{% endif %}
+{% else %}
      <location>{{ localfile.location }}</location>
-     {% if localfile.format == 'eventchannel' %}
-     {% if localfile.only_future_events is defined %}
+{% if localfile.format == 'eventchannel' %}
+{% if localfile.only_future_events is defined %}
      <only-future-events>{{ localfile.only_future_events }}</only_future_events>
-     {% endif %}
-     {% if localfile.query is defined %}
+{% endif %}
+{% if localfile.query is defined %}
      <query>{{ localfile.query }}</query>
-     {% endif %}
-     {% endif %}
-     {% endif %}
-     {% if localfile.format == 'json' and localfile.labels is defined %}
-     {% for key, value in localfile.labels.iteritems() %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if localfile.format == 'json' and localfile.labels is defined %}
+{% for key, value in localfile.labels.iteritems() %}
      <label key="{{ key }}">{{ value }}</label>
-     {% endfor %}
-     {% endif %}
-     {% if localfile.target is defined %}
+{% endfor %}
+{% endif %}
+{% if localfile.target is defined %}
      <target>{{ localfile.target }}</target>
-     {% endif %}
-     {% if localfile.out_format is defined %}
+{% endif %}
+{% if localfile.out_format is defined %}
      <out_format>{{ localfile.out_format }}</out_format>
-     {% endif %}
+{% endif %}
   </localfile>
 {% endfor %}
 {% endif %}
-
 {% if ansible_os_family == "RedHat" %}  
 {% for localfile in ossec_manager_config.localfiles.centos %}
   <localfile>
      <log_format>{{ localfile.format }}</log_format>
-     {% if localfile.format == 'command' or localfile.format == 'full_command' %}
+{% if localfile.format == 'command' or localfile.format == 'full_command' %}
      <command>{{ localfile.command }}</command>
-     {% if localfile.alias is defined %}
+{% if localfile.alias is defined %}
      <alias>{{ localfile.alias }}</alias>
-     {% endif %}
-     {% if localfile.frequency is defined %}
+{% endif %}
+{% if localfile.frequency is defined %}
      <frequency>{{ localfile.frequency }}</frequency>
-     {% endif %}
-     {% else %}
+{% endif %}
+{% else %}
      <location>{{ localfile.location }}</location>
-     {% if localfile.format == 'eventchannel' %}
-     {% if localfile.only_future_events is defined %}
+{% if localfile.format == 'eventchannel' %}
+{% if localfile.only_future_events is defined %}
      <only-future-events>{{ localfile.only_future_events }}</only_future_events>
-     {% endif %}
-     {% if localfile.query is defined %}
+{% endif %}
+{% if localfile.query is defined %}
      <query>{{ localfile.query }}</query>
-     {% endif %}
-     {% endif %}
-     {% endif %}
-     {% if localfile.format == 'json' and localfile.labels is defined %}
-     {% for key, value in localfile.labels.iteritems() %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if localfile.format == 'json' and localfile.labels is defined %}
+{% for key, value in localfile.labels.iteritems() %}
      <label key="{{ key }}">{{ value }}</label>
-     {% endfor %}
-     {% endif %}
-     {% if localfile.target is defined %}
+{% endfor %}
+{% endif %}
+{% if localfile.target is defined %}
      <target>{{ localfile.target }}</target>
-     {% endif %}
-     {% if localfile.out_format is defined %}
+{% endif %}
+{% if localfile.out_format is defined %}
      <out_format>{{ localfile.out_format }}</out_format>
-     {% endif %}
+{% endif %}
   </localfile>
 {% endfor %}
 {% endif %}
@@ -447,12 +422,9 @@
 {% endfor %}
 {% endif %}
 
-{% if ossec_manager_config.labels.enable %}
   <labels>
-  {% for label in ossec_manager_config.labels.list %}
-    <label key="{{ label.key }}"{% if label.hidden is defined %} hidden="{{ label.hidden }}"{% endif %}>{{ label.value }}</label>
-  {% endfor %}
+    <label key="group">{{ group_names[0] | upper }}</label>
+    <label key="environment">{{ environments | upper }}</label>
   </labels>
-{% endif %}
 
 </ossec_config>
