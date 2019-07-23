@@ -79,14 +79,19 @@ dependencies:
         - 'http://packages.wazuh.com/wazuhapp/wazuhapp-{{ ossec_version.split("-")[0] }}_{{ ossec_elastic_stack_version }}.zip'
         - 'http://github.com/pjhampton/kibana-prometheus-exporter/releases/download/{{ ossec_elastic_stack_version }}/kibana-prometheus-exporter-{{ ossec_elastic_stack_version }}.zip'
     when: ossec_elastic_stack_dept
-  - role: 'ansible-role-OS-filebeat'
+  - role: 'ansible-role-OS-beats'
     vars:
-      filebeat_version: '{{ ossec_elastic_stack_version }}'
+      beats_type: 'file'
+      beats_version: '{{ ossec_elastic_stack_version }}'
+      beats_port_arg:
+        http: '5066'
+        exporter: '9479'
       filebeat_configset: 'wazuh'
       filebeat_configver: '{{ ossec_version.split("-")[0] }}'
-      filebeat_elastic_port_rest: '{{ ossec_elastic_port | default("9200") }}'
-      filebeat_elastic_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
-      filebeat_elastic_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
-      filebeat_elastic_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
-      filebeat_elastic_hosts: '{{ ossec_server }}'
+      beats_output_type: 'elasticsearch'
+      beats_output_port: '{{ ossec_elastic_port | default("9200") }}'
+      beats_output_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
+      beats_output_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
+      beats_output_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
+      beats_output_host: '{{ ossec_server }}'
     when: ossec_elastic_stack_dept

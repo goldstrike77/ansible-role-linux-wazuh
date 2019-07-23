@@ -96,7 +96,7 @@ There are some variables in vars/main.yml:
 - [NGinx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
 - [Elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
 - [Kibana](https://github.com/goldstrike77/ansible-role-linux-kibana.git)
-- [Filebeat](https://github.com/goldstrike77/ansible-role-linux-filebeat.git)
+- [Beats](https://github.com/goldstrike77/ansible-role-OS-beats.git)
 
 ## Example
 
