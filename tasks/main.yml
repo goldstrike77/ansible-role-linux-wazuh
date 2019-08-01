@@ -57,3 +57,11 @@
 
 - name: Remove OSSec metadata
   include: 'cleanup.yml'
+
+- name: Wazuh APP Configuration
+  template:
+    src: 'wazuhapp_config.yml'
+    dest: '/usr/share/kibana/plugins/wazuh/config.yml'
+    owner: 'kibana'
+    group: 'kibana'
+    mode: '0644'
