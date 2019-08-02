@@ -28,7 +28,7 @@ __Table of Contents__
 ## Overview
 This Ansible role installs Wazuh manager on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
 
-On only one data node cluster environment, wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
+On only one data node cluster environment, .wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
 
 Steps to fix this problem:
 
