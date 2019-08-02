@@ -94,3 +94,11 @@
     insertafter: '^\[Service\]'
     regexp: '^ExecStartPre'
     line: 'ExecStartPre=-/bin/sleep 60'
+
+- name: Logs Lifecycle Management
+  cron:
+    user: 'root'
+    name: 'OSSec maintenance task'
+    minute: "{{ 59 |random}}"
+    hour: "{{ (( ansible_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
+    job: '/bin/find /var/ossec/logs -mtime +{{ ossec_rotate_day }} -name "*.gz" -exec /bin/rm -rf {} \; >/dev/null 2>&1'

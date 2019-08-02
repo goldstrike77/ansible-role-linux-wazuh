@@ -28,3 +28,11 @@
   loop:
     - 'curator.yml'
     - 'action.yml'
+
+- name: Index Lifecycle Management
+  cron:
+    user: 'root'
+    name: 'Curator maintenance task'
+    minute: "{{ 59 |random}}"
+    hour: "{{ (( ansible_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
+    job: '/bin/curator --config /etc/curator/curator.yml /etc/curator/action.yml >/dev/null 2>&1'

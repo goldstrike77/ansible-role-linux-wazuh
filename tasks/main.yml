@@ -60,6 +60,7 @@
 
 - name: Curator tasks
   include: 'curator.yml'
+  when: ossec_server[0] in ansible_default_ipv4.address
 
 - name: Wazuh APP Configuration
   template:

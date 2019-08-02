@@ -14,6 +14,7 @@ ossec_dependent_packages:
   - 'openscap-scanner'
   - 'openssl'
   - 'osquery'
+  - 'python-pip'
 
 ossec_packages:
   - 'wazuh-manager-{{ ossec_version }}*'
