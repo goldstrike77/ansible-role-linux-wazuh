@@ -1,0 +1,30 @@
+---
+- name: Install requirement python package
+  pip:
+    name: '{{ item }}'
+    state: 'forcereinstall'
+    extra_args: '-i {{ ossec_pypi_url }}'
+  loop: '{{ ossec_python_dependent_packages }}'
+  register: ossec_python_status
+  until: ossec_python_status is succeeded
+  retries: 5
+  delay: 5
+
+- name: Creating Curator folder
+  file:
+    dest: '/etc/curator'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: Curator Configure & Actions file transfer
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/curator/{{ item }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0664'
+  loop:
+    - 'curator.yml'
+    - 'action.yml'

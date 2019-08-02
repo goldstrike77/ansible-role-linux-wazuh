@@ -1,0 +1,10 @@
+---
+client:
+  hosts: ['{{ ossec_server | list | join("', '") }}']
+  port: {{ ossec_elastic_port | default('9200') }}
+  http_auth: {{ ossec_elastic_stack_user }}:{{ ossec_elastic_stack_pass }}
+  timeout: 30
+  master_only: true
+
+logging:
+  loglevel: INFO

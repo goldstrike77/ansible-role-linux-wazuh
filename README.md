@@ -51,6 +51,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_api_user`: API verification password.
 * `ossec_cluster`: Specifies the name of the cluster.
 * `ossec_path`: Specify the OSSec data directory.
+* `ossec_rotate_day`: Specify the logs retention days.
 
 ##### Role dependencies
 * `ossec_elastic_stack_dept`: A boolean value, whether Elastic Stack components use the same environment.
@@ -122,6 +123,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61"
     ossec_cluster: 'ossec'
     ossec_path: '/data'
+    ossec_rotate_day: '180'
     ossec_elastic_stack_dept: true
     ossec_mail_arg:
       email_alert_level: '12'

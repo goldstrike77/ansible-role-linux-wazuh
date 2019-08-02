@@ -1,0 +1,40 @@
+---
+actions:
+  1:
+    action: delete_indices
+    description: >-
+      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for wazuh-monitoring-{{ ossec_version.split(".")[0] }}.x-
+      prefixed indices. Ignore the error if the filter does not result in an
+      actionable list of indices (ignore_empty_list) and exit cleanly.
+    options:
+      ignore_empty_list: True
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: wazuh-monitoring-{{ ossec_version.split(".")[0] }}.x-*
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: {{ ossec_rotate_day }}
+  2:
+    action: delete_indices
+    description: >-
+      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for wazuh-alerts-{{ ossec_version.split(".")[0] }}.x-
+      prefixed indices. Ignore the error if the filter does not result in an
+      actionable list of indices (ignore_empty_list) and exit cleanly.
+    options:
+      ignore_empty_list: True
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: wazuh-alerts-{{ ossec_version.split(".")[0] }}.x-*
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: {{ ossec_rotate_day }}

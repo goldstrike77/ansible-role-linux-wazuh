@@ -58,6 +58,9 @@
 - name: Remove OSSec metadata
   include: 'cleanup.yml'
 
+- name: Curator tasks
+  include: 'curator.yml'
+
 - name: Wazuh APP Configuration
   template:
     src: 'wazuhapp_config.yml'

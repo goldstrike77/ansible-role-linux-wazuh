@@ -19,3 +19,8 @@ ossec_decoders:
 ossec_internal_options:
   - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
   - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }
+
+ossec_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+
+ossec_python_dependent_packages:
+  - 'elasticsearch-curator'
