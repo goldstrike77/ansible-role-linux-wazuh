@@ -3,6 +3,7 @@
   copy:
     src: 'osquery.conf'
     dest: '/etc/osquery/osquery.conf'
+    backup: 'yes'
     owner: 'root'
     group: 'root'
     mode: '644'
@@ -11,6 +12,7 @@
   copy:
     src: 'osquery-log-rotate'
     dest: '/etc/logrotate.d/osquery'
+    backup: 'yes'
     owner: 'root'
     group: 'root'
     mode: '644'

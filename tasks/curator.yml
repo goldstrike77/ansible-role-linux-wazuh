@@ -22,6 +22,7 @@
   template:
     src: '{{ item }}.j2'
     dest: '/etc/curator/{{ item }}'
+    backup: 'yes'
     owner: 'root'
     group: 'root'
     mode: '0664'

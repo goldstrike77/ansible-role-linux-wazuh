@@ -38,3 +38,41 @@ actions:
       timestring: '%Y.%m.%d'
       unit: days
       unit_count: {{ ossec_rotate_day }}
+  3:
+    action: delete_indices
+    description: >-
+      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for monitoring-es-{{ ossec_elastic_stack_version.split(".")[0] }}-
+      prefixed indices. Ignore the error if the filter does not result in an
+      actionable list of indices (ignore_empty_list) and exit cleanly.
+    options:
+      ignore_empty_list: True
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: monitoring-es-{{ ossec_elastic_stack_version.split(".")[0] }}-*
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: {{ ossec_rotate_day }}
+  4:
+    action: delete_indices
+    description: >-
+      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for monitoring-kibana-{{ ossec_elastic_stack_version.split(".")[0] }}-
+      prefixed indices. Ignore the error if the filter does not result in an
+      actionable list of indices (ignore_empty_list) and exit cleanly.
+    options:
+      ignore_empty_list: True
+      disable_action: False
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: monitoring-kibana-{{ ossec_elastic_stack_version.split(".")[0] }}-*
+    - filtertype: age
+      source: name
+      direction: older
+      timestring: '%Y.%m.%d'
+      unit: days
+      unit_count: {{ ossec_rotate_day }}

@@ -3,6 +3,7 @@
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
+    backup: 'yes'
     owner: 'ossec'
     group: 'ossec'
     mode: '0640'
@@ -13,6 +14,7 @@
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
+    backup: 'yes'
     owner: 'ossec'
     group: 'ossec'
     mode: '0640'
@@ -23,6 +25,7 @@
   template:
     src: 'agent.conf.j2'
     dest: '/var/ossec/etc/shared/default/agent.conf'
+    backup: 'yes'
     owner: 'ossec'
     group: 'ossec'
     mode: '0660'
@@ -33,6 +36,7 @@
   template:
     src: 'config.js.j2'
     dest: '/var/ossec/api/configuration/config.js'
+    backup: 'yes'
     owner: 'root'
     group: 'ossec'
     mode: '0740'
@@ -42,6 +46,7 @@
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
+    backup: 'yes'
     owner: 'root'
     group: 'ossec'
     mode: '0640'
@@ -64,6 +69,7 @@
   template:
     src: 'authd.pass.j2'
     dest: '/var/ossec/etc/authd.pass'
+    backup: 'yes'
     owner: 'ossec'
     group: 'ossec'
     mode: '0640'
@@ -73,6 +79,7 @@
   template:
     src: 'user.j2'
     dest: "/var/ossec/api/configuration/auth/user"
+    backup: 'yes'
     owner: 'root'
     group: 'root'
     mode: '0660'
@@ -82,6 +89,7 @@
   template:
     src: 'server.conf.j2'
     dest: '/var/ossec/etc/ossec.conf'
+    backup: 'yes'
     owner: 'root'
     group: 'ossec'
     mode: '0640'
