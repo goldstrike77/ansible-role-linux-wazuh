@@ -28,7 +28,7 @@ ossec_elastic_stack_user: 'elastic' # Authorization user name, do not modify it.
 ossec_elastic_stack_pass: 'changeme' # Authorization user password.
 ossec_elastic_stack_version: '7.1.1' # Specify the Elastic Stack version.
 ossec_elastic_port: '9200' # Elasticsearch REST port.
-ossec_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for a Java virtual machine.
+ossec_elastic_heap_size: '1g' # Specify the maximum memory allocation pool for a Java virtual machine.
 ossec_elastic_path: '{{ ossec_path }}' # Specify the ElasticSearch data directory.
 ossec_elastic_node_type: 'default' # Type of nodes: default, master, data, ingest and coordinat.
 ossec_kibana_port: '5601' # Kibana server port.

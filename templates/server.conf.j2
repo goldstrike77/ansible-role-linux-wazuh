@@ -260,7 +260,7 @@
     <name>{{ ossec_cluster | upper | default('OSSEC') }}</name>
     <node_name>{{ ansible_hostname }}</node_name>
     <node_type>{% if ossec_server[0] in ansible_default_ipv4.address %}master{% else %}worker{% endif %}</node_type>
-    <key>{{ lookup('password', '' + group_names[-1] + ':backup length=32 chars=ascii_letters,digits') }}</key>
+    <key>{{ lookup('password', '' + group_names[-1] + ':cluster:communication:key length=32 chars=ascii_letters,digits') }}</key>
     <port>{{ ossec_port_arg.cluster | default('1516') }}</port>
     <bind_addr>{{ ansible_default_ipv4.address }}</bind_addr>
     <nodes>
