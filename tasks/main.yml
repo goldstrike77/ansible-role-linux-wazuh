@@ -69,3 +69,5 @@
     owner: 'kibana'
     group: 'kibana'
     mode: '0644'
+  changed_when: false
+  failed_when: false

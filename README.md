@@ -36,6 +36,11 @@ Steps to fix this problem:
 2. Restart the kibana service.
 3. Re-connect your API entries on the Wazuh app.
 
+Please confirm there is a suitable version of Wazuh app, and fix internet connection problems on some area under GFW.
+
+for example:
+http://cache.omygods.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip / http://packages.wazuh.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip
+
 ## Requirements
 ### Operating systems
 This role will work on the following operating systems:
@@ -112,7 +117,7 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' ossec_version='3.9.2-1'
+    node01 ansible_host='192.168.1.10' ossec_version='3.9.5-1'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -120,12 +125,12 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-ossec
-           ossec_version: '3.9.2-1'
+           ossec_version: '3.9.5-1'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    ossec_version: '3.9.3-1'
+    ossec_version: '3.9.5-1'
     ossec_selinux: false
     ossec_authd_pass: 'Bf6vJRT4WaEAHq'
     ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61"
@@ -144,7 +149,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_elastic_stack_auth: true
     ossec_elastic_stack_user: 'elastic'
     ossec_elastic_stack_pass: 'changeme'
-    ossec_elastic_stack_version: '7.1.1'
+    ossec_elastic_stack_version: '7.2.1'
     ossec_elastic_port: '9200'
     ossec_elastic_heap_size: '3g'
     ossec_elastic_path: '{{ ossec_path }}'
