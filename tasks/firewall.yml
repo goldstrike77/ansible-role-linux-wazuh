@@ -1,4 +1,8 @@
 ---
+- name: Gathering service facts
+  service_facts:
+  register: services_state
+
 - name: Allow OSSec service port
   firewalld:
     port: '{{ item[1] }}/{{ item[2] }}'
@@ -9,3 +13,4 @@
   with_nested: 
     - '{{ ossec_port_arg | dictsort }}'
     - [ 'tcp', 'udp' ]
+  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'

@@ -26,4 +26,4 @@
   with_nested:
     - '{{ ossec_port_arg | dictsort }}'
     - [ 'tcp', 'udp' ]
-  when: ossec_selinux
+  when: ossec_selinux | bool

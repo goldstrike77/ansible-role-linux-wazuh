@@ -77,7 +77,7 @@ dependencies:
       kibana_ngx_logs_path: '{{ ossec_kibana_ngx_logs_path | default("/data/nginx_logs") }}'
       kibana_plugins:
         - 'http://cache.omygods.com/wazuhapp/wazuhapp-{{ ossec_version.split("-")[0] }}_{{ ossec_elastic_stack_version }}.zip'
-    when: ossec_elastic_stack_dept
+    when: ossec_elastic_stack_dept | bool
   - role: 'ansible-role-OS-beats'
     vars:
       beats_type: 'file'
@@ -93,4 +93,4 @@ dependencies:
       beats_output_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
       beats_output_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
       beats_output_host: '{{ ossec_server }}'
-    when: ossec_elastic_stack_dept
+    when: ossec_elastic_stack_dept | bool
