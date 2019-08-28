@@ -424,7 +424,9 @@
 
   <labels>
     <label key="group">{{ group_names[0] | upper }}</label>
-    <label key="environment">{{ environments | upper }}</label>
+    <label key="subscription">{{ subscription | default('default') | upper }}</label>
+    <label key="region">{{ region | default('default') | upper }}</label>
+    <label key="environment">{{ environments | default('SIT') | upper }}</label>
   </labels>
 
 </ossec_config>
