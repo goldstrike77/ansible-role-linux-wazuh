@@ -31,11 +31,10 @@
 
 - name: Install the OSSec dependents packages
   yum:
-    name: '{{ item }}'
+    name: '{{ ossec_dependent_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  loop: '{{ ossec_dependent_packages }}'
   register: yum_status
   until: yum_status is succeeded
   retries: 3
@@ -43,12 +42,11 @@
 
 - name: Install the OSSec packages
   yum:
-    name: '{{ item }}'
+    name: '{{ ossec_packages }}'
     state: 'present'
     enablerepo: '{{ ossec_repo_name }}'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  loop: '{{ ossec_packages }}'
   register: yum_status
   until: yum_status is succeeded
   retries: 3
