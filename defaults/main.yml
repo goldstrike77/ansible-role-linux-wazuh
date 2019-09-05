@@ -39,9 +39,13 @@ ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx/site' # Specify the NGinx si
 ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx/logs' # Specify the NGinx logs directory.
 
 # Service Mesh #
-subscription: 'default' # Define the service subscription.
-region: 'default' # Define the service region.
 environments: 'SIT' # Define the service environment.
+#tags: # Define the service custom label.
+#  subscription: 'default'
+#  owner: 'nobody'
+#  department: 'Infrastructure'
+#  organization: 'The Company'
+#  region: 'IDC01'
 
 # Listen port #
 ossec_port_arg: # Network ports for OSSec components.

@@ -89,9 +89,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_kibana_ngx_logs_path`: Specify the NGinx logs directory.
 
 ##### Service Mesh
-* `subscription`: Define the service subscription.
-* `region`: Define the service region.
 * `environments`: Define the service environment.
+* `tags`: Define the service custom label.
 
 ##### Listen port #
 * `ossec_port_arg`: Network ports for OSSec components.
@@ -162,9 +161,13 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_kibana_ngx_port_https: '443'
     ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx_site'
     ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx_logs'
-    subscription: 'default'
-    region: 'default'
     environments: 'SIT'
+    tags:
+      subscription: 'default'
+      owner: 'nobody'
+      department: 'Infrastructure'
+      organization: 'The Company'
+      region: 'IDC01'
     ossec_port_arg:
       agent: '1514'
       api: '55000'
