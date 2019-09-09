@@ -8,6 +8,7 @@ ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61" # API verification
 ossec_cluster: 'ossec' # Specifies the name of the cluster.
 ossec_path: '/data' # Specify the OSSec data directory.
 ossec_rotate_day: '180' # Specify the logs retention days.
+ossec_virustotal_apikey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # Integrator daemon and configure the VirusTotal integration.
 
 # Role dependencies #
 ossec_elastic_stack_dept: true # A boolean value, whether Elastic Stack components use the same environment.
@@ -126,7 +127,7 @@ ossec_manager_config:
     disable: 'no'
     timeout: 1800
     interval: '1d'
-    scan_on_start: 'no'
+    scan_on_start: 'yes'
   osquery: # Osquery configuration and collect the information.
     disable: 'no'
     run_daemon: 'yes'
@@ -136,7 +137,7 @@ ossec_manager_config:
   syscollector: # Collect interesting system information.
     disable: 'no'
     interval: '1d'
-    scan_on_start: 'no'
+    scan_on_start: 'yes'
     hardware: 'yes'
     os: 'yes'
     network: 'yes'
@@ -178,20 +179,15 @@ ossec_manager_config:
     disable: 'no'
     interval: '1d'
     ignore_time: '6h'
-    run_on_start: 'no'
-    ubuntu:
-      disable: 'yes'
-      update_interval: '1d'
+    run_on_start: 'yes'
     redhat:
       disable: 'no'
       update_interval: '1d'
-    debian:
-      disable: 'yes'
-      update_interval: '1d'
+      update_from_year: '2014'
   syscheck: # File integrity monitoring.
     disable: 'no'
     frequency: 86400
-    scan_on_start: 'no'
+    scan_on_start: 'yes'
     auto_ignore: 'no'
     alert_new_files: 'yes'
     ignore:
@@ -322,9 +318,6 @@ ossec_agent_configs: # Shared agent configuration.
       interval: '1d'
       policies:
         - 'cis_rhel7_linux_rcl.yml'
-        - 'system_audit_pw.yml'
-        - 'system_audit_rcl.yml'
-        - 'system_audit_ssh.yml'
   - type: 'os'
     type_value: 'Windows'
     syscheck:

@@ -67,6 +67,15 @@
 {% endfor %}
 {% endif %}
 
+{% if ossec_virustotal_apikey is defined %}
+  <integration>
+    <name>virustotal</name>
+    <api_key>{{ ossec_virustotal_apikey }}</api_key>
+    <group>syscheck</group>
+    <alert_format>json</alert_format>
+  </integration>
+{% endif %}
+
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
   </rootcheck>
@@ -147,17 +156,10 @@
     <interval>{{ ossec_manager_config.vul_detector.interval }}</interval>
     <ignore_time>{{ ossec_manager_config.vul_detector.ignore_time }}</ignore_time>
     <run_on_start>{{ ossec_manager_config.vul_detector.run_on_start }}</run_on_start>
-    <feed name="ubuntu-18">
-    <disabled>{{ ossec_manager_config.vul_detector.ubuntu.disable }}</disabled>
-    <update_interval>{{ ossec_manager_config.vul_detector.ubuntu.update_interval }}</update_interval>
-    </feed>
     <feed name="redhat">
       <disabled>{{ ossec_manager_config.vul_detector.redhat.disable }}</disabled>
       <update_interval>{{ ossec_manager_config.vul_detector.redhat.update_interval }}</update_interval>
-    </feed>
-    <feed name="debian-9">
-      <disabled>{{ ossec_manager_config.vul_detector.debian.disable }}</disabled>
-      <update_interval>{{ ossec_manager_config.vul_detector.debian.update_interval }}</update_interval>
+      <update_from_year>{{ ossec_manager_config.vul_detector.redhat.update_from_year }}</update_from_year>
     </feed>
   </wodle>
 
