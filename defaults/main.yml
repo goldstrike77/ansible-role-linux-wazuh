@@ -317,7 +317,7 @@ ossec_agent_configs: # Shared agent configuration.
       skip_nfs: 'yes'
       interval: '1d'
       policies:
-        - 'cis_rhel7_linux_rcl.yml'
+        - 'cis_rhel{{ ansible_distribution_major_version }}_linux_rcl.yml'
   - type: 'os'
     type_value: 'Windows'
     syscheck:
