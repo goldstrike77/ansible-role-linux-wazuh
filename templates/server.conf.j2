@@ -78,6 +78,20 @@
 
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
+    <scanall>{{ ossec_manager_config.rootcheck.scanall }}</scanall>
+    <check_unixaudit>{{ ossec_manager_config.rootcheck.check_unixaudit }}</check_unixaudit>
+    <check_files>{{ ossec_manager_config.rootcheck.check_files }}</check_files>
+    <check_trojans>{{ ossec_manager_config.rootcheck.check_trojans }}</check_trojans>
+    <check_dev>{{ ossec_manager_config.rootcheck.check_dev }}</check_dev>
+    <check_sys>{{ ossec_manager_config.rootcheck.check_sys }}</check_sys>
+    <check_pids>{{ ossec_manager_config.rootcheck.check_pids }}</check_pids>
+    <check_ports>{{ ossec_manager_config.rootcheck.check_ports }}</check_ports>
+    <check_if>{{ ossec_manager_config.rootcheck.check_if }}</check_if>
+    <frequency>{{ ossec_manager_config.rootcheck.frequency }}</frequency>
+    <system_audit>/var/ossec/etc/shared/default/system_audit_rcl.txt</system_audit>
+    <rootkit_files>/var/ossec/etc/shared/default/rootkit_files.txt</rootkit_files>
+    <rootkit_trojans>/var/ossec/etc/shared/default/rootkit_trojans.txt</rootkit_trojans>
+    <skip_nfs>{{ ossec_manager_config.rootcheck.skip_nfs }}</skip_nfs>
   </rootcheck>
 
   <wodle name="open-scap">

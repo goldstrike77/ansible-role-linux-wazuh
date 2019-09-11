@@ -76,6 +76,30 @@
 
   <rootcheck>
     <disabled>{{ agent_config.rootcheck.disable }}</disabled>
+    <scanall>{{ agent_config.rootcheck.scanall }}</scanall>
+    <check_files>{{ agent_config.rootcheck.check_files }}</check_files>
+    <check_trojans>{{ agent_config.rootcheck.check_trojans }}</check_trojans>
+    <check_dev>{{ agent_config.rootcheck.check_dev }}</check_dev>
+    <check_sys>{{ agent_config.rootcheck.check_sys }}</check_sys>
+    <check_pids>{{ agent_config.rootcheck.check_pids }}</check_pids>
+    <check_ports>{{ agent_config.rootcheck.check_ports }}</check_ports>
+    <check_if>{{ agent_config.rootcheck.check_if }}</check_if>
+    <frequency>{{ agent_config.rootcheck.frequency }}</frequency>
+{% if agent_config.type_value == "Linux" %}
+    <check_unixaudit>{{ agent_config.rootcheck.check_unixaudit }}</check_unixaudit>
+    <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
+    <rootkit_files>/var/ossec/etc/shared/rootkit_files.txt</rootkit_files>
+    <rootkit_trojans>/var/ossec/etc/shared/rootkit_trojans.txt</rootkit_trojans>
+{% endif %}
+{% if agent_config.type_value == "Windows" %}
+    <check_winapps>{{ agent_config.rootcheck.check_winapps }}</check_winapps>
+    <check_winaudit>{{ agent_config.rootcheck.check_winaudit }}</check_winaudit>
+    <check_winmalware>{{ agent_config.rootcheck.check_winmalware }}</check_winmalware>
+    <windows_audit>C:\Program Files (x86)\ossec-agent\shared\win_audit_rcl.txt</windows_audit>
+    <windows_apps>C:\Program Files (x86)\ossec-agent\shared\win_applications_rcl.txt</windows_apps>
+    <windows_malware>C:\Program Files (x86)\ossec-agent\shared\windows_malware.txt</windows_malware>
+{% endif %}
+    <skip_nfs>{{ agent_config.rootcheck.skip_nfs }}</skip_nfs>
   </rootcheck>
 
   <client_buffer>
@@ -123,5 +147,23 @@
 {% endif %}
   </wodle>
 
+{% if agent_config.type_value == "Linux" %}
+  <wodle name="open-scap">
+    <disabled>{{ agent_config.openscap.disable }}</disabled>
+    <timeout>{{ agent_config.openscap.timeout }}</timeout>
+    <interval>{{ agent_config.openscap.interval }}</interval>
+    <scan-on-start>{{ agent_config.openscap.scan_on_start }}</scan-on-start>
+    <content type="xccdf" path="com.redhat.rhsa-RHEL{{ ansible_distribution_major_version }}.ds.xml"/>
+  </wodle>
+{% endif %}
+
+{% if agent_config.type_value == "Linux" %}
+  <wodle name="docker-listener">
+    <interval>{{ agent_config.docker.interval }}</interval>
+    <attempts>{{ agent_config.docker.attempts }}</attempts>
+    <run_on_start>{{ agent_config.docker.run_on_start }}</run_on_start>
+    <disabled>{{ agent_config.docker.disable }}</disabled>
+  </wodle>
+{% endif %}
 </agent_config>
 {% endfor %}

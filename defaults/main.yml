@@ -122,7 +122,18 @@ ossec_manager_config:
       protocol: 'tcp'
       ipv6: 'no'
   rootcheck: # Policy monitoring and anomaly detection.
-    disable: 'yes'
+    disable: 'no'
+    scanall: 'yes'
+    check_unixaudit: 'no'
+    check_files: 'yes'
+    check_trojans: 'yes'
+    check_dev: 'yes'
+    check_sys: 'yes'
+    check_pids: 'yes'
+    check_ports: 'yes'
+    check_if: 'yes'
+    frequency: '43200'
+    skip_nfs: 'yes'
   openscap: # Configuration and vulnerability scans of an agent.
     disable: 'no'
     timeout: 1800
@@ -271,7 +282,18 @@ ossec_agent_configs: # Shared agent configuration.
         - dirs: '/bin,/sbin,/usr/bin,/usr/sbin'
         - dirs: '/usr/local/sbin,/usr/local/bin'
     rootcheck:
-      disable: 'yes'
+      disable: 'no'
+      scanall: 'yes'
+      check_unixaudit: 'no'
+      check_files: 'yes'
+      check_trojans: 'yes'
+      check_dev: 'yes'
+      check_sys: 'yes'
+      check_pids: 'yes'
+      check_ports: 'yes'
+      check_if: 'yes'
+      frequency: '43200'
+      skip_nfs: 'yes'
     localfiles:
       - format: 'syslog'
         location: '/var/log/messages'
@@ -318,6 +340,16 @@ ossec_agent_configs: # Shared agent configuration.
       interval: '1d'
       policies:
         - 'cis_rhel{{ ansible_distribution_major_version }}_linux_rcl.yml'
+    openscap:
+      disable: 'no'
+      timeout: 1800
+      interval: '1d'
+      scan_on_start: 'yes'
+    docker:
+      disable: 'no'
+      attempts: '5'
+      interval: '10m'
+      run_on_start: 'no'
   - type: 'os'
     type_value: 'Windows'
     syscheck:
@@ -419,7 +451,20 @@ ossec_agent_configs: # Shared agent configuration.
         - key: '\Enum$'
           type: "sregex"
     rootcheck:
-      disable: 'yes'
+      disable: 'no'
+      scanall: 'yes'
+      check_files: 'yes'
+      check_trojans: 'yes'
+      check_dev: 'yes'
+      check_sys: 'yes'
+      check_pids: 'yes'
+      check_ports: 'yes'
+      check_if: 'yes'
+      frequency: '43200'
+      skip_nfs: 'yes'
+      check_winapps: 'yes'
+      check_winaudit: 'no'
+      check_winmalware: 'yes'
     localfiles:
       - format: 'eventlog'
         location: 'Application'
