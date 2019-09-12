@@ -153,7 +153,10 @@
     <timeout>{{ agent_config.openscap.timeout }}</timeout>
     <interval>{{ agent_config.openscap.interval }}</interval>
     <scan-on-start>{{ agent_config.openscap.scan_on_start }}</scan-on-start>
-    <content type="xccdf" path="com.redhat.rhsa-RHEL{{ ansible_distribution_major_version }}.ds.xml"/>
+    <content type="xccdf" path="ssg-{% if ansible_distribution == 'CentOS' %}centos{% elif ansible_distribution == 'RedHat' %}rhel{% endif %}-{{ ansible_distribution_major_version }}-ds.xml">
+      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+      <profile>xccdf_org.ssgproject.content_profile_common</profile>
+    </content>
   </wodle>
 {% endif %}
 
