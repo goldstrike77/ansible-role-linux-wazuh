@@ -75,11 +75,11 @@
     mode: '0640'
   no_log: true
 
-- name: OSSec API authentication file transfer
-  template:
-    src: 'user.j2'
-    dest: "/var/ossec/api/configuration/auth/user"
-    backup: 'yes'
+- name: Configure OSSec API authentication
+  htpasswd:
+    path: '/var/ossec/api/configuration/auth/user'
+    name: '{{ ossec_api_user }}'
+    password: '{{ ossec_api_pass }}'
     owner: 'root'
     group: 'root'
     mode: '0660'

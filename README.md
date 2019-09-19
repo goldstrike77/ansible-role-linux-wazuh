@@ -61,7 +61,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_version`: Specify the Wazuh version.
 * `ossec_selinux`: SELinux security policy.
 * `ossec_authd_pass`: Agent verification password.
-* `ossec_api_user`: API verification password.
+* `ossec_api_user`: API verification username.
+* `ossec_api_pass`: API verification password.
 * `ossec_cluster`: Specifies the name of the cluster.
 * `ossec_path`: Specify the OSSec data directory.
 * `ossec_rotate_day`: Specify the logs retention days.
@@ -107,7 +108,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 There are some variables in vars/main.yml:
 
 ## Dependencies
-- Ansible versions > 2.6 are supported.
+- Ansible versions >= 2.8 are supported.
 - [NGinx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
 - [Elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
 - [Kibana](https://github.com/goldstrike77/ansible-role-linux-kibana.git)
@@ -134,7 +135,8 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_version: '3.9.5-1'
     ossec_selinux: false
     ossec_authd_pass: 'Bf6vJRT4WaEAHq'
-    ossec_api_user: "admin:$apr1$COfllHXr$Dz5U9s8/kwKlf9XxmMGp61"
+    ossec_api_user: 'admin'
+    ossec_api_pass: 'changeme'
     ossec_cluster: 'ossec'
     ossec_path: '/data'
     ossec_rotate_day: '180'
