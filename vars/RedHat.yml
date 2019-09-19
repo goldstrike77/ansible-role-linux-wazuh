@@ -9,13 +9,14 @@ osquery_repo_name: 'osquery'
 osquery_repo_url: 'http://cache.omygods.com/osquery'
 
 ossec_dependent_packages:
-  - 'expect'
-  - 'httpd-tools'
-  - 'nodejs'
-  - 'openscap-scanner'
-  - 'openssl'
-  - 'osquery'
-  - 'python-pip'
+  - 'expect'
+  - 'httpd-tools'
+  - 'nodejs'
+  - 'openscap-scanner'
+  - 'openssl'
+  - 'osquery'
+  - 'python-passlib'
+  - 'python-pip'
 
 ossec_packages:
   - 'wazuh-manager-{{ ossec_version }}*'
