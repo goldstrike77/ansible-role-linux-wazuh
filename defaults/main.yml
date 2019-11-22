@@ -138,7 +138,7 @@ ossec_manager_config:
   openscap: # Configuration and vulnerability scans of an agent.
     disable: 'no'
     timeout: 1800
-    interval: '1h'
+    interval: '24h'
     scan_on_start: 'yes'
   osquery: # Osquery configuration and collect the information.
     disable: 'no'
@@ -189,7 +189,7 @@ ossec_manager_config:
         location: '/var/log/audit/audit.log'
   vul_detector: # Detect applications that are known to be vulnerable (affected by a CVE).
     disable: 'no'
-    interval: '1h'
+    interval: '24h'
     ignore_time: '6h'
     run_on_start: 'yes'
     redhat:
@@ -338,13 +338,13 @@ ossec_agent_configs: # Shared agent configuration.
       enabled: 'yes'
       scan_on_start: 'yes'
       skip_nfs: 'yes'
-      interval: '1h'
+      interval: '24h'
       policies:
         - 'cis_rhel{{ ansible_distribution_major_version }}_linux_rcl.yml'
     openscap:
       disable: 'no'
       timeout: 1800
-      interval: '1h'
+      interval: '24h'
       scan_on_start: 'yes'
     docker:
       disable: 'no'
@@ -498,7 +498,7 @@ ossec_agent_configs: # Shared agent configuration.
       enabled: 'yes'
       scan_on_start: 'yes'
       skip_nfs: 'yes'
-      interval: '1h'
+      interval: '24h'
       policies:
         - 'win_audit_rcl.yml'
 #ossec_agentless_creds: # Integrity checks on systems without an agent installed.
