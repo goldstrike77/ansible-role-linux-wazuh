@@ -1,6 +1,6 @@
 ---
 client:
-  hosts: ['{{ ossec_server | list | join("', '") }}']
+  hosts: ['{{ ossec_server[0] }}']
   port: {{ ossec_elastic_port | default('9200') }}
   http_auth: {{ ossec_elastic_stack_user }}:{{ ossec_elastic_stack_pass }}
   timeout: 30
