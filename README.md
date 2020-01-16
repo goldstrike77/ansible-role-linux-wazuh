@@ -89,10 +89,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_kibana_ngx_site_path`: Specify the NGinx site directory.
 * `ossec_kibana_ngx_logs_path`: Specify the NGinx logs directory.
 
-##### Service Mesh
-* `environments`: Define the service environment.
-* `tags`: Define the service custom label.
-
 ##### Listen port #
 * `ossec_port_arg`: Network ports for OSSec components.
 
@@ -103,6 +99,10 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_manager_config`: Manager system parameters.
 * `ossec_agent_configs`: Shared agent configuration.
 * `ossec_agentless_creds`: Integrity checks on systems without an agent installed.
+
+##### Service Mesh
+* `environments`: Define the service environment.
+* `tags`: Define the service custom label.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -163,13 +163,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_kibana_ngx_port_https: '443'
     ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx_site'
     ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx_logs'
-    environments: 'SIT'
-    tags:
-      subscription: 'default'
-      owner: 'nobody'
-      department: 'Infrastructure'
-      organization: 'The Company'
-      region: 'IDC01'
     ossec_port_arg:
       agent: '1514'
       api: '55000'
@@ -587,6 +580,13 @@ You can also use the group_vars or the host_vars files for setting the variables
         state: 'periodic'
         arguments: '/bin /etc/ /sbin'
         passwd: 'qwerty'
+    environments: 'Development'
+    tags:
+      subscription: 'default'
+      owner: 'nobody'
+      department: 'Infrastructure'
+      organization: 'The Company'
+      region: 'IDC01'
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
