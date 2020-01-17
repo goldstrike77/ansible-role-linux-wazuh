@@ -116,7 +116,6 @@ ossec_manager_config:
   rootcheck: # Policy monitoring and anomaly detection.
     disable: 'no'
     scanall: 'yes'
-    check_unixaudit: 'no'
     check_files: 'yes'
     check_trojans: 'yes'
     check_dev: 'yes'
@@ -179,12 +178,12 @@ ossec_manager_config:
       - format: 'audit'
         location: '/var/log/audit/audit.log'
   vul_detector: # Detect applications that are known to be vulnerable (affected by a CVE).
-    disable: 'no'
+    enabled: 'yes'
     interval: '24h'
     ignore_time: '6h'
     run_on_start: 'yes'
     redhat:
-      disable: 'no'
+      enabled: 'yes'
       update_interval: '24h'
       update_from_year: '2014'
   syscheck: # File integrity monitoring.
@@ -276,7 +275,6 @@ ossec_agent_configs: # Shared agent configuration.
     rootcheck:
       disable: 'no'
       scanall: 'yes'
-      check_unixaudit: 'no'
       check_files: 'yes'
       check_trojans: 'yes'
       check_dev: 'yes'

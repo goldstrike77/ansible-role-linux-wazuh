@@ -79,7 +79,6 @@
   <rootcheck>
     <disabled>{{ ossec_manager_config.rootcheck.disable }}</disabled>
     <scanall>{{ ossec_manager_config.rootcheck.scanall }}</scanall>
-    <check_unixaudit>{{ ossec_manager_config.rootcheck.check_unixaudit }}</check_unixaudit>
     <check_files>{{ ossec_manager_config.rootcheck.check_files }}</check_files>
     <check_trojans>{{ ossec_manager_config.rootcheck.check_trojans }}</check_trojans>
     <check_dev>{{ ossec_manager_config.rootcheck.check_dev }}</check_dev>
@@ -125,17 +124,17 @@
     <processes>{{ ossec_manager_config.syscollector.processes }}</processes>
   </wodle>
 
-  <wodle name="vulnerability-detector">
-    <disabled>{{ ossec_manager_config.vul_detector.disable }}</disabled>
+  <vulnerability-detector>
+    <enabled>{{ ossec_manager_config.vul_detector.enabled }}</enabled>
     <interval>{{ ossec_manager_config.vul_detector.interval }}</interval>
     <ignore_time>{{ ossec_manager_config.vul_detector.ignore_time }}</ignore_time>
     <run_on_start>{{ ossec_manager_config.vul_detector.run_on_start }}</run_on_start>
-    <feed name="redhat">
-      <disabled>{{ ossec_manager_config.vul_detector.redhat.disable }}</disabled>
+    <provider name="redhat">
+      <enabled>{{ ossec_manager_config.vul_detector.redhat.enabled }}</enabled>
       <update_interval>{{ ossec_manager_config.vul_detector.redhat.update_interval }}</update_interval>
       <update_from_year>{{ ossec_manager_config.vul_detector.redhat.update_from_year }}</update_from_year>
-    </feed>
-  </wodle>
+    </provider>
+  </vulnerability-detector>
 
   <syscheck>
     <disabled>{{ ossec_manager_config.syscheck.disable }}</disabled>

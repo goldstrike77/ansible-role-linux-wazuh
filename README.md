@@ -286,18 +286,12 @@ You can also use the group_vars or the host_vars files for setting the variables
           - format: 'audit'
             location: '/var/log/audit/audit.log'
       vul_detector:
-        disable: 'no'
+        enabled: 'yes'
         interval: '1d'
         ignore_time: '6h'
         run_on_start: 'no'
-        ubuntu:
-          disable: 'yes'
-          update_interval: '1d'
         redhat:
-          disable: 'no'
-          update_interval: '1d'
-        debian:
-          disable: 'yes'
+          enabled: 'yes'
           update_interval: '1d'
       syscheck:
         disable: 'no'

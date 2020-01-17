@@ -86,7 +86,6 @@
     <check_if>{{ agent_config.rootcheck.check_if }}</check_if>
     <frequency>{{ agent_config.rootcheck.frequency }}</frequency>
 {% if agent_config.type_value == "Linux" %}
-    <check_unixaudit>{{ agent_config.rootcheck.check_unixaudit }}</check_unixaudit>
     <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
     <rootkit_files>/var/ossec/etc/shared/rootkit_files.txt</rootkit_files>
     <rootkit_trojans>/var/ossec/etc/shared/rootkit_trojans.txt</rootkit_trojans>
