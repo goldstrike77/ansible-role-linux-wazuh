@@ -121,7 +121,7 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' ossec_version='3.9.5-1'
+    node01 ansible_host='192.168.1.10' ossec_version='3.11.3-1'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -129,7 +129,7 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-ossec
-           ossec_version: '3.9.5-1'
+           ossec_version: '3.11.3-1'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
@@ -168,7 +168,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx_site'
     ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx_logs'
     ossec_port_arg:
-      agent: '1514'
+      agent: '1517'
       api: '55000'
       cluster: '1516'
       register: '1515'

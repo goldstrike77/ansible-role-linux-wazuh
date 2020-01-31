@@ -44,7 +44,7 @@ ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx/logs' # Specify the NGinx lo
 
 # Listen port #
 ossec_port_arg: # Network ports for OSSec components.
-  agent: '1514' # Send collected events from agents.
+  agent: '1517' # Send collected events from agents.
   api: '55000' # Incoming HTTP requests.
   cluster: '1516' # Cluster communications.
   register: '1515' # Agents registration service.
