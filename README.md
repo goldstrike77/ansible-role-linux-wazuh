@@ -83,6 +83,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_elastic_path`: Specify the ElasticSearch data directory.
 * `ossec_elastic_node_type`: Type of nodes`: default, master, data, ingest and coordinat.
 * `ossec_kibana_port`: Kibana server port.
+* `ossec_kibana_proxy`: Whether running behind a HaProxy.
+* `ossec_kibana_ngx_dept`: Whether proxy web interface and API traffic using NGinx.
 * `ossec_kibana_ngx_domain`: Defines domain name.
 * `ossec_kibana_ngx_port_http`: NGinx HTTP listen port.
 * `ossec_kibana_ngx_port_https`: NGinx HTTPs listen port.
@@ -132,7 +134,7 @@ Including an example of how to use your role (for instance, with variables passe
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    ossec_version: '3.9.5-1'
+    ossec_version: '3.11.3-1'
     ossec_selinux: false
     ossec_authd_pass: 'Bf6vJRT4WaEAHq'
     ossec_api_user: 'admin'
@@ -152,12 +154,14 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_elastic_stack_auth: true
     ossec_elastic_stack_user: 'elastic'
     ossec_elastic_stack_pass: 'changeme'
-    ossec_elastic_stack_version: '7.2.1'
+    ossec_elastic_stack_version: '7.5.2'
     ossec_elastic_port: '9200'
     ossec_elastic_heap_size: '3g'
     ossec_elastic_path: '{{ ossec_path }}'
     ossec_elastic_node_type: 'default'
     ossec_kibana_port: '5601'
+    ossec_kibana_proxy: false
+    ossec_kibana_ngx_dept: false
     ossec_kibana_ngx_domain: 'navigate.example.com'
     ossec_kibana_ngx_port_http: '80'
     ossec_kibana_ngx_port_https: '443'

@@ -1,7 +1,7 @@
 ---
 # General parameters #
 ossec_is_install: false # A boolean value, whether install the Wazuh.
-ossec_version: '3.11.1-1' # Specify the Wazuh version.
+ossec_version: '3.11.3-1' # Specify the Wazuh version.
 ossec_selinux: false # SELinux security policy.
 ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
 ossec_api_user: 'admin' # API verification username.
@@ -28,12 +28,14 @@ ossec_mail_arg:
 ossec_elastic_stack_auth: true # A boolean value, Enable or Disable authentication.
 ossec_elastic_stack_user: 'elastic' # Authorization user name, do not modify it.
 ossec_elastic_stack_pass: 'changeme' # Authorization user password.
-ossec_elastic_stack_version: '7.5.1' # Specify the Elastic Stack version.
+ossec_elastic_stack_version: '7.5.2' # Specify the Elastic Stack version.
 ossec_elastic_port: '9200' # Elasticsearch REST port.
 ossec_elastic_heap_size: '1g' # Specify the maximum memory allocation pool for a Java virtual machine.
 ossec_elastic_path: '{{ ossec_path }}' # Specify the ElasticSearch data directory.
 ossec_elastic_node_type: 'default' # Type of nodes: default, master, data, ingest and coordinat.
 ossec_kibana_port: '5601' # Kibana server port.
+ossec_kibana_proxy: false # Whether running behind a HaProxy.
+ossec_kibana_ngx_dept: false # Whether proxy web interface and API traffic using NGinx.
 ossec_kibana_ngx_domain: 'navigate.example.com' # Defines domain name.
 ossec_kibana_ngx_port_http: '80' # NGinx HTTP listen port.
 ossec_kibana_ngx_port_https: '443' # NGinx HTTPs listen port.
