@@ -60,7 +60,7 @@ dependencies:
       kibana_ngx_dept: '{{ ossec_kibana_ngx_dept | bool }}'
       kibana_proxy: '{{ ossec_kibana_proxy | bool }}' 
       kibana_elastic_dept: true
-      kibana_servers: '{{ ossec_server }}'
+      kibana_servers: '{{ ossec_servers }}'
       kibana_auth: '{{ ossec_elastic_stack_auth | bool }}'
       kibana_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
       kibana_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
@@ -93,5 +93,5 @@ dependencies:
       beats_output_auth: '{{ ossec_elastic_stack_auth | bool | to_json }}'
       beats_output_pass: '{{ ossec_elastic_stack_pass | default("password") }}'
       beats_output_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
-      beats_output_host: '{{ ossec_server }}'
+      beats_output_host: '{{ ossec_servers }}'
     when: ossec_elastic_stack_dept | bool

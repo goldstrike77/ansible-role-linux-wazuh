@@ -3,7 +3,7 @@
   pip:
     name: '{{ item }}'
     state: 'forcereinstall'
-    extra_args: '-i {{ ossec_pypi_url }}'
+    extra_args: '--ignore-installed -i https://{{ ossec_pypi_url }}/simple --trusted-host {{ ossec_pypi_url }}'
   loop: '{{ ossec_python_dependent_packages }}'
   register: ossec_python_status
   until: ossec_python_status is succeeded
@@ -28,7 +28,7 @@
     mode: '0664'
   loop:
     - 'curator.yml'
-    - 'action.yml'
+    - 'wazuh.yml'
 
 - name: Index Lifecycle Management
   cron:
@@ -36,4 +36,4 @@
     name: 'Curator maintenance task'
     minute: "{{ 59 | random(seed=inventory_hostname) }}"
     hour: "{{ (( ansible_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
-    job: '/bin/curator --config /etc/curator/curator.yml /etc/curator/action.yml >/dev/null 2>&1'
+    job: '/bin/curator --config /etc/curator/curator.yml /etc/curator/wazuh.yml >/dev/null 2>&1'

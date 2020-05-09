@@ -26,7 +26,51 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs Wazuh manager on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
+Wazuh is a free and open source platform for threat detection, security monitoring, incident response and regulatory compliance. It can be used to monitor endpoints, cloud services and containers, and to aggregate and analyze data from external sources. Wazuh provides the following capabilities:
+
+#### Security Analytics
+Wazuh is used to collect, aggregate, index and analyze security data, helping organizations detect intrusions, threats and behavioral anomalies.
+As cyber threats are becoming more sophisticated, real-time monitoring and security analysis are needed for fast threat detection and remediation. That is why our light-weight agent provides the necessary monitoring and response capabilities, while our server component provides the security intelligence and performs data analysis.
+
+#### Intrusion Detection
+Wazuh agents scan the monitored systems looking for malware, rootkits and suspicious anomalies. They can detect hidden files, cloaked processes or unregistered network listeners, as well as inconsistencies in system call responses.
+In addition to agent capabilities, the server component uses a signature-based approach to intrusion detection, using its regular expression engine to analyze collected log data and look for indicators of compromise.
+
+#### Log Data Analysis
+Wazuh agents read operating system and application logs, and securely forward them to a central manager for rule-based analysis and storage.
+The Wazuh rules help make you aware of application or system errors, misconfigurations, attempted and/or successful malicious activities, policy violations and a variety of other security and operational issues.
+
+#### File Integrity Monitoring
+Wazuh monitors the file system, identifying changes in content, permissions, ownership, and attributes of files that you need to keep an eye on. In addition, it natively identifies users and applications used to create or modify files.
+File integrity monitoring capabilities can be used in combination with threat intelligence to identify threats or compromised hosts. In addition, several regulatory compliance standards, such as PCI DSS, require it.
+
+#### Vulnerability Detection
+Wazuh agents pull software inventory data and send this information to the server, where it is correlated with continuously updated CVE (Common Vulnerabilities and Exposure) databases, in order to identify well-known vulnerable software.
+Automated vulnerability assessment helps you find the weak spots in your critical assets and take corrective action before attackers exploit them to sabotage your business or steal confidential data.
+
+#### Configuration Assessment
+Wazuh monitors system and application configuration settings to ensure they are compliant with your security policies, standards and/or hardening guides. Agents perform periodic scans to detect applications that are known to be vulnerable, unpatched, or insecurely configured.
+Additionally, configuration checks can be customized, tailoring them to properly align with your organization. Alerts include recommendations for better configuration, references and mapping with regulatory compliance.
+
+#### Incident Response
+Wazuh provides out-of-the-box active responses to perform various countermeasures to address active threats, such as blocking access to a system from the threat source when certain criteria are met.
+In addition, Wazuh can be used to remotely run commands or system queries, identifying indicators of compromise (IOCs) and helping perform other live forensics or incident response tasks.
+
+#### Regulatory Compliance
+Wazuh provides some of the necessary security controls to become compliant with industry standards and regulations. These features, combined with its scalability and multi-platform support help organizations meet technical compliance requirements.
+Wazuh is widely used by payment processing companies and financial institutions to meet PCI DSS (Payment Card Industry Data Security Standard) requirements. Its web user interface provides reports and dashboards that can help with this and other regulations (e.g. GPG13 or GDPR).
+
+#### Cloud Security Monitoring
+Wazuh helps monitoring cloud infrastructure at an API level, using integration modules that are able to pull security data from well known cloud providers, such as Amazon AWS, Azure or Google Cloud. In addition, Wazuh provides rules to assess the configuration of your cloud environment, easily spotting weaknesses.
+In addition, Wazuh light-weight and multi-platform agents are commonly used to monitor cloud environments at the instance level.
+
+#### Containers Security
+Wazuh provides security visibility into your Docker hosts and containers, monitoring their behavior and detecting threats, vulnerabilities and anomalies. The Wazuh agent has native integration with the Docker engine allowing users to monitor images, volumes, network settings, and running containers.
+Wazuh continuously collects and analyzes detailed runtime information. For example, alerting for containers running in privileged mode, vulnerable applications, a shell running in a container, changes to persistent volumes or images, and other possible threats.
+
+## Requirements
+### Operating systems
+This Ansible role installs Wazuh manager & API on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
 
 On only one data node cluster environment, .wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
 
@@ -41,8 +85,6 @@ Please confirm there is a suitable version of Wazuh app, and fix internet connec
 for example:
 http://cache.omygods.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip / http://packages.wazuh.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip
 
-## Requirements
-### Operating systems
 This role will work on the following operating systems:
 
   * CentOS 7
@@ -65,7 +107,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_api_pass`: API verification password.
 * `ossec_cluster`: Specifies the name of the cluster.
 * `ossec_path`: Specify the OSSec data directory.
-* `ossec_rotate_day`: Specify the logs retention days.
 
 ##### Role dependencies
 * `ossec_elastic_stack_dept`: A boolean value, whether Elastic Stack components use the same environment.
@@ -142,7 +183,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_api_pass: 'changeme'
     ossec_cluster: 'ossec'
     ossec_path: '/data'
-    ossec_rotate_day: '180'
     ossec_elastic_stack_dept: true
     ossec_mail_arg:
       email_alert_level: '12'
@@ -177,6 +217,8 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_cluster_arg:
       hidden: 'no'
     ossec_manager_config:
+      elastic_rotate_day: '180'
+      archive_rotate_day: '10'
       max_output_size: '50M'
       alerts_log: 'yes'
       jsonout_output: 'yes'

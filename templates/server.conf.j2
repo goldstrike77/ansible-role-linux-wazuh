@@ -231,15 +231,15 @@
   </auth>
 
   <cluster>
-    <disabled>{% if ossec_server | length > 1 %}no{% else %}yes{% endif %}</disabled>
+    <disabled>{% if ossec_servers | length > 1 %}no{% else %}yes{% endif %}</disabled>
     <name>{{ ossec_cluster | upper | default('OSSEC') }}</name>
     <node_name>{{ ansible_hostname }}</node_name>
-    <node_type>{% if ossec_server[0] in ansible_default_ipv4.address %}master{% else %}worker{% endif %}</node_type>
+    <node_type>{% if ossec_servers[0] in ansible_default_ipv4.address %}master{% else %}worker{% endif %}</node_type>
     <key>{{ lookup('password', '' + group_names[-1] + ':cluster:communication:key length=32 chars=ascii_letters,digits') }}</key>
     <port>{{ ossec_port_arg.cluster | default('1516') }}</port>
     <bind_addr>{{ ansible_default_ipv4.address }}</bind_addr>
     <nodes>
-      <node>{{ ossec_server[0] }}</node>
+      <node>{{ ossec_servers[0] }}</node>
     </nodes>
     <hidden>{{ ossec_cluster_arg.hidden }}</hidden>
   </cluster>

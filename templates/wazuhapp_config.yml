@@ -1,6 +1,6 @@
 ---
-wazuh.shards: {{ ossec_server | length }}
-wazuh.replicas: {% if ( ossec_server | length - 1 ) >= 2 %}2{% else %}{{ ossec_server | length - 1 }}{% endif %}
+wazuh.shards: {{ ossec_elastic_hosts | length }}
+wazuh.replicas: {% if ( ossec_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ ossec_elastic_hosts | length - 1 }}{% endif %}
 
-wazuh-version.shards: {{ ossec_server | length }}
-wazuh-version.replicas: {% if ( ossec_server | length - 1 ) >= 2 %}2{% else %}{{ ossec_server | length - 1 }}{% endif %}
+wazuh-version.shards: {{ ossec_elastic_hosts | length }}
+wazuh-version.replicas: {% if ( ossec_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ ossec_elastic_hosts | length - 1 }}{% endif %}

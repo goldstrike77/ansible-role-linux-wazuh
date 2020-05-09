@@ -3,7 +3,7 @@ actions:
   1:
     action: delete_indices
     description: >-
-      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for wazuh-monitoring-{{ ossec_version.split(".")[0] }}.x-
+      Delete indices older than {{ ossec_manager_config.elastic_rotate_day }} days (based on index name), for wazuh-monitoring-{{ ossec_version.split(".")[0] }}.x-
       prefixed indices. Ignore the error if the filter does not result in an
       actionable list of indices (ignore_empty_list) and exit cleanly.
     options:
@@ -18,11 +18,11 @@ actions:
       direction: older
       timestring: '%Y.%m.%d'
       unit: days
-      unit_count: {{ ossec_rotate_day }}
+      unit_count: {{ ossec_manager_config.elastic_rotate_day }}
   2:
     action: delete_indices
     description: >-
-      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for wazuh-alerts-{{ ossec_version.split(".")[0] }}.x-
+      Delete indices older than {{ ossec_manager_config.elastic_rotate_day }} days (based on index name), for wazuh-alerts-{{ ossec_version.split(".")[0] }}.x-
       prefixed indices. Ignore the error if the filter does not result in an
       actionable list of indices (ignore_empty_list) and exit cleanly.
     options:
@@ -37,11 +37,11 @@ actions:
       direction: older
       timestring: '%Y.%m.%d'
       unit: days
-      unit_count: {{ ossec_rotate_day }}
+      unit_count: {{ ossec_manager_config.elastic_rotate_day }}
   3:
     action: delete_indices
     description: >-
-      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for monitoring-es-{{ ossec_elastic_stack_version.split(".")[0] }}-
+      Delete indices older than {{ ossec_manager_config.elastic_rotate_day }} days (based on index name), for monitoring-es-{{ ossec_elastic_stack_version.split(".")[0] }}-
       prefixed indices. Ignore the error if the filter does not result in an
       actionable list of indices (ignore_empty_list) and exit cleanly.
     options:
@@ -56,11 +56,11 @@ actions:
       direction: older
       timestring: '%Y.%m.%d'
       unit: days
-      unit_count: {{ ossec_rotate_day }}
+      unit_count: {{ ossec_manager_config.elastic_rotate_day }}
   4:
     action: delete_indices
     description: >-
-      Delete indices older than {{ ossec_rotate_day }} days (based on index name), for monitoring-kibana-{{ ossec_elastic_stack_version.split(".")[0] }}-
+      Delete indices older than {{ ossec_manager_config.elastic_rotate_day }} days (based on index name), for monitoring-kibana-{{ ossec_elastic_stack_version.split(".")[0] }}-
       prefixed indices. Ignore the error if the filter does not result in an
       actionable list of indices (ignore_empty_list) and exit cleanly.
     options:
@@ -75,4 +75,4 @@ actions:
       direction: older
       timestring: '%Y.%m.%d'
       unit: days
-      unit_count: {{ ossec_rotate_day }}
+      unit_count: {{ ossec_manager_config.elastic_rotate_day }}

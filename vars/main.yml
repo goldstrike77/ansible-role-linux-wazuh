@@ -1,12 +1,12 @@
 ---
-ossec_server: "\
-  {% set _ossec_server = [] %}\
+ossec_servers: "\
+  {% set _ossec_servers = [] %}\
   {% for host in groups[group_names[-1]] %}\
     {% if ( ossec_is_install ) %}\
-      {% if _ossec_server.append(hostvars[host]['ansible_host']) %}{% endif %}\
+      {% if _ossec_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
     {% endif %}\
   {% endfor %}\
-  {{ _ossec_server }}"
+  {{ _ossec_servers }}"
 
 ossec_rules:
   - { src: 'local_rules.xml.j2', dest: '/var/ossec/etc/rules/local_rules.xml' }
@@ -20,7 +20,7 @@ ossec_internal_options:
   - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
   - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }
 
-ossec_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+ossec_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 ossec_python_dependent_packages:
   - 'elasticsearch-curator'
