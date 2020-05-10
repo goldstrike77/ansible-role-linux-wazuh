@@ -123,6 +123,9 @@
     <disabled>{{ agent_config.syscollector.disable }}</disabled>
     <interval>{{ agent_config.syscollector.interval }}</interval>
     <scan_on_start>{{ agent_config.syscollector.scan_on_start }}</scan_on_start>
+{% if agent_config.type_value == "Windows" %}
+    <hotfixes>{{ agent_config.syscollector.hotfixes }}</hotfixes>
+{% endif %}
     <hardware>{{ agent_config.syscollector.hardware }}</hardware>
     <os>{{ agent_config.syscollector.os }}</os>
     <network>{{ agent_config.syscollector.network }}</network>

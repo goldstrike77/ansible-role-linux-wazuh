@@ -134,6 +134,11 @@
       <update_interval>{{ ossec_manager_config.vul_detector.redhat.update_interval }}</update_interval>
       <update_from_year>{{ ossec_manager_config.vul_detector.redhat.update_from_year }}</update_from_year>
     </provider>
+    <provider name="nvd">
+      <enabled>{{ ossec_manager_config.vul_detector.nvd.enabled }}</enabled>
+      <update_interval>{{ ossec_manager_config.vul_detector.nvd.update_interval }}</update_interval>
+      <update_from_year>{{ ossec_manager_config.vul_detector.nvd.update_from_year }}</update_from_year>
+    </provider>
   </vulnerability-detector>
 
   <syscheck>

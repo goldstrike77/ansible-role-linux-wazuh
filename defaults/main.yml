@@ -190,7 +190,11 @@ ossec_manager_config:
     redhat:
       enabled: 'yes'
       update_interval: '24h'
-      update_from_year: '2014'
+      update_from_year: '2010'
+    nvd:
+      enabled: 'yes'
+      update_interval: '24h'
+      update_from_year: '2010'
   syscheck: # File integrity monitoring.
     disable: 'no'
     frequency: 86400
@@ -314,6 +318,7 @@ ossec_agent_configs: # Shared agent configuration.
       disable: 'no'
       interval: '1h'
       scan_on_start: 'yes'
+      hotfixes: 'yes'
       hardware: 'yes'
       os: 'yes'
       network: 'yes'
@@ -475,6 +480,7 @@ ossec_agent_configs: # Shared agent configuration.
       interval: '1h'
       scan_on_start: 'yes'
       hardware: 'yes'
+      hotfixes: 'yes'
       os: 'yes'
       network: 'yes'
       packages: 'yes'
