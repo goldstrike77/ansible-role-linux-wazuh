@@ -10,6 +10,7 @@ ___
 __Table of Contents__
 
 - [Overview](#overview)
+  * [Architecture](#Architecture)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Wazuh Versions](#wazuh-versions)
@@ -26,7 +27,7 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-Wazuh is a free and open source platform for threat detection, security monitoring, incident response and regulatory compliance. It can be used to monitor endpoints, cloud services and containers, and to aggregate and analyze data from external sources. Wazuh provides the following capabilities:
+Wazuh is a free and open source platform for threat detection, security monitoring, incident response and regulatory compliance. It can be used to monitor endpoints, cloud services and containers, and to aggregate and analyze data from external sources. Wazuh OpenSource Security Analytics provides a production-ready setup to analyze your IT environment. It packs with a lot of features which intently need for critical business:
 
 #### Security Analytics
 Wazuh is used to collect, aggregate, index and analyze security data, helping organizations detect intrusions, threats and behavioral anomalies.
@@ -68,9 +69,12 @@ In addition, Wazuh light-weight and multi-platform agents are commonly used to m
 Wazuh provides security visibility into your Docker hosts and containers, monitoring their behavior and detecting threats, vulnerabilities and anomalies. The Wazuh agent has native integration with the Docker engine allowing users to monitor images, volumes, network settings, and running containers.
 Wazuh continuously collects and analyzes detailed runtime information. For example, alerting for containers running in privileged mode, vulnerable applications, a shell running in a container, changes to persistent volumes or images, and other possible threats.
 
+### Architecture
+<p><img src="https://raw.githubusercontent.com/goldstrike77/Screenshots/master/Wazuh/architecture_ports_elastic1.png" /></p>
+
 ## Requirements
 ### Operating systems
-This Ansible role installs Wazuh manager & API on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
+Wazuh is available for most operating systems like Linux, OpenBSD, macOS, Solaris, Windows and FreeBSD. In this Ansible role, we will take you through how to guide on CentOS/RedHat Linux server.
 
 On only one data node cluster environment, .wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
 
