@@ -74,7 +74,7 @@ Wazuh continuously collects and analyzes detailed runtime information. For examp
 
 ## Requirements
 ### Operating systems
-Wazuh is available for most operating systems like Linux, OpenBSD, macOS, Solaris, Windows and FreeBSD. In this Ansible role, we will take you through how to guide on CentOS/RedHat Linux server.
+Wazuh is available for most operating systems like Linux, OpenBSD, macOS, Solaris, Windows and FreeBSD. In this Ansible role, we will take you through how to install on CentOS/RedHat Linux server.
 
 On only one data node cluster environment, .wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
 
