@@ -184,8 +184,8 @@ ossec_manager_config:
         location: '/var/log/audit/audit.log'
   vul_detector: # Detect applications that are known to be vulnerable (affected by a CVE).
     enabled: 'yes'
-    interval: '24h'
-    ignore_time: '6h'
+    interval: '2h'
+    ignore_time: '24h'
     run_on_start: 'yes'
     redhat:
       enabled: 'yes'

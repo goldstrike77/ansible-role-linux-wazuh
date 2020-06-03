@@ -93,7 +93,7 @@ This role will work on the following operating systems:
 
 The following list of supported the wazuh releases:
 
-  * 3.9.2+
+  * 3.12.3+
 
 ## Role variables
 ### Main parameters #
@@ -163,7 +163,7 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' ossec_version='3.11.3-1'
+    node01 ansible_host='192.168.1.10' ossec_version='3.12.3-1'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -171,13 +171,12 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-ossec
-           ossec_version: '3.11.3-1'
+           ossec_version: '3.12.3-1'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    ossec_version: '3.11.3-1'
-    ossec_selinux: false
+    ossec_version: '3.12.3-1'
     ossec_authd_pass: 'Bf6vJRT4WaEAHq'
     ossec_api_user: 'admin'
     ossec_api_pass: 'changeme'
@@ -195,7 +194,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     ossec_elastic_stack_auth: true
     ossec_elastic_stack_user: 'elastic'
     ossec_elastic_stack_pass: 'changeme'
-    ossec_elastic_stack_version: '7.5.2'
+    ossec_elastic_stack_version: '7.6.2'
     ossec_elastic_port: '9200'
     ossec_elastic_heap_size: '3g'
     ossec_elastic_path: '{{ ossec_path }}'

@@ -61,8 +61,8 @@
     state: 'started'
   when: ossec_mail_arg.email_notification == 'yes'
 
-- name: Remove OSSec metadata
-  include: 'cleanup.yml'
+#- name: Remove OSSec metadata
+#  include: 'cleanup.yml'
 
 - name: Curator tasks
   include: 'curator.yml'
