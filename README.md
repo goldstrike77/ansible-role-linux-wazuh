@@ -97,7 +97,7 @@ This role will work on the following operating systems:
 
 The following list of supported the wazuh releases:
 
-  * 3.12.3+
+  * 3.13+
 
 ## Role variables
 ### Main parameters #
@@ -120,6 +120,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Elastic Stack parameters
 * `ossec_elastic_stack_auth`: A boolean value, Enable or Disable authentication.
+* `ossec_elastic_stack_https`: A boolean value, whether Encrypting HTTP client communications.
 * `ossec_elastic_stack_user`: Authorization user name, do not modify it.
 * `ossec_elastic_stack_pass`: Authorization user password.
 * `ossec_elastic_stack_version`: Specify the Elastic Stack version.
@@ -175,12 +176,12 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-ossec
-           ossec_version: '3.12.3-1'
+           ossec_version: '3.13.0-1'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    ossec_version: '3.12.3-1'
+    ossec_version: '3.13.0-1'
     ossec_authd_pass: 'Bf6vJRT4WaEAHq'
     ossec_api_user: 'admin'
     ossec_api_pass: 'changeme'
@@ -196,9 +197,10 @@ You can also use the group_vars or the host_vars files for setting the variables
         - 'somebody@example.com'
       smtp_server: 'localhost'
     ossec_elastic_stack_auth: true
+    ossec_elastic_stack_https: true
     ossec_elastic_stack_user: 'elastic'
     ossec_elastic_stack_pass: 'changeme'
-    ossec_elastic_stack_version: '7.6.2'
+    ossec_elastic_stack_version: '7.7.1'
     ossec_elastic_port: '9200'
     ossec_elastic_heap_size: '3g'
     ossec_elastic_path: '{{ ossec_path }}'

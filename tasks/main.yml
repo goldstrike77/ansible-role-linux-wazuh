@@ -64,8 +64,12 @@
 #- name: Remove OSSec metadata
 #  include: 'cleanup.yml'
 
-- name: Curator tasks
-  include: 'curator.yml'
+#- name: Curator tasks
+#  include: 'curator.yml'
+#  when: ossec_servers[0] in ansible_default_ipv4.address
+
+- name: Include Index Lifecycle Policies tasks
+  include: 'ilm.yml'
   when: ossec_servers[0] in ansible_default_ipv4.address
 
 - name: Wazuh APP Configuration

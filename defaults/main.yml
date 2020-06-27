@@ -1,7 +1,7 @@
 ---
 # General parameters #
 ossec_is_install: false # A boolean value, whether install the Wazuh.
-ossec_version: '3.12.3-1' # Specify the Wazuh version.
+ossec_version: '3.13.0-1' # Specify the Wazuh version.
 ossec_selinux: false # SELinux security policy.
 ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
 ossec_api_user: 'admin' # API verification username.
@@ -25,9 +25,10 @@ ossec_mail_arg:
 
 # Elastic Stack parameters #
 ossec_elastic_stack_auth: true # A boolean value, Enable or Disable authentication.
+ossec_elastic_stack_https: true # A boolean value, whether Encrypting HTTP client communications.
 ossec_elastic_stack_user: 'elastic' # Authorization user name, do not modify it.
 ossec_elastic_stack_pass: 'changeme' # Authorization user password.
-ossec_elastic_stack_version: '7.6.2' # Specify the Elastic Stack version.
+ossec_elastic_stack_version: '7.7.1' # Specify the Elastic Stack version.
 ossec_elastic_hosts: # List of Elasticsearch hosts Filebeat should connect to.
   - 'localhost'
 ossec_elastic_port: '9200' # Elasticsearch REST port.
