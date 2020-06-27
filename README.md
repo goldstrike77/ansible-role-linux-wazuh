@@ -76,14 +76,6 @@ Wazuh continuously collects and analyzes detailed runtime information. For examp
 ### Operating systems
 Wazuh is available for most operating systems like Linux, OpenBSD, macOS, Solaris, Windows and FreeBSD. In this Ansible role, we will take you through how to install on CentOS/RedHat Linux server.
 
-On only one data node cluster environment, .wazuh & .wazuh-version indices health status will changed from GREEN to YELLOW because have 1 replicas after the first start, Unfortunately, I really don't know why.
-
-Steps to fix this problem:
-
-1. Delete the .wazuh and .wazuh-version indices.
-2. Restart the kibana service.
-3. Re-connect your API entries on the Wazuh app.
-
 Please confirm there is a suitable version of Wazuh app, and fix internet connection problems on some area under GFW.
 
 for example:
