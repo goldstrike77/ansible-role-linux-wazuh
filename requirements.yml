@@ -1,3 +1,7 @@
+- name: ansible-role-linux-ossec
+  src: git+https://github.com/goldstrike77/ansible-role-linux-ossec
+  version: origin/master
+
 - name: ansible-role-linux-elasticsearch
   src: git+https://github.com/goldstrike77/ansible-role-linux-elasticsearch
   version: origin/master

@@ -17,6 +17,7 @@ ossec_dependent_packages:
   - 'osquery'
   - 'python-passlib'
   - 'python-pip'
+  - 'scap-workbench'
 
 ossec_packages:
   - 'wazuh-manager-{{ ossec_version }}'

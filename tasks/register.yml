@@ -1,0 +1,60 @@
+---
+- name: Check local consul client are accessible from current host.
+  uri:
+    url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'GET'
+    timeout: '5'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  changed_when: false
+  failed_when: false
+  register: check_consul_local
+
+- name: Register Master service with an http health check.
+  uri:
+    url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'PUT'
+    body: '{"tags":["ossec","master"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-master","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-master","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.register }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.register }}","interval":"30s","timeout":"10s"}]}'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_public_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when:
+    - check_consul_local.status == 405
+    - ossec_servers[0] in ansible_default_ipv4.address
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 3
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Register Worker service with an http health check.
+  uri:
+    url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'PUT'
+    body: '{"tags":["ossec","worker"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-worker","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-worker","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.agent }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.agent }}","interval":"30s","timeout":"10s"}]}'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_public_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when: check_consul_local.status == 405
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 3
+  no_log: true
+  changed_when: false
+  failed_when: false

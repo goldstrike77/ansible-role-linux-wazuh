@@ -74,14 +74,7 @@ Wazuh continuously collects and analyzes detailed runtime information. For examp
 
 ## Requirements
 ### Operating systems
-Wazuh is available for most operating systems like Linux, OpenBSD, macOS, Solaris, Windows and FreeBSD. In this Ansible role, we will take you through how to install on CentOS/RedHat Linux server.
-
-Please confirm there is a suitable version of Wazuh app, and fix internet connection problems on some area under GFW.
-
-for example:
-http://cache.omygods.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip / http://packages.wazuh.com/wazuhapp/wazuhapp-3.9.5_7.2.1.zip
-
-This role will work on the following operating systems:
+This Ansible role installs Wazuh manager on Linux operating system, including establishing a filesystem structure and server configuration with some common operational features, Will works on the following operating systems:
 
   * CentOS 7
 
@@ -97,7 +90,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### General parameters
 * `ossec_version`: Specify the Wazuh version.
-* `ossec_selinux`: SELinux security policy.
 * `ossec_authd_pass`: Agent verification password.
 * `ossec_api_user`: API verification username.
 * `ossec_api_pass`: API verification password.
@@ -142,7 +134,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Service Mesh
 * `environments`: Define the service environment.
+* `datacenter`: Define the DataCenter.
+* `domain`: Define the Domain.
 * `tags`: Define the service custom label.
+* `consul_public_exporter_token`: Consul client ACL token.
+* `consul_public_http_prot`: The consul Hypertext Transfer Protocol.
+* `consul_public_http_port`: The consul HTTP API port.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -160,7 +157,7 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' ossec_version='3.13.0-1'
+    node01 ansible_host='192.168.1.10' ossec_version='3.13.1-1'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -169,18 +166,18 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   roles:
      - role: ansible-role-linux-ossec
-       ossec_version: '3.13.0-1'
+       ossec_version: '3.13.1-1'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-ossec_version: '3.13.0-1'
+ossec_version: '3.13.1-1'
 ossec_authd_pass: 'Bf6vJRT4WaEAHq'
 ossec_api_user: 'admin'
 ossec_api_pass: 'changeme'
-ossec_cluster: 'ossec'
+ossec_cluster: 'hids'
 ossec_path: '/data'
 ossec_elastic_stack_dept: true
 ossec_mail_arg:
@@ -195,7 +192,7 @@ ossec_elastic_stack_auth: true
 ossec_elastic_stack_https: true
 ossec_elastic_stack_user: 'elastic'
 ossec_elastic_stack_pass: 'changeme'
-ossec_elastic_stack_version: '7.7.1'
+ossec_elastic_stack_version: '7.8.1'
 ossec_elastic_port: '9200'
 ossec_elastic_heap_size: '3g'
 ossec_elastic_path: '{{ ossec_path }}'
@@ -203,7 +200,7 @@ ossec_elastic_node_type: 'default'
 ossec_kibana_port: '5601'
 ossec_kibana_proxy: false
 ossec_kibana_ngx_dept: false
-ossec_kibana_ngx_domain: 'navigate.example.com'
+ossec_kibana_ngx_domain: 'hids.example.com'
 ossec_kibana_ngx_port_http: '80'
 ossec_kibana_ngx_port_https: '443'
 ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx_site'
@@ -622,12 +619,17 @@ ossec_agentless_creds:
     arguments: '/bin /etc/ /sbin'
     passwd: 'qwerty'
 environments: 'Development'
+datacenter: 'dc01'
+domain: 'local'
 tags:
   subscription: 'default'
   owner: 'nobody'
   department: 'Infrastructure'
   organization: 'The Company'
-  region: 'IDC01'
+  region: 'China'
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_public_http_prot: 'https'
+consul_public_http_port: '8500'
 ```
 
 ## License
