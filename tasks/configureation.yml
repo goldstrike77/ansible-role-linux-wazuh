@@ -78,11 +78,14 @@
 - name: Configure OSSec API authentication
   htpasswd:
     path: '/var/ossec/api/configuration/auth/user'
-    name: '{{ ossec_api_user }}'
+    name: '{{ item }}'
     password: '{{ ossec_api_pass }}'
     owner: 'root'
     group: 'root'
     mode: '0660'
+  loop:
+    - 'foo'
+    - '{{ ossec_api_user }}'
   no_log: true
 
 - name: OSSec server configuration file transfer

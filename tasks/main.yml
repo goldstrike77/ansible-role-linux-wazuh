@@ -72,15 +72,15 @@
   include: 'ilm.yml'
   when: ossec_servers[0] in ansible_default_ipv4.address
 
-#- name: Wazuh APP Configuration
-#  template:
-#    src: 'wazuhapp_config.yml'
-#    dest: '/usr/share/kibana/plugins/wazuh/config.yml'
-#    owner: 'kibana'
-#    group: 'kibana'
-#    mode: '0644'
-#  changed_when: false
-#  failed_when: false
+- name: Wazuh APP Configuration
+  template:
+    src: 'wazuhapp_config.yml'
+    dest: '/usr/share/kibana/optimize/wazuh/config/wazuh.yml'
+    owner: 'kibana'
+    group: 'kibana'
+    mode: '0644'
+  changed_when: false
+  failed_when: false
 
 - name: Registered with HashiCorp Consul.
   include: 'register.yml'
