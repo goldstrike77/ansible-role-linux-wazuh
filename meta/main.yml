@@ -65,7 +65,7 @@ dependencies:
       kibana_https: '{{ ossec_elastic_stack_https | bool }}'
       kibana_user: '{{ ossec_elastic_stack_user | default("elastic") }}'
       kibana_pass: '{{ ossec_elastic_stack_pass | default("changeme") }}'
-      kibana_version: '{{ ossec_elastic_stack_version | default("7.8.1") }}'
+      kibana_version: '{{ ossec_elastic_stack_version | default("7.9.1") }}'
       kibana_elastic_port: '{{ ossec_elastic_port | default("9200") }}'
       kibana_elastic_cluster: '{{ ossec_cluster | default("hids") }}'
       kibana_elastic_heap_size: '{{ ossec_elastic_heap_size | default("2g") }}'

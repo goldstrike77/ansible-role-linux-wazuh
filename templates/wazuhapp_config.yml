@@ -96,8 +96,8 @@ extensions.docker    : true
 #wazuh.monitoring.frequency: 900
 #
 # Configure wazuh-monitoring-3.x-* indices shards and replicas.
-wazuh.monitoring.shards: {{ ossec_elastic_hosts | length }}
-wazuh.monitoring.replicas: {% if ossec_elastic_hosts | length > 1 %}1{% else %}0{% endif %}
+#wazuh.monitoring.shards:
+#wazuh.monitoring.replicas:
 #
 # Configure wazuh-monitoring-3.x-* indices custom creation interval.
 # Values: h (hourly), d (daily), w (weekly), m (monthly)

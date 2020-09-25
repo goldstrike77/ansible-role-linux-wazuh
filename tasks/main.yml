@@ -1,5 +1,5 @@
 ---
-- name: Sets ElasticSearch node variables for Cluster
+- name: Sets ElasticSearch node variables for Cluster.
   set_fact:
     ossec_elastic_hosts: '{{ ossec_servers }}'
   when:
@@ -30,23 +30,23 @@
 #    group: 'ossec'
 #    mode: '0750'
 
-- name: Include tasks for specific OS
+- name: Include tasks for specific OS.
   include: '{{ ansible_os_family }}.yml'
 
-- name: Straight to getenforce selinux status
+- name: Straight to getenforce selinux status.
   include: 'selinux.yml'
 
-- name: Include firewall tasks
+- name: Include firewall tasks.
   include: 'firewall.yml'
 
-- name: Configuration the OSSec manager
+- name: Configuration the OSSec manager.
   include: 'configureation.yml'
 
-- name: Configuration the OSQuery
+- name: Configuration the OSQuery.
   include: 'osquery.yml'
   when: ossec_manager_config.osquery.disable == 'no'
 
-- name: Reload the OSSec service
+- name: Reload the OSSec service.
   shell: echo ''
   notify: 'Ensure OSSec service is enabled'
   when: local_rules_update is changed or local_decoders_update is changed or agent_conf_udpate is changed or api_conf_update is changed or internal_conf_update is changed or syslog_conf_update is changed or agentless_conf_update is changed or server_conf_udpate is changed
@@ -54,7 +54,7 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Ensure MTA service is enabled
+- name: Ensure MTA service is enabled.
   systemd:
     name: 'postfix.service'
     enabled: 'yes'
@@ -68,11 +68,11 @@
 #  include: 'curator.yml'
 #  when: ossec_servers[0] in ansible_default_ipv4.address
 
-- name: Include Index Lifecycle Policies tasks
+- name: Include Index Lifecycle Policies tasks.
   include: 'ilm.yml'
   when: ossec_servers[0] in ansible_default_ipv4.address
 
-- name: Wazuh APP Configuration
+- name: Wazuh APP Configuration.
   template:
     src: 'wazuhapp_config.yml'
     dest: '/usr/share/kibana/optimize/wazuh/config/wazuh.yml'
