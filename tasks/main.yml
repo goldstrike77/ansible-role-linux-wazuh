@@ -72,7 +72,15 @@
   include: 'ilm.yml'
   when: ossec_servers[0] in ansible_default_ipv4.address
 
-- name: Wazuh APP Configuration.
+- name: Create Wazuh APP plugins bundles directory.
+  file:
+    path: '/usr/share/kibana/optimize/wazuh/config'
+    state: 'directory'
+    owner: 'kibana'
+    group: 'kibana'
+    mode: '0755'
+
+- name: Wazuh APP plugins Configuration.
   template:
     src: 'wazuhapp_config.yml'
     dest: '/usr/share/kibana/optimize/wazuh/config/wazuh.yml'
