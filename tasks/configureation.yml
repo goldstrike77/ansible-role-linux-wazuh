@@ -85,8 +85,9 @@
     mode: '0660'
   loop:
     - 'foo'
-    - '{{ ossec_api_user }}'
+    - 'wazuh'
   no_log: true
+  when: ossec_version.split(".")[0] == "3"
 
 - name: OSSec server configuration file transfer
   template:
@@ -101,7 +102,7 @@
 - name: Starting OSSec manager service delayed
   lineinfile:
     state: 'present'
-    dest: '/etc/systemd/system/wazuh-manager.service'
+    dest: '/lib/systemd/system/wazuh-manager.service'
     insertafter: '^\[Service\]'
     regexp: '^ExecStartPre'
     line: 'ExecStartPre=-/bin/sleep 60'

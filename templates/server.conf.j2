@@ -12,6 +12,7 @@
     <smtp_server>{{ ossec_mail_arg.smtp_server }}</smtp_server>
     <email_from>{{ ossec_mail_arg.email_from }}</email_from>
     <email_maxperhour>{{ ossec_mail_arg.email_maxperhour }}</email_maxperhour>
+    <email_log_source>{{ ossec_mail_arg.email_log }}</email_log_source>
 {% for ip_list in ossec_manager_config.white_list %}
     <white_list>{{ ip_list }}</white_list>
 {% endfor %}
@@ -128,16 +129,27 @@
     <interval>{{ ossec_manager_config.vul_detector.interval }}</interval>
     <ignore_time>{{ ossec_manager_config.vul_detector.ignore_time }}</ignore_time>
     <run_on_start>{{ ossec_manager_config.vul_detector.run_on_start }}</run_on_start>
-    <provider name="redhat">
-      <enabled>{{ ossec_manager_config.vul_detector.redhat.enabled }}</enabled>
-      <update_interval>{{ ossec_manager_config.vul_detector.redhat.update_interval }}</update_interval>
-      <update_from_year>{{ ossec_manager_config.vul_detector.redhat.update_from_year }}</update_from_year>
+{% for key in ossec_manager_config.vul_detector.provider %}
+    <provider name="{{ key }}">
+      <enabled>yes</enabled>
+{% if key == 'redhat' %}
+      <os>5</os>
+      <os>6</os>
+      <os>7</os>
+      <os>8</os>
+{% elif key == 'debian' %}
+      <os>stretch</os>
+      <os>buster</os>
+{% elif key == 'canonical' %}
+      <os>trusty</os>
+      <os>xenial</os>
+      <os>bionic</os>
+      <os>focal</os>
+{% else %}
+{% endif %}
+      <update_interval>{{ ossec_manager_config.vul_detector.update_interval }}</update_interval>
     </provider>
-    <provider name="nvd">
-      <enabled>{{ ossec_manager_config.vul_detector.nvd.enabled }}</enabled>
-      <update_interval>{{ ossec_manager_config.vul_detector.nvd.update_interval }}</update_interval>
-      <update_from_year>{{ ossec_manager_config.vul_detector.nvd.update_from_year }}</update_from_year>
-    </provider>
+{% endfor %}
   </vulnerability-detector>
 
   <syscheck>
@@ -239,7 +251,7 @@
     <name>{{ ossec_cluster | upper | default('OSSEC') }}</name>
     <node_name>{{ ansible_hostname }}</node_name>
     <node_type>{% if ossec_servers[0] in ansible_default_ipv4.address %}master{% else %}worker{% endif %}</node_type>
-    <key>{{ lookup('password', '' + group_names[-1] + ':cluster:communication:key length=32 chars=ascii_letters,digits') }}</key>
+    <key>{{ lookup('password', '' + group_names[0] + ':cluster:communication:key length=32 chars=ascii_letters,digits') }}</key>
     <port>{{ ossec_port_arg.cluster | default('1516') }}</port>
     <bind_addr>{{ ansible_default_ipv4.address }}</bind_addr>
     <nodes>
@@ -402,10 +414,12 @@
 {% endif %}
 
   <labels>
-    <label key="group">{{ group_names[-1] | upper }}</label>
-    <label key="environment">{{ environments | default('Development') | upper }}</label>
-    <label key="datacenter">{{ datacenter | default('dc01') | upper }}</label>
-    <label key="domain">{{ domain | default('local') | upper }}</label>
+    <label key="project">{{ group_names[-1] | title }}</label>
+    <label key="group">{{ group_names[0] | title }}</label>
+    <label key="environment">{{ environments | default('prd') | lower }}</label>
+    <label key="datacenter">{{ datacenter | default('dc01') | lower }}</label>
+    <label key="domain">{{ domain | default('local') | lower }}</label>
+    <label key="customer">{{ customer | default('demo') | title }}</label>
 {% if tags is defined %}
 {% for key,value in tags.iteritems() %}
     <label key="{{ key }}">{{ value }}</label>

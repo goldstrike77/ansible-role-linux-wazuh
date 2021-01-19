@@ -1,0 +1,15 @@
+# -*- mode: conf -*-
+
+[Unit]
+Description=Prometheus exporter for ossec metrics.
+Documentation=https://github.com/goldstrike77/ossec-metrics
+After=wazuh-manager.service
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/ossec-metrics
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

@@ -42,11 +42,13 @@
 
 - name: Install the OSSec packages
   yum:
-    name: '{{ ossec_packages }}'
+    name: '{{ item.package }}-{{ ossec_version }}'
     state: 'present'
     enablerepo: '{{ ossec_repo_name }}'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
+  loop: '{{ ossec_packages }}'
+  when: item.create | default(true) | bool
   register: yum_status
   until: yum_status is succeeded
   retries: 5

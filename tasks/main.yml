@@ -90,5 +90,16 @@
   changed_when: false
   failed_when: false
 
+- name: Include API tasks
+  include: 'api.yml'
+  when: ossec_version.split(".")[0] != "3"
+
+- name: Include prometheus exporter tasks.
+  include: 'exporter.yml'
+  when: exporter_is_install | bool
+
 - name: Registered with HashiCorp Consul.
   include: 'register.yml'
+  when:
+    - exporter_is_install | bool
+    - consul_public_register | bool

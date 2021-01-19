@@ -135,5 +135,6 @@ hosts:
   - default:
      url: https://{{ ansible_default_ipv4.address }}
      port: {{ ossec_port_arg.api }}
-     user: {{ ossec_api_user }}
+     user: wazuh
+     username: wazuh
      password: {{ ossec_api_pass }}

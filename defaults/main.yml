@@ -1,10 +1,9 @@
 ---
 # General parameters #
 ossec_is_install: false # A boolean value, whether install the Wazuh.
-ossec_version: '3.13.2-1' # Specify the Wazuh version.
+ossec_version: '4.0.4-1' # Specify the Wazuh version.
 ossec_authd_pass: 'Bf6vJRT4WaEAHq' # Agent verification password.
-ossec_api_user: 'admin' # API verification username.
-ossec_api_pass: 'changeme' # API verification password.
+ossec_api_pass: 'FNYJc9D%WenMeb' # API verification password.
 ossec_cluster: 'hids' # Specifies the name of the cluster.
 ossec_path: '/data' # Specify the OSSec data directory.
 #ossec_virustotal_apikey: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # Integrator daemon and configure the VirusTotal integration.
@@ -17,6 +16,7 @@ ossec_mail_arg:
   email_alert_level: '12' # The minimum severity level for an alert to generate an email notification.
   email_from: 'ossec@example.com' # Specifies the source address contained in the email alerts.
   email_maxperhour: '12' # The maximum number of email alerts that can be sent per hour.
+  email_log: 'alerts.log' # The alert file to be read from.
   email_notification: 'yes' # Toggles the use of email alerting.
   email_to: # Specifies the email recipient list for alerts.
     - 'somebody@example.com'
@@ -27,7 +27,7 @@ ossec_elastic_stack_auth: true # A boolean value, Enable or Disable authenticati
 ossec_elastic_stack_https: true # A boolean value, whether Encrypting HTTP client communications.
 ossec_elastic_stack_user: 'elastic' # Authorization user name, do not modify it.
 ossec_elastic_stack_pass: 'changeme' # Authorization user password.
-ossec_elastic_stack_version: '7.9.1' # Specify the Elastic Stack version.
+ossec_elastic_stack_version: '7.9.3' # Specify the Elastic Stack version.
 ossec_elastic_hosts: # List of Elasticsearch hosts Filebeat should connect to.
   - 'localhost'
 ossec_elastic_port: '9200' # Elasticsearch REST port.
@@ -50,6 +50,7 @@ ossec_port_arg: # Network ports for OSSec components.
   cluster: '1516' # Cluster communications.
   register: '1515' # Agents registration service.
   syslog: '514' # Send collected events from syslog.
+  exporter: '7070' # Port for prometheus exporter.
 
 # Cluster parameters #
 ossec_cluster_arg:
@@ -187,14 +188,13 @@ ossec_manager_config:
     interval: '2h'
     ignore_time: '24h'
     run_on_start: 'yes'
-    redhat:
-      enabled: 'yes'
-      update_interval: '24h'
-      update_from_year: '2010'
-    nvd:
-      enabled: 'yes'
-      update_interval: '24h'
-      update_from_year: '2010'
+    update_interval: '24h'
+    provider:
+      - 'debian'
+      - 'canonical'
+      - 'redhat'
+      - 'msu'
+      - 'nvd'
   syscheck: # File integrity monitoring.
     disable: 'no'
     frequency: 86400
@@ -510,15 +510,20 @@ ossec_agent_configs: # Shared agent configuration.
 #    passwd: 'qwerty'
 
 # Service Mesh #
-environments: 'Development' # Define the service environment.
+environments: 'prd' # Define the service environment.
 datacenter: 'dc01' # Define the DataCenter.
 domain: 'local' # Define the Domain.
+customer: 'demo' # Define the customer name.
 #tags: # Define the service custom label.
 #  subscription: 'default'
 #  owner: 'nobody'
 #  department: 'Infrastructure'
 #  organization: 'The Company'
 #  region: 'China'
-consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Consul client ACL token.
+exporter_is_install: false # Whether to install prometheus exporter.
+consul_public_register: false # Whether register a exporter service with public consul client.
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Consul client ACL token.
 consul_public_http_prot: 'https' # The consul Hypertext Transfer Protocol.
 consul_public_http_port: '8500' # The consul HTTP API port.
+consul_public_clients: # List of public consul clients.
+  - '127.0.0.1'

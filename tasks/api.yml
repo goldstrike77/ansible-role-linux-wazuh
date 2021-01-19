@@ -1,0 +1,43 @@
+---
+- name: Get a JWT token from Wazuh API.
+  uri:
+    url: 'https://{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.api }}/security/user/authenticate'
+    method: 'GET'
+    timeout: '10'
+    user: '{{ item }}'
+    password: '{{ item }}'
+    force_basic_auth: 'yes'
+    status_code: '-1,200,401'
+    validate_certs: 'no'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  loop:
+    - 'wazuh'
+    - 'wazuh-wui'
+  register: wazuh_api_token
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Changed the default password using the Wazuh API.
+  uri:
+    url: 'https://{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.api }}/security/users/{{ index + 1 }}'
+    method: 'PUT'
+    timeout: '10'
+    body: '{"password":"{{ ossec_api_pass }}","allow_run_as":true}'
+    body_format: 'json'
+    status_code: '-1,200,401'
+    validate_certs: 'no'
+    headers:
+      Authorization: 'Bearer {{ item.token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  loop: "{{ wazuh_api_token.results | json_query('[*].{token:json.data.token}') }}"
+  loop_control:
+    index_var: index
+  no_log: true

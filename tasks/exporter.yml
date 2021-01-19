@@ -1,0 +1,26 @@
+---
+- name: Ossec exporter program binary transfer.
+  unarchive:
+    src: 'ossec-metrics.tar.xz'
+    dest: '/usr/local/bin'
+    owner: 'root'
+    group: 'root'
+    mode: '0750'
+  register: ossec_exporter_update
+
+- name: Ossec service file transfer.
+  copy:
+    src: 'ossec_exporter.service'
+    dest: '/lib/systemd/system/ossec_exporter.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: ossec_systemd_update
+
+- name: Reloading the Ossec exporter service.
+  systemd:
+    name: 'ossec_exporter.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  when: ossec_exporter_update is changed or ossec_systemd_update is changed

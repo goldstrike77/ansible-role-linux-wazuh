@@ -1,11 +1,10 @@
 ---
 - name: Enable OSSec service
   systemd:
-    name: '{{ item }}'
+    name: '{{ item.package }}.service'
     enabled: 'yes'
     state: 'restarted'
     daemon_reload: 'yes'
-  loop:
-    - 'wazuh-api.service'
-    - 'wazuh-manager.service'
+  loop: '{{ ossec_packages }}'
+  when: item.create | default(true) | bool
   listen: Ensure OSSec service is enabled

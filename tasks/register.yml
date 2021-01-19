@@ -15,7 +15,7 @@
   uri:
     url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["ossec","master"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-master","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-master","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.register }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.register }}","interval":"30s","timeout":"10s"}]}'
+    body: '{"tags":["ossec","master"],"ID":"{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}-ossec-master","name":"{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}-ossec-master","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.register }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.register }}","interval":"30s","timeout":"10s"}]}'
     body_format: 'json'
     status_code: '200'
     headers:
@@ -31,7 +31,7 @@
   register: register_status
   until: register_status.status == 200
   retries: 3
-  delay: 3
+  delay: 2
   no_log: true
   changed_when: false
   failed_when: false
@@ -40,7 +40,7 @@
   uri:
     url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["ossec","worker"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-worker","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-ossec-worker","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.agent }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.agent }}","interval":"30s","timeout":"10s"}]}'
+    body: '{"tags":["ossec","worker"],"ID":"{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}-ossec-worker","name":"{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}-ossec-worker","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.agent }},"checks":[{"tcp":"{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.agent }}","interval":"30s","timeout":"10s"}]}'
     body_format: 'json'
     status_code: '200'
     headers:
@@ -54,7 +54,44 @@
   register: register_status
   until: register_status.status == 200
   retries: 3
-  delay: 3
+  delay: 2
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Check register client are accessible from current host.
+  uri:
+    url: '{{ consul_public_http_prot }}://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'GET'
+    timeout: '5'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ item }}'
+  loop: '{{ consul_public_clients }}'
+  changed_when: false
+  failed_when: false
+  register: check_consul_reg
+
+- name: Register exporter with an http health check.
+  uri:
+    url: '{{ consul_public_http_prot }}://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'PUT'
+    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | lower }}_ossec_exporter","name":"ossec_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ ossec_port_arg.exporter }},"meta":{"application":"HIDS","scheme":"http","metrics_path":"/metrics","instance":"{{ inventory_hostname | lower }}","customer":"{{ customer | title | regex_replace("_", "-") }}","project":"{{ group_names[-1] | title | regex_replace("_", "-") }}","group":"{{ group_names[0] | title }}","datacenter": "{{ datacenter | lower }}","domain":"{{ domain | lower }}","environment":"{{ environments | lower }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ ossec_port_arg.exporter }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_public_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ item.client }}'
+  loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status}') }}"
+  when: item.status == 405
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 2
   no_log: true
   changed_when: false
   failed_when: false
