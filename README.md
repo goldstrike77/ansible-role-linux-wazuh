@@ -78,7 +78,7 @@ This Ansible role installs Wazuh manager on Linux operating system, including es
 
   * CentOS 7
 
-### Wazuh versions
+### Versions
 
 The following list of supported the wazuh releases:
 
