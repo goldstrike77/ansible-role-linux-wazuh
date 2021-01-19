@@ -337,9 +337,13 @@ ossec_manager_config:
     interval: '1d'
     ignore_time: '6h'
     run_on_start: 'no'
-    redhat:
-      enabled: 'yes'
-      update_interval: '1d'
+    update_interval: '24h'
+    provider:
+      - 'debian'
+      - 'canonical'
+      - 'redhat'
+      - 'msu'
+      - 'nvd'
   syscheck:
     disable: 'no'
     frequency: 86400
@@ -621,7 +625,7 @@ ossec_agentless_creds:
     state: 'periodic'
     arguments: '/bin /etc/ /sbin'
     passwd: 'qwerty'
-environments: 'Development'
+environments: 'prd'
 datacenter: 'dc01'
 domain: 'local'
 customer: 'demo'
