@@ -1,0 +1,31 @@
+---
+- name: Creating vulnerability feeds offline update folder.
+  file:
+    dest: '/var/ossec/var/feed'
+    state: 'directory'
+    owner: 'ossec'
+    group: 'root'
+    mode: '770'
+
+- name: RedHat CVE data download script transfer.
+  copy:
+    src: 'rh-generator.sh'
+    dest: '/var/ossec/bin'
+    owner: 'ossec'
+    group: 'root'
+    mode: '750'
+
+- name: Create a scheduled task to downloading OVAL feed.
+  cron:
+    user: 'ossec'
+    name: 'Offline update by {{ item }}'
+    special_time: 'daily'
+    job: '/bin/wget -P /var/ossec/var/feed {{ item }}'
+  loop: '{{ ossec_oval_redhad_feed }}'
+
+- name: Create a scheduled task to downloading RedHat CVE data.
+  cron:
+    user: 'ossec'
+    name: 'Offline update by RedHat CVE'
+    special_time: 'daily'
+    job: '/bin/bash /var/ossec/bin/rh-generator.sh /var/ossec/var/feed'

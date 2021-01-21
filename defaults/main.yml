@@ -185,10 +185,10 @@ ossec_manager_config:
         location: '/var/log/audit/audit.log'
   vul_detector: # Detect applications that are known to be vulnerable (affected by a CVE).
     enabled: 'yes'
-    interval: '2h'
-    ignore_time: '24h'
+    interval: '24h'
+    ignore_time: '48h'
     run_on_start: 'yes'
-    update_interval: '24h'
+    update_interval: '6h'
     provider:
       - 'debian'
       - 'canonical'

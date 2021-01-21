@@ -90,7 +90,7 @@
   changed_when: false
   failed_when: false
 
-- name: Include API tasks
+- name: Include API tasks.
   include: 'api.yml'
   when: ossec_version.split(".")[0] != "3"
 
@@ -103,3 +103,7 @@
   when:
     - exporter_is_install | bool
     - consul_public_register | bool
+
+- name: Include feed tasks.
+  include: 'feeds.yml'
+  when: ossec_servers[0] in ansible_default_ipv4.address

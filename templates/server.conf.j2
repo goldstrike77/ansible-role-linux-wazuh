@@ -133,10 +133,11 @@
     <provider name="{{ key }}">
       <enabled>yes</enabled>
 {% if key == 'redhat' %}
-      <os>5</os>
-      <os>6</os>
-      <os>7</os>
-      <os>8</os>
+      <os path="/var/ossec/var/feed/com.redhat.rhsa-RHEL5.xml.bz2">5</os>
+      <os path="/var/ossec/var/feed/rhel-6-including-unpatched.oval.xml.bz2">6</os>
+      <os path="/var/ossec/var/feed/rhel-7-including-unpatched.oval.xml.bz2">7</os>
+      <os path="/var/ossec/var/feed/rhel-8-including-unpatched.oval.xml.bz2">8</os>
+      <path>/var/ossec/var/feed/redhat-feed.*json$</path>
 {% elif key == 'debian' %}
       <os>stretch</os>
       <os>buster</os>
