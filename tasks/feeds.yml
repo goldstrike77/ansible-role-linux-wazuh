@@ -21,7 +21,10 @@
     name: 'Offline update by {{ item }}'
     special_time: 'daily'
     job: '/bin/wget -P /var/ossec/var/feed {{ item }}'
-  loop: '{{ ossec_oval_redhad_feed }}'
+  loop:
+    - '{{ ossec_oval_redhad_feed }}'
+    - '{{ ossec_oval_canonical_feed }}'
+    - '{{ ossec_oval_debian_feed }}'
 
 - name: Create a scheduled task to downloading RedHat CVE data.
   cron:

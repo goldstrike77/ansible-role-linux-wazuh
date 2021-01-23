@@ -139,13 +139,13 @@
       <os path="/var/ossec/var/feed/rhel-8-including-unpatched.oval.xml.bz2">8</os>
       <path>/var/ossec/var/feed/redhat-feed.*json$</path>
 {% elif key == 'debian' %}
-      <os>stretch</os>
-      <os>buster</os>
+      <os path="/var/ossec/var/feed/oval-definitions-buster.xml">buster</os>
+      <os path="/var/ossec/var/feed/oval-definitions-stretch.xml">stretch</os>
 {% elif key == 'canonical' %}
-      <os>trusty</os>
-      <os>xenial</os>
-      <os>bionic</os>
-      <os>focal</os>
+      <os path="/var/ossec/var/feed/com.ubuntu.focal.cve.oval.xml.bz2">focal</os>
+      <os path="/var/ossec/var/feed/com.ubuntu.bionic.cve.oval.xml.bz2">bionic</os>
+      <os path="/var/ossec/var/feed/com.ubuntu.xenial.cve.oval.xml.bz2">xenial</os>
+      <os path="/var/ossec/var/feed/com.ubuntu.trusty.cve.oval.xml.bz2">trusty</os>
 {% else %}
 {% endif %}
       <update_interval>{{ ossec_manager_config.vul_detector.update_interval }}</update_interval>
