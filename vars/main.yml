@@ -26,13 +26,13 @@ ossec_python_dependent_packages:
   - 'elasticsearch-curator'
 
 ossec_oval_feed:
-  - 'https://www.redhat.com/security/data/oval/com.redhat.rhsa-RHEL5.xml.bz2'
-  - 'https://www.redhat.com/security/data/oval/v2/RHEL6/rhel-6-including-unpatched.oval.xml.bz2'
-  - 'https://www.redhat.com/security/data/oval/v2/RHEL7/rhel-7-including-unpatched.oval.xml.bz2'
-  - 'https://www.redhat.com/security/data/oval/v2/RHEL8/rhel-8-including-unpatched.oval.xml.bz2'
-  - 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.focal.cve.oval.xml.bz2'
-  - 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.bionic.cve.oval.xml.bz2'
-  - 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.xenial.cve.oval.xml.bz2'
-  - 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.trusty.cve.oval.xml.bz2'
-  - 'https://www.debian.org/security/oval/oval-definitions-buster.xml'
-  - 'https://www.debian.org/security/oval/oval-definitions-stretch.xml'
+  - { feed: 'https://www.redhat.com/security/data/oval/com.redhat.rhsa-RHEL5.xml.bz2', create: '{{ "redhat" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://www.redhat.com/security/data/oval/v2/RHEL6/rhel-6-including-unpatched.oval.xml.bz2', create: '{{ "redhat" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://www.redhat.com/security/data/oval/v2/RHEL7/rhel-7-including-unpatched.oval.xml.bz2', create: '{{ "redhat" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://www.redhat.com/security/data/oval/v2/RHEL8/rhel-8-including-unpatched.oval.xml.bz2', create: '{{ "redhat" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.focal.cve.oval.xml.bz2', create: '{{ "canonical" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.bionic.cve.oval.xml.bz2', create: '{{ "canonical" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.xenial.cve.oval.xml.bz2', create: '{{ "canonical" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://people.canonical.com/~ubuntu-security/oval/com.ubuntu.trusty.cve.oval.xml.bz2', create: '{{ "canonical" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://www.debian.org/security/oval/oval-definitions-buster.xml', create: '{{ "debian" in ossec_manager_config.vul_detector.provider }}' }
+  - { feed: 'https://www.debian.org/security/oval/oval-definitions-stretch.xml', create: '{{ "debian" in ossec_manager_config.vul_detector.provider }}' }

@@ -14,14 +14,16 @@
     owner: 'ossec'
     group: 'root'
     mode: '750'
+  when: '"redhat" in ossec_manager_config.vul_detector.provider'
 
 - name: Create a scheduled task to downloading OVAL feed.
   cron:
     user: 'ossec'
-    name: 'Offline update by {{ item }}'
+    name: 'Offline update by {{ item.feed }}'
     special_time: 'daily'
-    job: '/bin/wget -P /var/ossec/var/feed {{ item }}'
+    job: '/bin/wget -P /var/ossec/var/feed {{ item.feed }}'
   loop: '{{ ossec_oval_feed }}'
+  when: item.create | default(true) | bool
 
 - name: Create a scheduled task to downloading RedHat CVE data.
   cron:
@@ -29,3 +31,4 @@
     name: 'Offline update by RedHat CVE'
     special_time: 'daily'
     job: '/bin/bash /var/ossec/bin/rh-generator.sh /var/ossec/var/feed'
+  when: '"redhat" in ossec_manager_config.vul_detector.provider'

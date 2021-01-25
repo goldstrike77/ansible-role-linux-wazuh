@@ -190,10 +190,10 @@ ossec_manager_config:
     run_on_start: 'yes'
     update_interval: '6h'
     provider:
-      - 'debian'
-      - 'canonical'
+#      - 'debian'
+#      - 'canonical'
       - 'redhat'
-      - 'msu'
+#      - 'msu'
       - 'nvd'
   syscheck: # File integrity monitoring.
     disable: 'no'
