@@ -21,7 +21,7 @@
     user: 'ossec'
     name: 'Offline update by {{ item.feed }}'
     special_time: 'daily'
-    job: '/bin/wget -P /var/ossec/var/feed {{ item.feed }}'
+    job: '/bin/wget -cP /var/ossec/var/feed {{ item.feed }}'
   loop: '{{ ossec_oval_feed }}'
   when: item.create | default(true) | bool
 

@@ -188,7 +188,7 @@ ossec_manager_config:
     interval: '24h'
     ignore_time: '48h'
     run_on_start: 'yes'
-    update_interval: '6h'
+    update_interval: '12h'
     provider:
 #      - 'debian'
 #      - 'canonical'
