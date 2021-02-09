@@ -104,6 +104,5 @@
     - exporter_is_install | bool
     - consul_public_register | bool
 
-- name: Include feed tasks.
-  include: 'feeds.yml'
-  when: ossec_servers[0] in ansible_default_ipv4.address
+- name: Include update tasks.
+  include: 'update.yml'

@@ -32,3 +32,11 @@
     special_time: 'daily'
     job: '/bin/bash /var/ossec/bin/rh-generator.sh /var/ossec/var/feed'
   when: '"redhat" in ossec_manager_config.vul_detector.provider'
+
+- name: Keep Wazuh Ruleset installation up to date.
+  cron:
+    user: 'root'
+    name: 'Wazuh Ruleset updates'
+    special_time: 'weekly'
+    job: 'cd /var/ossec/bin && ./update_ruleset -r'
+  when: ossec_servers[0] in ansible_default_ipv4.address
