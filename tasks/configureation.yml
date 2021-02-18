@@ -111,6 +111,6 @@
   cron:
     user: 'root'
     name: 'OSSec maintenance task'
-    minute: "{{ 59 | random(seed=inventory_hostname) }}"
+    minute: "{{ 59 | random(seed=ansible_hostname) }}"
     hour: "{{ (( ansible_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
     job: '/bin/find /var/ossec/logs -mtime +{{ ossec_manager_config.archive_rotate_day }} -name "*.gz" -exec /bin/rm -rf {} \; >/dev/null 2>&1'
