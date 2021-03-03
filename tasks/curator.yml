@@ -3,7 +3,7 @@
   pip:
     name: '{{ item }}'
     state: 'forcereinstall'
-    extra_args: '--ignore-installed -i https://{{ ossec_pypi_url }}/simple --trusted-host {{ ossec_pypi_url }}'
+    extra_args: '-i https://{{ ossec_pypi_url }}/simple --trusted-host {{ ossec_pypi_url }}'
   loop: '{{ ossec_python_dependent_packages }}'
   register: ossec_python_status
   until: ossec_python_status is succeeded
