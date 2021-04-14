@@ -1,5 +1,5 @@
 ---
-- name: Enable OSSec service
+- name: Enable OSSec service.
   systemd:
     name: '{{ item.package }}.service'
     enabled: 'yes'
@@ -7,4 +7,10 @@
     daemon_reload: 'yes'
   loop: '{{ ossec_packages }}'
   when: item.create | default(true) | bool
-  listen: Ensure OSSec service is enabled
+
+- name: Reloading the Ossec exporter service.
+  systemd:
+    name: 'ossec_exporter.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'

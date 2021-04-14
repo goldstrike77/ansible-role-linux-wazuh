@@ -6,7 +6,7 @@
     owner: 'root'
     group: 'root'
     mode: '0750'
-  register: ossec_exporter_update
+  notify: Reloading the Ossec exporter service.
 
 - name: Ossec service file transfer.
   copy:
@@ -15,12 +15,4 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  register: ossec_systemd_update
-
-- name: Reloading the Ossec exporter service.
-  systemd:
-    name: 'ossec_exporter.service'
-    enabled: 'yes'
-    state: 'restarted'
-    daemon_reload: 'yes'
-  when: ossec_exporter_update is changed or ossec_systemd_update is changed
+  notify: Reloading the Ossec exporter service.

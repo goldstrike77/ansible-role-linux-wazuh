@@ -1,8 +1,8 @@
 ---
-- name: Include OS-specific variables
+- name: Include OS-specific variables.
   include_vars: '{{ ansible_os_family }}.yml'
 
-- name: 'Add EPEL YUM repositories'
+- name: Add EPEL YUM repositories.
   yum_repository:
     name: '{{ epel_repo_name }}'
     description: '{{ epel_repo_name }} YUM repo'
@@ -11,7 +11,7 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: 'Add OSQuery YUM repositories'
+- name: Add OSQuery YUM repositories.
   yum_repository:
     name: '{{ osquery_repo_name }}'
     description: '{{ osquery_repo_name }} YUM repo'
@@ -20,7 +20,7 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: 'Add OSSec YUM repositories'
+- name: Add OSSec YUM repositories.
   yum_repository:
     name: '{{ ossec_repo_name }}'
     description: '{{ ossec_repo_name }} YUM repo'
@@ -29,7 +29,7 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: Install the OSSec dependents packages
+- name: Install the OSSec dependents packages.
   yum:
     name: '{{ ossec_dependent_packages }}'
     state: 'present'
@@ -40,7 +40,7 @@
   retries: 5
   delay: 2
 
-- name: Install the OSSec packages
+- name: Install the OSSec packages.
   yum:
     name: '{{ item.package }}-{{ ossec_version }}'
     state: 'present'

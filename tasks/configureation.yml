@@ -8,7 +8,7 @@
     group: 'ossec'
     mode: '0640'
   loop: '{{ ossec_rules }}'
-  register: local_rules_update
+  notify: Enable OSSec service.
 
 - name: OSSec decoders file transfer
   template:
@@ -19,7 +19,7 @@
     group: 'ossec'
     mode: '0640'
   loop: '{{ ossec_decoders }}'
-  register: local_decoders_update
+  notify: Enable OSSec service.
 
 - name: OSSec shared agent configuration file transfer
   template:
@@ -30,7 +30,7 @@
     group: 'ossec'
     mode: '0660'
     validate: '/var/ossec/bin/verify-agent-conf -f %s'
-  register: agent_conf_udpate
+  notify: Enable OSSec service.
 
 - name: OSSec api configuration file transfer
   template:
@@ -40,7 +40,7 @@
     owner: 'root'
     group: 'ossec'
     mode: '0740'
-  register: api_conf_update
+  notify: Enable OSSec service.
 
 - name: OSSec internal options configuration file transfer
   template:
@@ -51,19 +51,19 @@
     group: 'ossec'
     mode: '0640'
   loop: '{{ ossec_internal_options }}'
-  register: internal_conf_update
+  notify: Enable OSSec service.
 
 - name: Enable OSSec syslog
   command: '/var/ossec/bin/ossec-control enable client-syslog'
   when:
     - ossec_manager_config.syslog_outputs is defined
     - ossec_manager_config.syslog_outputs[0].server is not none
-  register: syslog_conf_update
+  notify: Enable OSSec service.
 
 - name: Enable OSSec agentlessd
   command: '/var/ossec/bin/ossec-control enable agentless'
   when: ossec_agentless_creds is defined
-  register: agentless_conf_update
+  notify: Enable OSSec service.
 
 - name: OSSec agent authentication file transfer
   template:
@@ -97,7 +97,7 @@
     owner: 'root'
     group: 'ossec'
     mode: '0640'
-  register: server_conf_udpate
+  notify: Enable OSSec service.
 
 - name: Starting OSSec manager service delayed
   lineinfile:

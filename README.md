@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Ansible-ossec-green.svg?logo=angular&style=for-the-badge)
+![](https://img.shields.io/badge/Ansible-wazuh-green.svg?logo=angular&style=for-the-badge)
 
 >__Please note that the original design goal of this role was more concerned with the initial installation and bootstrapping environment, which currently does not involve performing continuous maintenance, and therefore are only suitable for testing and development purposes,  should not be used in production environments. The author does not guarantee the accuracy, completeness, reliability, and availability of the role content. Under no circumstances will the author be held responsible or liable in any way for any claims, damages, losses, expenses, costs or liabilities whatsoever, including, without limitation, any direct or indirect damages for loss of profits, business interruption or loss of information.__
 
@@ -109,7 +109,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_elastic_stack_version`: Specify the Elastic Stack version.
 * `ossec_elastic_port`: Elasticsearch REST port.
 * `ossec_elastic_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
-* `ossec_elastic_path`: Specify the ElasticSearch data directory.
 * `ossec_elastic_node_type`: Type of nodes`: default, master, data, ingest and coordinat.
 * `ossec_kibana_port`: Kibana server port.
 * `ossec_kibana_proxy`: Whether running behind a HaProxy.
@@ -117,8 +116,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `ossec_kibana_ngx_domain`: Defines domain name.
 * `ossec_kibana_ngx_port_http`: NGinx HTTP listen port.
 * `ossec_kibana_ngx_port_https`: NGinx HTTPs listen port.
-* `ossec_kibana_ngx_site_path`: Specify the NGinx site directory.
-* `ossec_kibana_ngx_logs_path`: Specify the NGinx logs directory.
 
 ##### Listen port #
 * `ossec_port_arg`: Network ports for OSSec components.
@@ -168,7 +165,7 @@ Including an example of how to use your role (for instance, with variables passe
 ```yaml
 - hosts: all
   roles:
-     - role: ansible-role-linux-ossec
+     - role: ansible-role-linux-wazuh
        ossec_version: '4.0.4-1'
 ```
 
@@ -198,7 +195,6 @@ ossec_elastic_stack_pass: 'changeme'
 ossec_elastic_stack_version: '7.9.3'
 ossec_elastic_port: '9200'
 ossec_elastic_heap_size: '3g'
-ossec_elastic_path: '{{ ossec_path }}'
 ossec_elastic_node_type: 'default'
 ossec_kibana_port: '5601'
 ossec_kibana_proxy: false
@@ -206,8 +202,6 @@ ossec_kibana_ngx_dept: false
 ossec_kibana_ngx_domain: 'hids.example.com'
 ossec_kibana_ngx_port_http: '80'
 ossec_kibana_ngx_port_https: '443'
-ossec_kibana_ngx_site_path: '{{ ossec_path }}/nginx_site'
-ossec_kibana_ngx_logs_path: '{{ ossec_path }}/nginx_logs'
 ossec_port_arg:
   agent: '1517'
   api: '55000'
